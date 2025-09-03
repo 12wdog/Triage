@@ -1,0 +1,20 @@
+[#VARS]
+	
+
+[#MAIN]
+	## Doc
+	This is an example of dialogue!
+	It has multiple lines!
+	
+	Can have blank lines!
+	## John
+	You can also change the speaker!
+	{FUNC, test}
+	They stay out of the function!
+	{END}
+
+[test]
+	You can also have separate functions
+	## Doc
+	And actions done in other functions...
+	{END}
