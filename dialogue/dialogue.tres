@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b3l2n5iuhdtlu"]
+
+[ext_resource type="FontFile" uid="uid://cctbbjaaokh6n" path="res://dialogue/HornbillTrial-Bold.ttf" id="1_23bfi"]
+[ext_resource type="FontFile" uid="uid://cbn28prru5rvo" path="res://dialogue/HornbillTrial-Regular.ttf" id="2_jtuau"]
+
+[resource]
+Button/font_sizes/font_size = 33
+Button/fonts/font = ExtResource("1_23bfi")
+Label/font_sizes/font_size = 38
+Label/fonts/font = ExtResource("2_jtuau")
+RichTextLabel/font_sizes/normal_font_size = 30
+RichTextLabel/fonts/normal_font = ExtResource("2_jtuau")

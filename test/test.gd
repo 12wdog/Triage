@@ -1,10 +1,7 @@
-extends Node2D
+extends Control
 
-@onready var dialogue := Dialogue.new()
+@onready var dialogue : Dialogue = $Dialogue
 
-func _ready():
-	await dialogue.read(["This is a line", "This is another line", "Woah! A third line!"])
-
-func _physics_process(delta):
-	if Input.is_action_just_pressed("dialogue_continue"):
-		dialogue.cont.emit()
+func _ready() -> void:
+	dialogue.read_file("res://dialogue/test_dialogue.txt")
+	dialogue.start()

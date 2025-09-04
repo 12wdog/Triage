@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://dghu02s404m7h"]
+[gd_scene load_steps=3 format=3 uid="uid://dghu02s404m7h"]
 
 [ext_resource type="Script" uid="uid://bw4wv637t0dfx" path="res://test/test.gd" id="1_syuel"]
+[ext_resource type="PackedScene" uid="uid://b138877gqmwf8" path="res://dialogue/dialogue.tscn" id="2_8a8pi"]
 
-[node name="Test" type="Node2D"]
+[node name="Test" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_syuel")
+
+[node name="Dialogue" parent="." instance=ExtResource("2_8a8pi")]
+layout_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3

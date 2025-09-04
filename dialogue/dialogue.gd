@@ -1,7 +1,10 @@
 extends Node
 class_name Dialogue
 
-signal cont();
+signal cont()
+signal blackout_done()
+
+var var_color := "06402b"
 
 var dialogue : PackedStringArray
 
@@ -13,7 +16,13 @@ var sounds: Dictionary
 var musics: Dictionary
 var jumppoints: Dictionary
 
+var can_continue := true
+var blacked_out := false
 
+@onready var speaker : Label = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/MarginContainer/NamePanel/Name
+@onready var speaker_panel : PanelContainer = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/MarginContainer/NamePanel
+@onready var words : RichTextLabel = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/Dialogue
+@onready var container : Container = $HeadContainer
 
 func read_file(path : String) -> void:
 	dialogue = FileOpener.getFile(path)
@@ -27,54 +36,90 @@ func read_file(path : String) -> void:
 	if functions.has("#SOUNDS"):
 		_get_sounds()
 
+func read_next_line() -> void:
+	if can_continue:
+		cont.emit();
+
 func start() -> void:
+	container.visible = true
 	await _read(functions.get("#MAIN") + 1)
+	container.visible = false
 
 func _read(line : int) -> int:
 	while(true):
-		
-		var currentLine :String = dialogue[line]
-		if currentLine == "[END]":
+		var current_line :String = dialogue[line]
+		if current_line == "[END]":
 			return line
-		if currentLine[0] == "{":
+		elif current_line[0] == '#':
+			_set_name(current_line.trim_prefix("#"))
+			line += 1
+		elif current_line[0] == '{':
 			await _run_command(line)
 			line += 1
-		elif currentLine[0] == "[":
-			line = await _run_intern_function(line)
 		else:
-			_write(currentLine)
+			_write(current_line)
 			line += 1
 			await cont
 	
 	return 0;
 
-func _run_command(line: int) -> void:
-	pass
+func _run_command(pos: int) -> void:
+	var line := dialogue[pos]
+	var command := _split_command(line)
+
+	match command[0]:
+		"BLACKOUT":
+			blacked_out = !blacked_out
+			can_continue = false
+			#await blackout_done
+			can_continue = true
+		"BLANK":
+			_write("")
+			await cont
+		"INSTABLANK":
+			_write("")
+		"NONE":
+			speaker_panel.visible = false
+		"FUNC":
+			assert(functions.has(command[1]))
+			await _read(functions.get(command[1]) + 1)
+		"IF":
+			if command.size() == 3:
+				if _bool_from_strings(command[1]):
+					await _read(functions.get(command[2]) + 1)
+			else:
+				if _bool_from_strings(command[1]):
+					await _read(functions.get(command[2]) + 1)
+				else:
+					await _read(functions.get(command[3]) + 1)
+		"WAIT":
+			await get_tree().create_timer(float(command[1])).timeout
 
 func _run_intern_function(line: int) -> int:
 	return line;
 
 func _write(line: String) -> void:
-	pass
-	#if line.contains('{'):
-		#var charPosition = line.find('{')
-		#
-		#while charPosition < line.length():
-			#var varName : String = line[charPosition]
-			#while line[charPosition] != '}':
-				#charPosition += 1
-				#varName += line[charPosition]
-			#
-			#line = line.replace(varName, '[color=' + variableColor + ']' + str(variables.get(varName.substr(1, varName.length() - 2)).data) + '[/color]')
-			#
-			#if line.contains('{'):
-				#charPosition = line.find('{')
-			#else:
-				#break
-	#
-	#text.text = '[center]' + line
+	if line.contains('('):
+		var charPosition = line.find('(')
+		
+		while charPosition < line.length():
+			var varName : String = line[charPosition]
+			while line[charPosition] != ')':
+				charPosition += 1
+				varName += line[charPosition]
+			
+			line = line.replace(varName, '[color=' + var_color + ']' + str(variables.get(varName.substr(1, varName.length() - 2)).data) + '[/color]')
+			
+			if line.contains('('):
+				charPosition = line.find('(')
+			else:
+				break
+	
+	words.text = '[center]' + line
 
-
+func _set_name(new_name : String) -> void:
+	speaker.text = new_name.capitalize()
+	speaker_panel.visible = true
 
 func _get_functions() -> void:
 	
@@ -144,6 +189,99 @@ func _split_command(command : String) -> Array[String]:
 		output.append_array(params)
 	
 	return output
+
+func _bool_from_strings(string: String) -> bool:
+	var regex = RegEx.new()
+	regex.compile("\\S+")
+	var tokens := string.split(' ')
+	var readTokens : Array[Token] = []
+	for token in tokens:
+		var currentToken := Token.new()
+		if token.is_valid_float():
+			if token.is_valid_int():
+				currentToken.type = currentToken.TYPES.INT
+				currentToken.data = int(token)
+			else:
+				currentToken.type = currentToken.TYPES.FLOAT
+				currentToken.data = float(token)
+		elif token == "TRUE":
+			currentToken.type = currentToken.TYPES.BOOL
+			currentToken.data = true
+		elif token == "FALSE":
+			currentToken.type = currentToken.TYPES.BOOL
+			currentToken.data = false
+		elif token == "==":
+			currentToken.type = currentToken.TYPES.OPER
+			currentToken.data = token
+		elif token == "<":
+			currentToken.type = currentToken.TYPES.OPER
+			currentToken.data = token
+		elif token == ">":
+			currentToken.type = currentToken.TYPES.OPER
+			currentToken.data = token
+		elif token == "<=":
+			currentToken.type = currentToken.TYPES.OPER
+			currentToken.data = token
+		elif token == ">=":
+			currentToken.type = currentToken.TYPES.OPER
+			currentToken.data = token
+		elif token == "!":
+			currentToken.type = currentToken.TYPES.OPER
+			currentToken.data = token
+		elif token == "!=":
+			currentToken.type = currentToken.TYPES.OPER
+			currentToken.data = token
+
+		else:
+			currentToken.type = currentToken.TYPES.VAR
+			currentToken.data = variables.get(token)
+		
+		readTokens.append(currentToken)
+
+	return _bool_from_tokens(readTokens)
+
+func _bool_from_tokens(tokens : Array[Token]) -> bool:
+	
+	if tokens.size() == 1:
+		
+		if tokens[0].type == Token.TYPES.VAR:
+			return bool(tokens[0].data.data)
+		else:
+			return bool(tokens[0].data)
+	if tokens.size() == 2:
+		assert(tokens[0].data == "!")
+		
+		if tokens[1].type == Token.TYPES.VAR:
+			return !bool(tokens[1].data.data)
+		else:
+			return !bool(tokens[1].data)
+	if tokens.size() == 3:
+		
+		var var1
+		var var2
+		
+		if tokens[0].type == Token.TYPES.VAR:
+			var1 = tokens[0].data.data
+		else:
+			var1 = tokens[0].data
+		
+		if tokens[2].type == Token.TYPES.VAR:
+			var2 = tokens[2].data.data
+		else:
+			var2 = tokens[2].data
+		
+		match tokens[1].data:
+			"==":
+				return var1 == var2
+			"<":
+				return var1 < var2
+			">":
+				return var1 > var2
+			"<=":
+				return var1 <= var2
+			">=":
+				return var1 >= var2
+	return false
 
 
 class Variable:
