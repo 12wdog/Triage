@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PatientData" load_steps=2 format=3 uid="uid://cyvsyvtp8mnsv"]
+
+[ext_resource type="Script" uid="uid://b7q1y0t54u6wq" path="res://resources/data/patient_data.gd" id="1_kkt7x"]
+
+[resource]
+script = ExtResource("1_kkt7x")
+reference = "test"
+injuries = {
+"HEAD": ["light_bleed"],
+"LARM": ["light_bleed", "infection"]
+}

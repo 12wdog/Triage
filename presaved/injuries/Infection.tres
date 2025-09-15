@@ -1,9 +1,10 @@
 [gd_resource type="Resource" script_class="InjuryData" load_steps=2 format=3 uid="uid://cb0r6bn1pfy2c"]
 
-[ext_resource type="Script" uid="uid://d15a5opruym5x" path="res://resources/injury_data.gd" id="1_r7lac"]
+[ext_resource type="Script" uid="uid://d15a5opruym5x" path="res://resources/data/injury_data.gd" id="1_r7lac"]
 
 [resource]
 script = ExtResource("1_r7lac")
 reference = "infection"
 injury_name = "Infection"
+lethality = 0.0
 asset_paths = PackedStringArray()

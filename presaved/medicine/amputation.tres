@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MedicineData" load_steps=2 format=3 uid="uid://dk6orlmh0h0hr"]
+
+[ext_resource type="Script" uid="uid://cgdv22283l1tl" path="res://resources/data/medicine_data.gd" id="1_ixthg"]
+
+[resource]
+script = ExtResource("1_ixthg")
+reference = "amputation"
+medicine_name = "Bone Saw"
+treatments = {
+"*": [[1.0, [0.8, "shock"], [0.6, "death"]]]
+}
+size = 2
+consumable = false
+asset_path = ""

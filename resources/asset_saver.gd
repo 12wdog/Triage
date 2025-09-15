@@ -3,6 +3,7 @@ extends EditorScript
 
 const injury_path = "res://presaved/injuries/"
 const medicine_path = "res://presaved/medicine/"
+const patient_path = "res://presaved/patients/"
 
 var injury_array = [
 	InjuryData.new("light_bleed", "Light Bleeding"),
@@ -14,41 +15,31 @@ var injury_array = [
 	InjuryData.new("burn_two", "Second Degree Burn"),
 	InjuryData.new("broken_limb", "Broken Limb"),
 	InjuryData.new("shock", "Shock"),
-	InjuryData.new("necrosis", "Necrosis")
+	InjuryData.new("necrosis", "Necrosis"),
+	InjuryData.new("death", "Death", 1)
 ]
+
 var medicine_array = [
 	MedicineData.new("bandage", "Bandage", {
 		"light_bleed": [
-			[.8, [
-				["infection", .3]
-			]]
+			[0.8, [0.3, "infection"]]
 		],
 		"heavy_bleed": [
-			[.3, [
-				["infection", .3],
-				["shock", .1]
-			]],
-			["stitches", .7, [
-				["infection", .2],
-				["shock", .1]
-			]]
+			[0.3, [0.3, "infection"], [0.1, "shock"]],
+			[0.7, "stitches", [0.2, "infection"], [0.1, "shock"]]
 		],
 		"burn_two": [
-			["antiseptic", .7]
+			[0.7, "antiseptic"]
 		],
 		"infection": [
-			["antiseptic", .4],
-			["antibiotic", .5],
-			["antiseptic", "antibiotic", .7]
+			[0.4, "antiseptic"],
+			[0.5, "antibiotic"],
+			[0.7, "antiseptic", "antibiotic"]
 		],
 		"bullet": [
-			[.2, [
-				["infection", .5]
-			]],
-			["tongs", .5, [
-				["infection", .4]
-			]],
-			["tongs", "stitches", .8]
+			[0.2, [0.5, "infection"]],
+			[0.5, "tongs", [0.4, "infection"]],
+			[0.8, "tongs", "stitches"]
 		]
 	},
 	1,
@@ -57,14 +48,14 @@ var medicine_array = [
 	),
 	MedicineData.new("antiseptic", "Serum", {
 		"burn_one": [
-			[.8]
+			[0.8]
 		],
 		"burn_two": [
-			[.0]
+			[0.0]
 		],
 		"infection": [
-			[.0],
-			["antibiotic", .0]
+			[0.0],
+			[0.0, "antibiotic"]
 		]
 	},
 	1,
@@ -73,20 +64,14 @@ var medicine_array = [
 	),
 	MedicineData.new("stitches", "Stitches", {
 		"heavy_bleed": [
-			[.0]
+			[0.0]
 		],
 		"internal_bleed": [
-			["surgery", .45, [
-				["shock", .3]
-			]]
+			[0.45, "surgery", [0.3, "shock"]]
 		],
 		"bullet": [
-			[.5, [
-				["infection", .3]
-			]],
-			["tongs", .7, [
-				["infection", .15]
-			]]
+			[0.5, [0.3, "infection"]],
+			[0.7, "tongs", [0.15, "infection"]]
 		]
 	},
 	1,
@@ -95,10 +80,10 @@ var medicine_array = [
 	),
 	MedicineData.new("antibiotic", "Antibiotics", {
 		"infection": [
-			[.3]
+			[0.3]
 		],
 		"necrosis": [
-			[.0]
+			[0.0]
 		]
 	},
 	1,
@@ -107,19 +92,15 @@ var medicine_array = [
 	),
 	MedicineData.new("surgery", "Surgical Tools", {
 		"broken_bone": [
-			[.4],
-			["splint", .7]
+			[0.4],
+			[0.7, "splint"]
 		],
 		"necrosis": [
-			[.4, [
-				["shock", .6]
-			]],
-			["antibiotic", .8]
+			[0.4, [0.6, "shock"]],
+			[0.8, "antibiotic"]
 		],
 		"shock": [
-			[.3, [
-				["death", .6]
-			]]
+			[0.3, [0.6, "death"]]
 		]
 	},
 	2,
@@ -128,7 +109,7 @@ var medicine_array = [
 	),
 	MedicineData.new("tongs", "Tongs", {
 		"bullet": [
-			[.0]
+			[0.0]
 		]
 	},
 	2,
@@ -136,7 +117,46 @@ var medicine_array = [
 	""
 	),
 	MedicineData.new("painkiller", "Painkillers", {
-		
+		"light_bleed": [
+			[0.4],
+			[0.7, "painkiller", [0.3, "death"]]
+		],
+		"infection": [
+			[0.3],
+			[0.6, "painkiller", [0.3, "death"]]
+		],
+		"bullet": [
+			[0.3],
+			[0.6, "painkiller", [0.3, "death"]]
+		],
+		"shock": [
+			[0.6],
+			[0.9, "painkiller", [0.3, "death"]]
+		]
+	},
+	1,
+	true,
+	""
+	),
+	MedicineData.new("amputation", "Bone Saw", {
+		"*": [
+			[1.0, [0.8, "shock"], [0.6, "death"]]
+		]
+	},
+	2,
+	false,
+	""
+	)
+]
+var patient_array = [
+	PatientData.new("test", {
+		"HEAD": [
+			"light_bleed",
+		],
+		"LARM": [
+			"light_bleed",
+			"infection"
+		]
 	})
 ]
 
@@ -147,3 +167,6 @@ func _run():
 	
 	for medicine in medicine_array:
 		ResourceSaver.save(medicine, medicine_path + medicine.reference + ".tres")
+	
+	for patient in patient_array:
+		ResourceSaver.save(patient, patient_path + patient.reference + ".tres")

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MedicineData" load_steps=2 format=3 uid="uid://da0s2cu4vhddp"]
+
+[ext_resource type="Script" uid="uid://cgdv22283l1tl" path="res://resources/data/medicine_data.gd" id="1_44xgy"]
+
+[resource]
+script = ExtResource("1_44xgy")
+reference = "painkiller"
+medicine_name = "Painkillers"
+treatments = {
+"bullet": [[0.3], [0.6, "painkiller", [0.3, "death"]]],
+"infection": [[0.3], [0.6, "painkiller", [0.3, "death"]]],
+"light_bleed": [[0.4], [0.7, "painkiller", [0.3, "death"]]],
+"shock": [[0.6], [0.9, "painkiller", [0.3, "death"]]]
+}
+size = 1
+consumable = true
+asset_path = ""

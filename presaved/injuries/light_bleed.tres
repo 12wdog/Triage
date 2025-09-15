@@ -1,9 +1,10 @@
 [gd_resource type="Resource" script_class="InjuryData" load_steps=2 format=3 uid="uid://c5pa43irkm56a"]
 
-[ext_resource type="Script" uid="uid://d15a5opruym5x" path="res://resources/injury_data.gd" id="1_mh7pl"]
+[ext_resource type="Script" uid="uid://d15a5opruym5x" path="res://resources/data/injury_data.gd" id="1_mh7pl"]
 
 [resource]
 script = ExtResource("1_mh7pl")
 reference = "light_bleed"
 injury_name = "Light Bleeding"
+lethality = 0.0
 asset_paths = PackedStringArray()

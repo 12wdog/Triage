@@ -1,17 +1,18 @@
 [gd_resource type="Resource" script_class="MedicineData" load_steps=2 format=3 uid="uid://tb05tpqa3fc2"]
 
-[ext_resource type="Script" uid="uid://cgdv22283l1tl" path="res://resources/medicine_data.gd" id="1_0e3jm"]
+[ext_resource type="Script" uid="uid://cgdv22283l1tl" path="res://resources/data/medicine_data.gd" id="1_0e3jm"]
 
 [resource]
 script = ExtResource("1_0e3jm")
 reference = "bandage"
 medicine_name = "Bandage"
 treatments = {
-"bullet": [[0.2, [["infection", 0.5]]], ["stitches", 0.9]],
-"burn_two": [["antiseptic", 0.7]],
-"heavy_bleed": [[0.3, [["infection", 0.3], ["shock", 0.1]]], ["stitches", 0.7, [["infection", 0.2], ["shock", 0.1]]]],
-"infection": [["antiseptic", 0.4], ["antibiotic", 0.5], ["antiseptic", "antibiotic", 0.7]],
-"light_bleed": [[0.8, [["infection", 0.3]]]]
+"bullet": [[0.2, [0.5, "infection"]], [0.5, "tongs", [0.4, "infection"]], [0.8, "tongs", "stitches"]],
+"burn_two": [[0.7, "antiseptic"]],
+"heavy_bleed": [[0.3, [0.3, "infection"], [0.1, "shock"]], [0.7, "stitches", [0.2, "infection"], [0.1, "shock"]]],
+"infection": [[0.4, "antiseptic"], [0.5, "antibiotic"], [0.7, "antiseptic", "antibiotic"]],
+"light_bleed": [[0.8, [0.3, "infection"]]]
 }
 size = 1
+consumable = true
 asset_path = ""
