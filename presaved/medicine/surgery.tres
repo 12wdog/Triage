@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MedicineData" load_steps=2 format=3 uid="uid://dyxvqgetlgtob"]
+
+[ext_resource type="Script" uid="uid://cgdv22283l1tl" path="res://resources/medicine_data.gd" id="1_vyu0y"]
+
+[resource]
+script = ExtResource("1_vyu0y")
+reference = "surgery"
+medicine_name = "Surgical Tools"
+treatments = {
+"broken_bone": [[0.4], ["splint", 0.7]],
+"necrosis": [[0.4, [["shock", 0.6]]], ["antibiotic", 0.8]]
+}
+size = 2
+asset_path = ""

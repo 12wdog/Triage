@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MedicineData" load_steps=2 format=3 uid="uid://dwsyv5pp53cjw"]
+
+[ext_resource type="Script" uid="uid://cgdv22283l1tl" path="res://resources/medicine_data.gd" id="1_mk5fa"]
+
+[resource]
+script = ExtResource("1_mk5fa")
+reference = "antiseptic"
+medicine_name = "Antiseptic"
+treatments = {
+"burn_one": [[0.8]],
+"burn_two": [[0.0]],
+"infection": [[0.0], ["antibiotic", 0.0]]
+}
+size = 1
+asset_path = ""

@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="InjuryData" load_steps=2 format=3 uid="uid://wkc8pgc0nu7m"]
+[gd_resource type="Resource" script_class="InjuryData" load_steps=2 format=3 uid="uid://b0pasogid07nf"]
 
-[ext_resource type="Script" uid="uid://d15a5opruym5x" path="res://resources/injury_data.gd" id="1_n4up8"]
+[ext_resource type="Script" uid="uid://d15a5opruym5x" path="res://resources/injury_data.gd" id="1_k4vbo"]
 
 [resource]
-script = ExtResource("1_n4up8")
+script = ExtResource("1_k4vbo")
+reference = "shock"
 injury_name = "Shock"
 asset_paths = PackedStringArray()

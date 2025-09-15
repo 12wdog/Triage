@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3g4dvxgr4y83"]
+
+[ext_resource type="Script" uid="uid://b2ak3w6x8lhd" path="res://scenes/patient/patient.gd" id="1_rbo5v"]
+[ext_resource type="Script" uid="uid://b7q1y0t54u6wq" path="res://resources/patient_data.gd" id="2_a6gn1"]
+
+[sub_resource type="Resource" id="Resource_yacii"]
+script = ExtResource("2_a6gn1")
+reference = ""
+injuries = {
+"LArm": PackedStringArray("Light Bleeding")
+}
+metadata/_custom_type_script = "uid://b7q1y0t54u6wq"
+
+[node name="Patient" type="Node2D"]
+script = ExtResource("1_rbo5v")
+patient_data = SubResource("Resource_yacii")
