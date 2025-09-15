@@ -34,6 +34,10 @@ func _populate(patient_data : PatientData) -> void:
 			injuries[Limbs.get(limb)].append(Data.recall(injury))
 
 func cure(limb : int, medicine : MedicineData) -> void:
+	if medicine.reference == "amputation":
+		if limb == Limbs.HEAD || limb == Limbs.TORSO:
+			return
+	
 	for injury in injuries[limb]:
 		if medicine.treatments.has("*"):
 			_try_cure(limb, medicine)
@@ -59,7 +63,10 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> vo
 	if best_cure[-1] is Array:
 		for side_effect in best_cure[-1]:
 			if rng.randf() <= side_effect[0]:
-				injuries[limb].append(Data.recall(side_effect[1]))
+				if side_effect[1] == "shock" || side_effect[1] == "death":
+					injuries[Limbs.HEAD].append(Data.recall(side_effect[1]))
+				else:
+					injuries[limb].append(Data.recall(side_effect[1]))
 
 func _get_best_cure(cures : Array, limb : int) -> Array:
 	var valid_cures = _get_valid_cures(cures, limb)
