@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="InjuryData" load_steps=2 format=3 uid="uid://d4dpd6laq3mv7"]
+
+[ext_resource type="Script" uid="uid://d15a5opruym5x" path="res://resources/injury_data.gd" id="1_v2p8h"]
+
+[resource]
+script = ExtResource("1_v2p8h")
+injury_name = "Second Degree Burn"
+asset_paths = PackedStringArray()

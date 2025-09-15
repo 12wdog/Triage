@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MedicineData" load_steps=2 format=3 uid="uid://bm2u2kgiqrjvr"]
+
+[ext_resource type="Script" uid="uid://cgdv22283l1tl" path="res://resources/medicine_data.gd" id="1_xlilw"]
+
+[resource]
+script = ExtResource("1_xlilw")
+medicine_name = "Bandage"
+treatments = {
+"Bullet Wound": [[0.5, [["Infection", 0.3]]], ["Stitches", 0.8, [["Infection", 0.1]]]],
+"Heavy Bleeding": [[0.3], ["Stitches", 0.7, [["Infection", 0.3], ["Shock", 0.1]]]],
+"Infection": [["Antiseptic", 0.7]],
+"Light Bleeding": [[0.8, [["Infection", 0.3]]]],
+"Severe Burn": [["Salve", 0.7, [["Infection", 0.5]]]]
+}
+asset_path = ""
