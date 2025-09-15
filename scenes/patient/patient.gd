@@ -44,13 +44,13 @@ func cure(limb : int, medicine : MedicineData) -> void:
 
 func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> void:
 	var best_cure : Array = _get_best_cure(medicine.treatments.get(injury), limb)
-	
+	attempted_cures[limb].append(medicine)
+
 	if best_cure.is_empty():
-		attempted_cures[limb].append(medicine)
 		return
 	
 	var rng = RandomNumberGenerator.new()
-	if rng.randf <= best_cure[0]:
+	if rng.randf() <= best_cure[0]:
 		if injury == "*":
 			injuries[limb].clear()
 		else:
@@ -58,7 +58,7 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> vo
 	
 	if best_cure[-1] is Array:
 		for side_effect in best_cure[-1]:
-			if rng.randf <= side_effect[0]:
+			if rng.randf() <= side_effect[0]:
 				injuries[limb].append(Data.recall(side_effect[1]))
 
 func _get_best_cure(cures : Array, limb : int) -> Array:
