@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1mr1ayv2fyia"]
+[gd_scene load_steps=3 format=3 uid="uid://b1mr1ayv2fyia"]
 
 [ext_resource type="Script" uid="uid://cnc5iypnib6hu" path="res://scenes/manager/manager.gd" id="1_qrdhj"]
+[ext_resource type="PackedScene" uid="uid://d3g4dvxgr4y83" path="res://scenes/patient/patient.tscn" id="2_gkqmc"]
 
 [node name="Manager" type="Node2D"]
 script = ExtResource("1_qrdhj")
+
+[node name="Patient" parent="." instance=ExtResource("2_gkqmc")]

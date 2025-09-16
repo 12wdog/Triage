@@ -1,6 +1,9 @@
 extends Node2D
+class_name Patient
 
 @export var patient_data : PatientData
+
+var dead : bool = false
 
 enum Limbs {
 	HEAD,
@@ -11,12 +14,22 @@ enum Limbs {
 	RLEG
 }
 
+enum Result {
+	CLEAR,
+	NOCLEAR,
+	UNABLE,
+	DEAD
+}
+
 var injuries : Array = []
 var attempted_cures : Array = []
 
 func _init(patient_data : PatientData = null) -> void:
 	if patient_data:
 		_populate(patient_data)
+
+func _ready() -> void:
+	print("Test")
 
 func _populate(patient_data : PatientData) -> void:
 	self.patient_data = patient_data
@@ -33,40 +46,61 @@ func _populate(patient_data : PatientData) -> void:
 		for injury in patient_data.injuries[limb]:
 			injuries[Limbs.get(limb)].append(Data.recall(injury))
 
-func cure(limb : int, medicine : MedicineData) -> void:
+func cure(limb : int, medicine : MedicineData) -> Result:
+	if dead: return Result.DEAD
+	
 	if medicine.reference == "amputation":
 		if limb == Limbs.HEAD || limb == Limbs.TORSO:
-			return
+			return Result.UNABLE # no.
+	
+	var result := Result.CLEAR
 	
 	for injury in injuries[limb]:
 		if medicine.treatments.has("*"):
-			_try_cure(limb, medicine)
-			break
+			return _try_cure(limb, medicine)
 		elif medicine.treatments.has(injury.reference):
-			_try_cure(limb, medicine, injury.reference)
+			var temp = _try_cure(limb, medicine, injury.reference)
+			if temp != Result.CLEAR:
+				result = temp
+			if result == Result.DEAD || result == Result.UNABLE:
+				return result
 			pass
+	
+	if result:
+		return result
+	else: return Result.UNABLE
 
-func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> void:
+func lethal(injury : InjuryData) -> Result:
+	var rng := RandomNumberGenerator.new()
+	if rng.randf() <= injury.lethality:
+		return Result.DEAD
+	
+	return Result.CLEAR
+
+func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Result:
 	var best_cure : Array = _get_best_cure(medicine.treatments.get(injury), limb)
 	attempted_cures[limb].append(medicine)
 
 	if best_cure.is_empty():
-		return
+		return Result.UNABLE
 	
 	var rng = RandomNumberGenerator.new()
+	var result : Result
 	if rng.randf() <= best_cure[0]:
 		if injury == "*":
 			injuries[limb].clear()
 		else:
 			injuries[limb].erase(Data.recall(injury))
+		result = Result.CLEAR
+	else: result = Result.NOCLEAR
 	
 	if best_cure[-1] is Array:
 		for side_effect in best_cure[-1]:
-			if rng.randf() <= side_effect[0]:
-				if side_effect[1] == "shock" || side_effect[1] == "death":
-					injuries[Limbs.HEAD].append(Data.recall(side_effect[1]))
-				else:
-					injuries[limb].append(Data.recall(side_effect[1]))
+			var side_effect_result = _add_side_effect(side_effect[0], Data.recall(side_effect[1]), limb)
+			if side_effect_result == Result.DEAD:
+				return side_effect_result
+	
+	return result
 
 func _get_best_cure(cures : Array, limb : int) -> Array:
 	var valid_cures = _get_valid_cures(cures, limb)
@@ -96,3 +130,29 @@ func _get_valid_cures(cures : Array, limb : int) -> Array:
 		if can_include:
 			output.append(cure)
 	return output
+
+func _add_side_effect(chance : float, side_effect: InjuryData, limb : int) -> Result:
+	
+	var rng := RandomNumberGenerator.new()
+	if rng.randf() > chance:
+		return Result.CLEAR
+	
+	if side_effect.reference == "death" || side_effect.reference == "shock":
+		if side_effect.reference == "death":
+			dead = true
+			return Result.DEAD
+		
+		if injuries[Limbs.HEAD].contains(side_effect):
+			var result = lethal(side_effect)
+			return result
+		else:
+			injuries[Limbs.HEAD].append(side_effect)
+			return Result.CLEAR
+	
+	if injuries[limb].contains(side_effect):
+		var result = lethal(side_effect)
+		return result
+	else:
+		injuries[limb].append(side_effect)
+		return Result.CLEAR
+	
