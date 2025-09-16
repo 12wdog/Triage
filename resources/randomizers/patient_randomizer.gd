@@ -14,18 +14,23 @@ static func make(reference: String, injury_number : int, seed : int = -1) -> Pat
 	for i in range(injury_number):
 		var limb = rng.rand_weighted(limb_weight)
 		
+		var key = Patient.Limbs.find_key(limb)
+
 		var injury
 		while true:
-			injury = Data._REGISTRY.values().get(rng.randi_range(0, registry_size))
+			injury = Data._REGISTRY.values().get(rng.randi_range(0, registry_size -1))
 			if injury is InjuryData:
 				if injury.reference == "shock" || injury.reference == "death":
 					continue
 				if limb == Patient.Limbs.HEAD && injury.reference == "bullet":
 					continue
-				if patient.injuries[limb].contains(injury):
+				if patient.injuries.has(key) && patient.injuries[key].has(injury):
 					continue
 				break
 		
-		patient.injuries[limb].append(injury)
+		if not patient.injuries.has(key):
+			patient.injuries[key] = []
+		
+		patient.injuries[key].append(injury)
 	
 	return patient

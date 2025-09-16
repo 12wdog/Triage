@@ -11,3 +11,6 @@ func _init(reference : String = "", injury_name : String = "", lethality : float
 	self.injury_name = injury_name
 	self.lethality = lethality
 	self.asset_paths = asset_paths
+
+func _to_string() -> String:
+	return injury_name

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Triage"
-run/main_scene="uid://d3g4dvxgr4y83"
+run/main_scene="uid://b1mr1ayv2fyia"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
