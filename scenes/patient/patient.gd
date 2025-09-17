@@ -1,6 +1,8 @@
 extends Node2D
 class_name Patient
 
+signal display(text : String)
+
 @export var patient_data : PatientData
 
 @onready var head = $PatientVisual/HEAD
@@ -33,17 +35,21 @@ enum Result {
 var injuries : Array = []
 var attempted_cures : Array = []
 
-func _init(patient_data : PatientData = null) -> void:
-	if patient_data:
-		populate(patient_data)
+func _init(data : PatientData = null) -> void:
+	if data:
+		patient_data = data
+		populate()
 
 func _ready():
+	setup()
+
+func setup():
 	for limb in [head, torso, larm, rarm, lleg, rleg]:
-		limb.input_event.connect(func(viewport, event, shape_idx): input_event(limb, event))
-		
-func populate(patient_data : PatientData) -> void:
-	self.patient_data = patient_data
-	
+		limb.input_event.connect(func(_viewport, event, _shape_idx): input_event(limb, event))
+
+
+func populate() -> void:
+
 	injuries.clear()
 	injuries.resize(6)
 	for i in range(6):
@@ -96,6 +102,7 @@ func input_event(limb: Area2D, event: InputEvent) -> void:
 func area_entered(area : Area2D) -> void:
 	selected_area = Limbs.get(area.name)
 	print(Limbs.find_key(selected_area))
+	_update_display(selected_area)
 
 func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Result:
 	var best_cure : Array = _get_best_cure(medicine.treatments.get(injury), limb)
@@ -126,27 +133,27 @@ func _get_best_cure(cures : Array, limb : int) -> Array:
 	var output : Array = []
 	var output_percent : float = 0.
 	
-	for cure in valid_cures:
-		if cure[0] > output_percent:
-			output = cure
-			output_percent = cure[0]
+	for _cure in valid_cures:
+		if _cure[0] > output_percent:
+			output = _cure
+			output_percent = _cure[0]
 	
 	return output
 
 func _get_valid_cures(cures : Array, limb : int) -> Array:
 	var output : Array = []
 	
-	for cure in cures:
+	for _cure in cures:
 		var can_include = true
 		
-		for prereq in cure:
+		for prereq in _cure:
 			if (prereq is String):
 				if !attempted_cures[limb].has(prereq):
 					can_include = false
 					break
 		
 		if can_include:
-			output.append(cure)
+			output.append(_cure)
 	return output
 
 func _add_side_effect(chance : float, side_effect: InjuryData, limb : int) -> Result:
@@ -188,10 +195,19 @@ func _to_string() -> String:
 
 		var cure_list : Array = []
 		if i < attempted_cures.size():
-			for cure in attempted_cures[i]:
-				cure_list.append(cure.medicine_name if cure else str(cure))
+			for _cure in attempted_cures[i]:
+				cure_list.append(_cure.medicine_name if _cure else str(cure))
 
 		output += "  %s:\n" % limb_name
 		output += "    Injuries: %s\n" % ("[none]" if injury_list.is_empty() else ", ".join(injury_list))
 		output += "    Attempted cures: %s\n" % ("[none]" if cure_list.is_empty() else ", ".join(cure_list))
 	return output
+
+func _update_display(limb : int) -> void:
+	
+	#var limb_injuries = injuries[limb]
+	#var limb_cures = attempted_cures[limb]
+	
+	var text : String = str("Limb: [b]", Limbs.find_key(limb), "[/b]/nTest")
+	
+	display.emit(text)

@@ -6,3 +6,4 @@
 script = ExtResource("1_r7lac")
 reference = "infection"
 injury_name = "Infection"
+asset_paths = PackedStringArray()

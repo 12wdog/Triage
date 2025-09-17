@@ -12,3 +12,4 @@ treatments = {
 "infection": [[0.0], [0.0, "antibiotic"]]
 }
 size = 1
+asset_path = "res://textures/medicine/serum.png"

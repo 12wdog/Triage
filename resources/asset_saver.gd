@@ -61,7 +61,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	""
+	"res://textures/medicine/serum.png"
 	),
 	MedicineData.new("stitches", "Stitches", {
 		"heavy_bleed": [
@@ -161,10 +161,10 @@ var patient_array = [
 	})
 ]
 
-var day := DayData.new([
-	[1, 2, 2],
-	[2, 2, 4],
-	[4, 3, 4]
+var day : DayData = DayData.new([
+	[1, 1, 2],
+	[2, 1, 4],
+	[4, 2, 4]
 ])
 
 func _run():

@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1x1k5io21d8x"]
+
+[ext_resource type="Script" uid="uid://bn5v8awdq6qcs" path="res://scenes/patient/patient_ui.gd" id="1_yv701"]
+
+[node name="PatientUI" type="CanvasLayer"]
+follow_viewport_enabled = true
+script = ExtResource("1_yv701")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 72.0
+offset_right = -767.0
+offset_bottom = -302.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "Test"
+metadata/_edit_use_anchors_ = true

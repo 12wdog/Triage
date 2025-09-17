@@ -46,6 +46,7 @@ const _REGISTRY := {
 	"stitches": stitches,
 	"surgery": surgery,
 	"tongs": tongs,
+	
 }
 
 static func recall(name: String) -> Resource:

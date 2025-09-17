@@ -15,3 +15,6 @@ func _init(reference : String = "", medicine_name : String = "", treatments : Di
 	self.size = size
 	self.consumable = consumable
 	self.asset_path = asset_path
+
+func _to_string():
+	return medicine_name
