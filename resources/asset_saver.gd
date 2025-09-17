@@ -4,6 +4,7 @@ extends EditorScript
 const injury_path = "res://presaved/injuries/"
 const medicine_path = "res://presaved/medicine/"
 const patient_path = "res://presaved/patients/"
+const day_path = "res://presaved/day/days.tres"
 
 var injury_array = [
 	InjuryData.new("light_bleed", "Light Bleeding"),
@@ -160,6 +161,12 @@ var patient_array = [
 	})
 ]
 
+var day := DayData.new([
+	[1, 2, 2],
+	[2, 2, 4],
+	[4, 3, 4]
+])
+
 func _run():
 	
 	for injury in injury_array:
@@ -170,3 +177,5 @@ func _run():
 	
 	for patient in patient_array:
 		ResourceSaver.save(patient, patient_path + patient.reference + ".tres")
+	
+	ResourceSaver.save(day, day_path)

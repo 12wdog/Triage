@@ -6,5 +6,4 @@
 script = ExtResource("1_4ybwd")
 reference = "burn_two"
 injury_name = "Second Degree Burn"
-lethality = 0.0
 asset_paths = PackedStringArray()

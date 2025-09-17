@@ -6,5 +6,4 @@
 script = ExtResource("1_apq5h")
 reference = "bullet"
 injury_name = "Bullet Wound"
-lethality = 0.0
 asset_paths = PackedStringArray()

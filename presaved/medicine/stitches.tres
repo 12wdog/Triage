@@ -12,5 +12,3 @@ treatments = {
 "internal_bleed": [[0.45, "surgery", [0.3, "shock"]]]
 }
 size = 1
-consumable = true
-asset_path = ""

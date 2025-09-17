@@ -6,5 +6,4 @@
 script = ExtResource("1_mh7pl")
 reference = "light_bleed"
 injury_name = "Light Bleeding"
-lethality = 0.0
 asset_paths = PackedStringArray()

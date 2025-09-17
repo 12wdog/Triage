@@ -12,5 +12,3 @@ treatments = {
 "infection": [[0.0], [0.0, "antibiotic"]]
 }
 size = 1
-consumable = true
-asset_path = ""

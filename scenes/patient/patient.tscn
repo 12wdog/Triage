@@ -1,6 +1,102 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3g4dvxgr4y83"]
+[gd_scene load_steps=9 format=3 uid="uid://d3g4dvxgr4y83"]
 
 [ext_resource type="Script" uid="uid://b2ak3w6x8lhd" path="res://scenes/patient/patient.gd" id="1_rbo5v"]
+[ext_resource type="Texture2D" uid="uid://brmcuboykbak" path="res://textures/patient/base/Patient_Test.png" id="2_a6gn1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yacii"]
+size = Vector2(94.622635, 164.71698)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_67p26"]
+size = Vector2(181.13208, 328.30188)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_doo2g"]
+size = Vector2(58.6331, 179.3689)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5rmhc"]
+size = Vector2(55.943394, 167.26416)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_io04n"]
+size = Vector2(96.22642, 113.20755)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_grsko"]
+size = Vector2(103.11321, 566.60376)
 
 [node name="Patient" type="Node2D"]
 script = ExtResource("1_rbo5v")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="PatientVisual" type="Node2D" parent="."]
+
+[node name="HEAD" type="Area2D" parent="PatientVisual"]
+scale = Vector2(0.53, 0.53)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PatientVisual/HEAD"]
+position = Vector2(3.632074, -442.73587)
+shape = SubResource("RectangleShape2D_yacii")
+
+[node name="TORSO" type="Area2D" parent="PatientVisual"]
+position = Vector2(0, 8)
+scale = Vector2(0.53, 0.53)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PatientVisual/TORSO"]
+position = Vector2(3.7735832, -201.8868)
+shape = SubResource("RectangleShape2D_67p26")
+
+[node name="LARM" type="Area2D" parent="PatientVisual"]
+scale = Vector2(0.53, 0.53)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PatientVisual/LARM"]
+position = Vector2(144.48196, -95.54358)
+rotation = -0.24434611
+shape = SubResource("RectangleShape2D_doo2g")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PatientVisual/LARM"]
+position = Vector2(122.971695, -255.3302)
+shape = SubResource("RectangleShape2D_5rmhc")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="PatientVisual/LARM"]
+position = Vector2(202.83017, 45.283024)
+shape = SubResource("RectangleShape2D_io04n")
+
+[node name="RARM" type="Area2D" parent="PatientVisual"]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PatientVisual/RARM"]
+position = Vector2(-75.42457, -48.638092)
+rotation = 0.2443461
+scale = Vector2(0.53, 0.53)
+shape = SubResource("RectangleShape2D_doo2g")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PatientVisual/RARM"]
+position = Vector2(-59.825005, -135.325)
+scale = Vector2(0.53, 0.53)
+shape = SubResource("RectangleShape2D_5rmhc")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="PatientVisual/RARM"]
+position = Vector2(-102.500015, 29.000002)
+scale = Vector2(0.53, 0.53)
+shape = SubResource("RectangleShape2D_io04n")
+
+[node name="LLEG" type="Area2D" parent="PatientVisual"]
+scale = Vector2(0.53, 0.53)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PatientVisual/LLEG"]
+position = Vector2(59.764156, 261.98114)
+shape = SubResource("RectangleShape2D_grsko")
+
+[node name="RLEG" type="Area2D" parent="PatientVisual"]
+scale = Vector2(0.53, 0.53)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PatientVisual/RLEG"]
+position = Vector2(-54.716984, 262.2642)
+shape = SubResource("RectangleShape2D_grsko")
+
+[node name="Sprite2D" type="Sprite2D" parent="PatientVisual"]
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("2_a6gn1")

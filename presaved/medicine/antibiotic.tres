@@ -11,5 +11,3 @@ treatments = {
 "necrosis": [[0.0]]
 }
 size = 1
-consumable = true
-asset_path = ""

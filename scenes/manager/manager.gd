@@ -1,4 +1,5 @@
 extends Node2D
+class_name Manager
 
 
 func _ready() -> void:
@@ -8,6 +9,7 @@ func _ready() -> void:
 	var patient : Patient = Patient.new(test)
 	
 	print(patient)
-	var result = patient.cure(Patient.Limbs.RARM, Data.recall("bandage"))
+	var result = patient.cure(Patient.Limbs.RARM, Data.recall("amputation"))
 	print(Patient.Result.find_key(result))
 	print(patient)
+	print(patient.dead)

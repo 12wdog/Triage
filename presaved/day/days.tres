@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DayData" load_steps=2 format=3 uid="uid://bahfr4pirmdy3"]
+
+[ext_resource type="Script" uid="uid://on4efdmss2fv" path="res://resources/data/day_data.gd" id="1_0bbkq"]
+
+[resource]
+script = ExtResource("1_0bbkq")
+day_data = [[1, 2, 2], [2, 2, 4], [4, 3, 4]]

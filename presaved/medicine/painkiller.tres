@@ -13,5 +13,3 @@ treatments = {
 "shock": [[0.6], [0.9, "painkiller", [0.3, "death"]]]
 }
 size = 1
-consumable = true
-asset_path = ""

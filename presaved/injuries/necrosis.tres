@@ -6,5 +6,4 @@
 script = ExtResource("1_ydjd0")
 reference = "necrosis"
 injury_name = "Necrosis"
-lethality = 0.0
 asset_paths = PackedStringArray()

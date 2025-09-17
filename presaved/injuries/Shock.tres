@@ -6,5 +6,3 @@
 script = ExtResource("1_k4vbo")
 reference = "shock"
 injury_name = "Shock"
-lethality = 0.0
-asset_paths = PackedStringArray()

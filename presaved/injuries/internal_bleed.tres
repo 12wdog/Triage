@@ -6,5 +6,4 @@
 script = ExtResource("1_0gncn")
 reference = "internal_bleed"
 injury_name = "Internal Bleeding"
-lethality = 0.0
 asset_paths = PackedStringArray()

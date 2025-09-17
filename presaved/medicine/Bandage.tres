@@ -14,5 +14,3 @@ treatments = {
 "light_bleed": [[0.8, [0.3, "infection"]]]
 }
 size = 1
-consumable = true
-asset_path = ""

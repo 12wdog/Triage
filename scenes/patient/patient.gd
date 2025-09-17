@@ -3,7 +3,16 @@ class_name Patient
 
 @export var patient_data : PatientData
 
+@onready var head = $PatientVisual/HEAD
+@onready var torso = $PatientVisual/TORSO
+@onready var larm = $PatientVisual/LARM
+@onready var rarm = $PatientVisual/RARM
+@onready var lleg = $PatientVisual/LLEG
+@onready var rleg = $PatientVisual/RLEG
+
 var dead : bool = false
+var selected_area : Limbs
+var hovered: Area2D
 
 enum Limbs {
 	HEAD,
@@ -28,6 +37,10 @@ func _init(patient_data : PatientData = null) -> void:
 	if patient_data:
 		populate(patient_data)
 
+func _ready():
+	for limb in [head, torso, larm, rarm, lleg, rleg]:
+		limb.input_event.connect(func(viewport, event, shape_idx): input_event(limb, event))
+		
 func populate(patient_data : PatientData) -> void:
 	self.patient_data = patient_data
 	
@@ -73,6 +86,16 @@ func lethal(injury : InjuryData) -> Result:
 		return Result.DEAD
 	
 	return Result.CLEAR
+
+func input_event(limb: Area2D, event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		if hovered != limb:
+			hovered = limb
+			area_entered(limb)
+	
+func area_entered(area : Area2D) -> void:
+	selected_area = Limbs.get(area.name)
+	print(Limbs.find_key(selected_area))
 
 func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Result:
 	var best_cure : Array = _get_best_cure(medicine.treatments.get(injury), limb)
