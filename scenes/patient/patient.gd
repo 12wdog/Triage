@@ -79,14 +79,17 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 
 	for injury in current_injuries:
 		if medicine.treatments.has("*"):
-			return _try_cure(limb, medicine)
+			result = _try_cure(limb, medicine)
 		elif medicine.treatments.has(injury.reference):
 			var temp = _try_cure(limb, medicine, injury.reference)
 			if temp != Result.CLEAR:
 				result = temp
-			if result == Result.DEAD or result == Result.UNABLE:
+			if result == Result.UNABLE:
+				print("UNABLE")
 				return result
-
+	
+	print("ABLE")
+	attempted_cures[limb].append(medicine)
 	return result
 
 func lethal(injury : InjuryData) -> Result:
@@ -114,10 +117,10 @@ func area_entered(area : Area2D) -> void:
 
 func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Result:
 	var best_cure : Array = _get_best_cure(medicine.treatments.get(injury), limb)
-	attempted_cures[limb].append(medicine)
-
 	if best_cure.is_empty():
 		return Result.UNABLE
+	
+	print(best_cure)
 	
 	var rng = RandomNumberGenerator.new()
 	var result : Result
@@ -138,8 +141,9 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 
 func _get_best_cure(cures : Array, limb : int) -> Array:
 	var valid_cures = _get_valid_cures(cures, limb)
+	print(valid_cures)
 	var output : Array = []
-	var output_percent : float = 0.
+	var output_percent : float = -1
 	
 	for _cure in valid_cures:
 		if _cure[0] > output_percent:
@@ -148,20 +152,32 @@ func _get_best_cure(cures : Array, limb : int) -> Array:
 	
 	return output
 
-func _get_valid_cures(cures : Array, limb : int) -> Array:
-	var output : Array = []
+func _get_valid_cures(cures: Array, limb: int) -> Array:
+	var output: Array = []
 	
 	for _cure in cures:
-		var can_include = true
+		var can_include := true
 		
+		print(_cure)
 		for prereq in _cure:
-			if (prereq is String):
-				if !attempted_cures[limb].has(prereq):
+			if prereq is String:
+				print("Checking prereq: %s" % prereq)
+				print("Attempted cures for limb: ", attempted_cures[limb])
+				
+				var found := false
+				for attempted in attempted_cures[limb]:
+					if attempted.reference == prereq:
+						found = true
+						break
+				
+				if !found:
 					can_include = false
 					break
 		
+		print("Can include? %s" % can_include)
 		if can_include:
 			output.append(_cure)
+	
 	return output
 
 func _add_side_effect(chance : float, side_effect: InjuryData, limb : int) -> Result:
