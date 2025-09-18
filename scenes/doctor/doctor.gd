@@ -24,8 +24,8 @@ func _ready():
 		i += 1
 	
 	add_item(Data.recall("serum"))
-	add_item(Data.recall("surgery"))
-	add_item(Data.recall("amputation"))
+	add_item(Data.recall("bandage"))
+	add_item(Data.recall("stitches"))
 
 func add_item(item: MedicineData) -> bool:
 	if inventory_used + item.size > 5: return false

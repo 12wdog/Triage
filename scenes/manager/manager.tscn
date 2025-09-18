@@ -4,3 +4,5 @@
 
 [node name="Manager" type="Node2D"]
 script = ExtResource("1_qrdhj")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]

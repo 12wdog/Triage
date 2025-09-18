@@ -2,6 +2,9 @@ extends Node2D
 class_name Patient
 
 signal display(text : String)
+signal limb_click(limb : int, id : int)
+
+var id : int
 
 @export var patient_data : PatientData
 
@@ -98,10 +101,15 @@ func input_event(limb: Area2D, event: InputEvent) -> void:
 		if hovered != limb:
 			hovered = limb
 			area_entered(limb)
+	if event is InputEventMouseButton \
+	and event.button_index == MouseButton.MOUSE_BUTTON_LEFT \
+	and event.pressed \
+	and not event.double_click:
+		limb_click.emit(Limbs.get(limb.name), id)
+		pass
 	
 func area_entered(area : Area2D) -> void:
 	selected_area = Limbs.get(area.name)
-	print(Limbs.find_key(selected_area))
 	_update_display(selected_area)
 
 func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Result:
@@ -208,6 +216,18 @@ func _update_display(limb : int) -> void:
 	#var limb_injuries = injuries[limb]
 	#var limb_cures = attempted_cures[limb]
 	
-	var text : String = str("Limb: [b]", Limbs.find_key(limb), "[/b]/nTest")
+	var text : String = "Limb: [b]%s[/b]\nInjuries:\n" % Limbs.find_key(limb)
+	for injury in injuries[limb]:
+		text += "[color=red] • %s[/color]\n" % injury
+	
+	if injuries[limb].is_empty():
+		text += "[color=green] • NONE[/color]\n"
+	
+	text += "\nAttempted Treatments:\n"
+	for treatment in attempted_cures[limb]:
+		text += "[color=green] • %s[/color]\n" % treatment
+	
+	if attempted_cures[limb].is_empty():
+		text += " • NONE\n"
 	
 	display.emit(text)
