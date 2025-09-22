@@ -61,7 +61,7 @@ func fill_beds() -> void:
 	if !in_game: return
 	if game.backlog.is_empty(): return
 	
-	game.populate_bed(0)
+	game.populate_bed()
 	#await get_tree().create_timer(30).timeout
 
 func landing() -> void:

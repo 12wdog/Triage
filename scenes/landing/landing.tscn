@@ -1,49 +1,65 @@
-[gd_scene load_steps=7 format=3 uid="uid://bh1dlhtr5uvgw"]
+[gd_scene load_steps=8 format=3 uid="uid://bh1dlhtr5uvgw"]
 
 [ext_resource type="Script" uid="uid://behviac7se6ol" path="res://scenes/landing/landing.gd" id="1_adj6j"]
-[ext_resource type="Texture2D" uid="uid://b4x3gt0o87cde" path="res://textures/landing/landing_temp.jpg" id="1_t3xi6"]
+[ext_resource type="Texture2D" uid="uid://bxjd5n2gvxrr" path="res://textures/landing/med_cabinet_temp.webp" id="2_g75h7"]
+[ext_resource type="Texture2D" uid="uid://c2r4uk83jq8i5" path="res://textures/landing/bed_temp.png" id="3_3cvo1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_adj6j"]
-size = Vector2(385, 499)
+size = Vector2(240, 427)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g75h7"]
-size = Vector2(246, 140)
+size = Vector2(188, 188)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cvo1"]
-size = Vector2(273, 148)
+size = Vector2(188, 182)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gt4mu"]
-size = Vector2(210, 220.5)
+size = Vector2(206, 206)
 
 [node name="Landing" type="Node2D"]
 script = ExtResource("1_adj6j")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.6166667, 0.6166667)
-texture = ExtResource("1_t3xi6")
+[node name="MedCabinetTemp" type="Sprite2D" parent="."]
+position = Vector2(-412, 54)
+texture = ExtResource("2_g75h7")
+
+[node name="BedTemp" type="Sprite2D" parent="."]
+position = Vector2(-44.000015, -96.000015)
+scale = Vector2(0.485, 0.485)
+texture = ExtResource("3_3cvo1")
+
+[node name="BedTemp2" type="Sprite2D" parent="."]
+position = Vector2(165.00002, -92.99999)
+scale = Vector2(0.485, 0.485)
+texture = ExtResource("3_3cvo1")
+
+[node name="BedTemp3" type="Sprite2D" parent="."]
+position = Vector2(375.00006, -98.99999)
+scale = Vector2(0.485, 0.485)
+texture = ExtResource("3_3cvo1")
 
 [node name="Selections" type="Node2D" parent="."]
 
 [node name="Cabinet" type="Area2D" parent="Selections"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Selections/Cabinet"]
-position = Vector2(-217.5, -6.5)
+position = Vector2(-414, 62.5)
 shape = SubResource("RectangleShape2D_adj6j")
 
 [node name="Bed1" type="Area2D" parent="Selections"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Selections/Bed1"]
-position = Vector2(114, 72)
+position = Vector2(-41, -99)
 shape = SubResource("RectangleShape2D_g75h7")
 
 [node name="Bed2" type="Area2D" parent="Selections"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Selections/Bed2"]
-position = Vector2(228, 102)
+position = Vector2(164, -97)
 shape = SubResource("RectangleShape2D_3cvo1")
 
 [node name="Bed3" type="Area2D" parent="Selections"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Selections/Bed3"]
-position = Vector2(419, 149.25)
+position = Vector2(374, -104)
 shape = SubResource("RectangleShape2D_gt4mu")
