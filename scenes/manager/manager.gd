@@ -9,13 +9,12 @@ var in_game := false
 
 func _ready() -> void:
 	game_setup(0)
-	#game.initialize_random([1, 4, 7])
-	
+		
 	for patient in game.backlog:
 		print(patient)
 	
-	game.go_to_bed(0)
-
+	landing()
+	
 func cleanup() -> void:
 	var children = get_children()
 	for child in children:
@@ -29,11 +28,13 @@ func game_setup(day : int) -> void:
 	add_child(game)
 	add_child(doctor_canvas)
 	doctor_canvas.add_child(doctor)
+	doctor.return_to_landing.connect(landing)
 	
 	game.request_medicine.connect(medicine_request)
 	game.use_medicine.connect(remove_medicine)
 
 	game.initialize_patient()
+	game.initialize_landing()
 	game.initialize_random(days.data[day])
 	
 	in_game = true
@@ -60,5 +61,12 @@ func fill_beds() -> void:
 	if !in_game: return
 	if game.backlog.is_empty(): return
 	
-	game.populate_bed()
-	await get_tree().create_timer(30).timeout
+	game.populate_bed(0)
+	#await get_tree().create_timer(30).timeout
+
+func landing() -> void:
+	doctor.return_button.visible = false
+	game.go_to_landing()
+
+func _physics_process(_delta):
+	doctor.return_button.visible = game.display.visible || game.cabinet.visible

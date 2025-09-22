@@ -70,3 +70,9 @@ icon_alignment = 1
 expand_icon = true
 script = ExtResource("3_ow3c1")
 metadata/_custom_type_script = "uid://dxaqadg0f4qv6"
+
+[node name="ReturnButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 173.0
+offset_bottom = 91.0
+text = "Back to Entrance"

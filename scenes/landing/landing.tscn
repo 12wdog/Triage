@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://bh1dlhtr5uvgw"]
+
+[ext_resource type="Script" uid="uid://behviac7se6ol" path="res://scenes/landing/landing.gd" id="1_adj6j"]
+[ext_resource type="Texture2D" uid="uid://b4x3gt0o87cde" path="res://textures/landing/landing_temp.jpg" id="1_t3xi6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_adj6j"]
+size = Vector2(385, 499)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g75h7"]
+size = Vector2(246, 140)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cvo1"]
+size = Vector2(273, 148)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gt4mu"]
+size = Vector2(210, 220.5)
+
+[node name="Landing" type="Node2D"]
+script = ExtResource("1_adj6j")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.6166667, 0.6166667)
+texture = ExtResource("1_t3xi6")
+
+[node name="Selections" type="Node2D" parent="."]
+
+[node name="Cabinet" type="Area2D" parent="Selections"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Selections/Cabinet"]
+position = Vector2(-217.5, -6.5)
+shape = SubResource("RectangleShape2D_adj6j")
+
+[node name="Bed1" type="Area2D" parent="Selections"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Selections/Bed1"]
+position = Vector2(114, 72)
+shape = SubResource("RectangleShape2D_g75h7")
+
+[node name="Bed2" type="Area2D" parent="Selections"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Selections/Bed2"]
+position = Vector2(228, 102)
+shape = SubResource("RectangleShape2D_3cvo1")
+
+[node name="Bed3" type="Area2D" parent="Selections"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Selections/Bed3"]
+position = Vector2(419, 149.25)
+shape = SubResource("RectangleShape2D_gt4mu")

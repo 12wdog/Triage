@@ -8,10 +8,19 @@ signal use_medicine()
 @onready var rng := RandomNumberGenerator.new()
 @onready var display : PatientUI = preload("res://scenes/patient/patient_ui.tscn").instantiate()
 
+@onready var landing : Landing = preload("res://scenes/landing/landing.tscn").instantiate()
+@onready var cabinet : MedicineCabinet = preload("res://scenes/medicine_cabinet/medicine_cabinet.tscn").instantiate()
 var patients : Array[Patient] = []
 var backlog : Array[PatientData] = []
 
 var medicine : MedicineData
+
+func initialize_landing() -> void:
+	landing.zone_click.connect(go_to)
+	add_child(landing)
+
+func initiate_cabinet() -> void:
+	add_child(cabinet)
 
 func initialize_patient() -> void:
 	for i in range(3):
@@ -29,14 +38,16 @@ func initialize_random(state : Array) -> void:
 	for patient in range(state[0]):
 		var num_injuries : int = rng.randi_range(state[1], state[2])
 		backlog.append(PatientRandomizer.make(str(patient), num_injuries))
+		print(str("Made bed ", patient))
 
 func populate_bed(bed : int = -1):
+	print(str("Populating bed ", bed))
 	if backlog.is_empty(): return
 	if patients.all(func(p): return p != null and p.patient_data != null): return
 	
 	if bed < 0:
 		bed = rng.randi_range(0, 2)
-		while patients[bed] != null:
+		while patients[bed].patient_data != null:
 			bed = rng.randi_range(0, 2)
 	patients[bed].patient_data = backlog[0]
 	patients[bed].populate()
@@ -46,7 +57,38 @@ func go_to_bed(bed : int) -> void:
 	for patient in patients:
 		patient.visible = false
 	
+	write_to_display("")
+	display.visible = true
+	landing.visible = false
+	cabinet.visible = false
 	patients[bed].visible = true
+	
+func go_to(location_name : String) -> void:
+	match location_name.to_upper():
+		"BED1":
+			go_to_bed(0)
+		"BED2":
+			go_to_bed(1)
+		"BED3":
+			go_to_bed(2)
+		"CABINET":
+			go_to_cabinet()
+
+func go_to_landing() -> void:
+	for patient in patients:
+		patient.visible = false
+	
+	display.visible = false
+	cabinet.visible = false
+	landing.visible = true
+
+func go_to_cabinet() -> void:
+	for patient in patients:
+		patient.visible = false
+	
+	display.visible = false
+	cabinet.visible = true
+	landing.visible = false
 
 func write_to_display(text : String) -> void:
 	display.write(text)

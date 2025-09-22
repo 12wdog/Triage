@@ -1,6 +1,8 @@
 extends Control
 class_name Doctor
 
+signal return_to_landing()
+
 const button_size : float = 100.0
 
 @onready var inventory : Array[Button] = [
@@ -10,6 +12,8 @@ const button_size : float = 100.0
 	$PanelContainer/MarginContainer/HBoxContainer/Inv4,
 	$PanelContainer/MarginContainer/HBoxContainer/Inv5
 ]
+@onready var return_button : Button = $ReturnButton
+
 var inventory_used : int = 0
 var selected_item : MedicineData = null
 var selected_item_id : int = -1
@@ -23,9 +27,8 @@ func _ready():
 		button.inv_used.connect(select_item)
 		i += 1
 	
-	add_item(Data.recall("serum"))
-	add_item(Data.recall("bandage"))
-	add_item(Data.recall("stitches"))
+	return_button.pressed.connect(func() : return_to_landing.emit())
+	
 
 func add_item(item: MedicineData) -> bool:
 	if inventory_used + item.size > 5: return false

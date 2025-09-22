@@ -279,3 +279,9 @@ func is_cured() -> void:
 
 	# If we got here, no injuries remain → emit signal
 	cured.emit(id)
+
+func _physics_process(_delta):
+	if patient_data:
+		$PatientVisual.visible = true
+	else:
+		$PatientVisual.visible = false
