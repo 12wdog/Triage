@@ -3,6 +3,7 @@ class_name TriageGame
 
 signal request_medicine()
 signal recieved_medicine()
+signal use_medicine()
 
 @onready var rng := RandomNumberGenerator.new()
 @onready var display : PatientUI = preload("res://scenes/patient/patient_ui.tscn").instantiate()
@@ -31,8 +32,12 @@ func initialize_random(state : Array) -> void:
 
 func populate_bed(bed : int = -1):
 	if backlog.is_empty(): return
+	if patients.all(func(p): return p != null and p.patient_data != null): return
+	
 	if bed < 0:
 		bed = rng.randi_range(0, 2)
+		while patients[bed] != null:
+			bed = rng.randi_range(0, 2)
 	patients[bed].patient_data = backlog[0]
 	patients[bed].populate()
 	backlog.remove_at(0)
@@ -57,6 +62,12 @@ func attempt_heal(limb: int, id: int) -> void:
 	#print(medicine)
 	
 	#print(Patient.Limbs.find_key(limb))
-	patients[id].cure(limb, medicine)
+	var result : Patient.Result = patients[id].cure(limb, medicine)
+	print(Patient.Result.find_key(result))
 	patients[id]._update_display(limb)
+	if result == Patient.Result.CLEAR || Patient.Result.NOCLEAR:
+		use_medicine.emit()
 	pass
+
+func patient_cured(id : int) -> void:
+	patients[id].patient_data = null

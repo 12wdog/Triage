@@ -44,50 +44,70 @@ func add_item(item: MedicineData) -> bool:
 	inventory_used += item.size
 	return true
 
-func remove_item(index: int) -> bool:
-	if index < 0 or index >= inventory_used:
-		return false
-	
-	# Find the starting slot of the item at this index
-	var start_index := index
-	while start_index > 0 and not inventory[start_index].is_enabled:
-		start_index -= 1
-	
-	var item : MedicineData = inventory[start_index].item
-	if item == null:
-		return false
-	
-	var item_size := item.size
-	
-	# Step 1: gather all items that come AFTER the removed item
-	var remaining_items : Array[MedicineData] = []
-	var shift_index := start_index + item_size
-	while shift_index < inventory_used:
-		if inventory[shift_index].is_enabled and inventory[shift_index].item != null:
-			var next_item : MedicineData = inventory[shift_index].item
-			remaining_items.append(next_item)
-			shift_index += next_item.size
-		else:
-			shift_index += 1
-	
-	# Step 2: clear the whole inventory
-	for i in range(5):
-		inventory[i].item = null
-		inventory[i].icon = null
-		inventory[i].text = ""
-		inventory[i].is_enabled = true
-		inventory[i].visible = true
-		inventory[i].custom_minimum_size.x = button_size
-	
-	# Step 3: rebuild everything up to the removed slot
-	inventory_used = start_index
-	for next_item in remaining_items:
-		add_item(next_item)
-	
-	return true
-
 func select_item(medicine : MedicineData, id : int) -> void:
 	selected_item = medicine
 	selected_item_id = id
 	
 	print(str(selected_item, " ", selected_item_id))
+
+func _clear_inventory_ui() -> void:
+	# Reset every inventory button back to a neutral state.
+	for btn in inventory:
+		# remove stored item reference + visuals
+		btn.item = null
+		btn.icon = null
+		btn.text = ""
+		# restore enabled/visible default
+		btn.is_enabled = true
+		btn.visible = true
+		# reset any size changes done by add_item
+		btn.custom_minimum_size.x = button_size
+
+	inventory_used = 0
+	selected_item = null
+	selected_item_id = -1
+
+
+func remove_selected_item() -> bool:
+	# Returns true if an item was removed, false otherwise.
+	if selected_item_id < 0 or selected_item == null:
+		return false
+
+	# Find the "root" slot for the selected id: if someone somehow selected a
+	# hidden slot, walk left to find the visible slot that actually owns the item.
+	var root_idx := selected_item_id
+	while root_idx >= 0 and inventory[root_idx].item == null:
+		root_idx -= 1
+	if root_idx < 0:
+		return false
+
+	# Build a compact ordered list of the items currently in the inventory
+	var items_in_order : Array = []
+	for i in range(inventory.size()):
+		var btn = inventory[i]
+		if btn.item != null:
+			items_in_order.append(btn.item)
+
+	# Compute which position in items_in_order corresponds to root_idx
+	var pos := 0
+	for i in range(root_idx):
+		if inventory[i].item != null:
+			pos += 1
+
+	if pos < 0 or pos >= items_in_order.size():
+		return false
+
+	# Remove the selected item from the logical list
+	items_in_order.remove_at(pos)
+
+	# Clear the UI and re-add remaining items in order
+	_clear_inventory_ui()
+	for it in items_in_order:
+		# add_item will re-hide/resize slots appropriately
+		var ok := add_item(it)
+		# If this ever fails something is inconsistent; bail out safely.
+		if not ok:
+			push_error("Rebuilding inventory failed while re-adding: %s" % str(it))
+			return false
+
+	return true

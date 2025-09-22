@@ -3,6 +3,7 @@ class_name Patient
 
 signal display(text : String)
 signal limb_click(limb : int, id : int)
+signal cured(id : int)
 
 var id : int
 
@@ -269,3 +270,12 @@ func _update_display(limb : int) -> void:
 		text += " • NONE\n"
 	
 	display.emit(text)
+
+func is_cured() -> void:
+	# Check every limb’s injury list
+	for limb_injuries in injuries:
+		if not limb_injuries.is_empty():
+			return   # still injured, stop
+
+	# If we got here, no injuries remain → emit signal
+	cured.emit(id)
