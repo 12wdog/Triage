@@ -13,7 +13,8 @@ func _ready() -> void:
 	game.request_medicine.connect(medicine_request)
 	
 	game.initialize_patient()
-	game.initialize_random(days.data[0])
+	#game.backlog.append(PatientData.new("tesst", {"RARM": ["light_bleed", "infection"]}))
+	game.initialize_random([1, 4, 7])
 	
 	for patient in game.backlog:
 		print(patient)
@@ -22,10 +23,13 @@ func _ready() -> void:
 	game.go_to_bed(0)
 
 func medicine_request() -> void:
+	print("Medicine request")
 	if doctor.selected_item_id < 0 || doctor.selected_item == null:
+		print("No Medicine")
 		game.medicine = null
-		game.recieved_medicine.emit()
+		game.call_deferred("emit_signal", "recieved_medicine")
 		return
 	
+	print("Medicine")
 	game.medicine = doctor.selected_item
-	game.recieved_medicine.emit()
+	game.call_deferred("emit_signal", "recieved_medicine")

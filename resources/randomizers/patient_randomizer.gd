@@ -5,6 +5,7 @@ const limb_weight : PackedFloat32Array = [.3, .15, .7, .7, .7, .7]
 
 static func make(reference: String, injury_number : int, seed : int = -1) -> PatientData:
 	var rng := RandomNumberGenerator.new()
+	print(rng.seed)
 	var registry_size : int = Data._REGISTRY.size()
 	if seed != -1:
 		rng.seed = seed

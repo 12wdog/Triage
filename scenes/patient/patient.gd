@@ -48,6 +48,8 @@ func _ready():
 
 func setup():
 	for limb in [head, torso, larm, rarm, lleg, rleg]:
+		if limb.input_event.is_connected(input_event):
+			limb.input_event.disconnect(input_event)
 		limb.input_event.connect(func(_viewport, event, _shape_idx): input_event(limb, event))
 
 
@@ -71,26 +73,46 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 	if dead:
 		return Result.DEAD
 
-	if medicine.reference == "amputation" and (limb == Limbs.HEAD or limb == Limbs.TORSO):
-		return Result.UNABLE # no.
+	print(Limbs.find_key(limb))
 
-	var result := Result.CLEAR
-	var current_injuries = injuries[limb].duplicate()	# <-- snapshot
+	if medicine.reference == "amputation" and (limb == Limbs.HEAD or limb == Limbs.TORSO):
+		return Result.UNABLE # cannot amputate head/torso
+
+	var result := Result.UNABLE
+	var current_injuries = injuries[limb].duplicate()	# snapshot of current injuries
+
+	# Track whether the medicine was actually applied
+	var applied := false
 
 	for injury in current_injuries:
+		print("Checking injury: ", injury)
+
 		if medicine.treatments.has("*"):
+			# universal medicine, always attempt
 			result = _try_cure(limb, medicine)
+			applied = true
+
 		elif medicine.treatments.has(injury.reference):
 			var temp = _try_cure(limb, medicine, injury.reference)
+			applied = true
+
 			if temp != Result.CLEAR:
 				result = temp
+			else:
+				result = Result.CLEAR
+
 			if result == Result.UNABLE:
 				print("UNABLE")
 				return result
-	
-	print("ABLE")
-	attempted_cures[limb].append(medicine)
-	return result
+
+	# Only log as attempted if something was actually applied
+	if applied:
+		attempted_cures[limb].append(medicine)
+		print("ABLE")
+		return result
+	else:
+		print("Medicine has no effect on this injury")
+		return Result.UNABLE
 
 func lethal(injury : InjuryData) -> Result:
 	var rng := RandomNumberGenerator.new()

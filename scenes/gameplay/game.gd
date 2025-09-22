@@ -47,11 +47,16 @@ func write_to_display(text : String) -> void:
 	display.write(text)
 
 func attempt_heal(limb: int, id: int) -> void:
+	#print(Patient.Limbs.find_key(limb))
 	request_medicine.emit()
 	await recieved_medicine
 	if not medicine:
+		#print("none")
 		return
 	
+	#print(medicine)
+	
+	#print(Patient.Limbs.find_key(limb))
 	patients[id].cure(limb, medicine)
 	patients[id]._update_display(limb)
 	pass

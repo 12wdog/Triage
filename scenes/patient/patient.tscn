@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bk88x85mnk010"]
+[gd_scene load_steps=13 format=3 uid="uid://bk88x85mnk010"]
 
 [ext_resource type="Script" uid="uid://b2ak3w6x8lhd" path="res://scenes/patient/patient.gd" id="1_rbo5v"]
 [ext_resource type="Texture2D" uid="uid://brmcuboykbak" path="res://textures/patient/base/Patient_Test.png" id="2_a6gn1"]
@@ -18,8 +18,20 @@ size = Vector2(55.943394, 167.26416)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_io04n"]
 size = Vector2(96.22642, 113.20755)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a6gn1"]
+size = Vector2(56.73346, 196.78806)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_grsko"]
-size = Vector2(103.11321, 566.60376)
+size = Vector2(62.264153, 166.03775)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hb45g"]
+size = Vector2(94.33964, 124.528305)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v3p8c"]
+size = Vector2(107.54717, 560.3774)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oar3u"]
+size = Vector2(124.528305, 560.3774)
 
 [node name="Patient" type="Node2D"]
 script = ExtResource("1_rbo5v")
@@ -66,36 +78,36 @@ shape = SubResource("RectangleShape2D_io04n")
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PatientVisual/RARM"]
-position = Vector2(-75.42457, -48.638092)
-rotation = 0.2443461
+position = Vector2(-76.02816, -49.76306)
+rotation = 0.24434611
 scale = Vector2(0.53, 0.53)
-shape = SubResource("RectangleShape2D_doo2g")
+shape = SubResource("RectangleShape2D_a6gn1")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="PatientVisual/RARM"]
-position = Vector2(-59.825005, -135.325)
+position = Vector2(-62.5, -135)
 scale = Vector2(0.53, 0.53)
-shape = SubResource("RectangleShape2D_5rmhc")
+shape = SubResource("RectangleShape2D_grsko")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="PatientVisual/RARM"]
-position = Vector2(-102.500015, 29.000002)
+position = Vector2(-105, 34)
 scale = Vector2(0.53, 0.53)
-shape = SubResource("RectangleShape2D_io04n")
+shape = SubResource("RectangleShape2D_hb45g")
 
 [node name="LLEG" type="Area2D" parent="PatientVisual"]
 scale = Vector2(0.53, 0.53)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PatientVisual/LLEG"]
-position = Vector2(59.764156, 261.98114)
-shape = SubResource("RectangleShape2D_grsko")
+position = Vector2(63.20755, 261.32077)
+shape = SubResource("RectangleShape2D_v3p8c")
 
 [node name="RLEG" type="Area2D" parent="PatientVisual"]
 scale = Vector2(0.53, 0.53)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PatientVisual/RLEG"]
-position = Vector2(-54.716984, 262.2642)
-shape = SubResource("RectangleShape2D_grsko")
+position = Vector2(-60.37736, 261.32077)
+shape = SubResource("RectangleShape2D_oar3u")
 
 [node name="Sprite2D" type="Sprite2D" parent="PatientVisual"]
 scale = Vector2(0.53, 0.53)
