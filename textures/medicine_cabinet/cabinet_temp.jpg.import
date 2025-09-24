@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2r4uk83jq8i5"
-path="res://.godot/imported/bed_temp.png-40c7667771da9cdaf941454dc2223e7d.ctex"
+uid="uid://cj805un7hrtdx"
+path="res://.godot/imported/cabinet_temp.jpg-d1d6449bb680a6f2067e6b679c7eb918.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/landing/bed_temp.png"
-dest_files=["res://.godot/imported/bed_temp.png-40c7667771da9cdaf941454dc2223e7d.ctex"]
+source_file="res://textures/medicine_cabinet/cabinet_temp.jpg"
+dest_files=["res://.godot/imported/cabinet_temp.jpg-d1d6449bb680a6f2067e6b679c7eb918.ctex"]
 
 [params]
 

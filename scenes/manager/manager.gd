@@ -35,6 +35,7 @@ func game_setup(day : int) -> void:
 
 	game.initialize_patient()
 	game.initialize_landing()
+	game.initiate_cabinet()
 	game.initialize_random(days.data[day])
 	
 	in_game = true

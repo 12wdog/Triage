@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bursbv5r1lk28"]
-
-[ext_resource type="Script" uid="uid://keryws2mk3wy" path="res://scenes/medicine_cabinet/medicine_cabinet.gd" id="1_h5ktj"]
-
-[node name="MedicineCabinet" type="Node2D"]
-script = ExtResource("1_h5ktj")

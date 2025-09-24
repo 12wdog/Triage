@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://416r0xhfkqvu"]
+
+[ext_resource type="Script" uid="uid://cefwkoqdvh4rn" path="res://resources/ui/medicine_cabinet_button.gd" id="1_7sa5c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7sa5c"]
+bg_color = Color(0.25565878, 0.2556588, 0.2556587, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="MedicineCabinetButton" type="Panel"]
+custom_minimum_size = Vector2(110.51, 127.365)
+theme_override_styles/panel = SubResource("StyleBoxFlat_7sa5c")
+script = ExtResource("1_7sa5c")
+metadata/_custom_type_script = "uid://cefwkoqdvh4rn"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -60.0
+offset_right = 50.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 85)
+layout_mode = 2
+icon_alignment = 1
+expand_icon = true
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "## / ##"
+horizontal_alignment = 1

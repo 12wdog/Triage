@@ -5,11 +5,14 @@ signal request_medicine()
 signal recieved_medicine()
 signal use_medicine()
 
+signal request_item(item : MedicineData)
+signal recieved_item()
+
 @onready var rng := RandomNumberGenerator.new()
 @onready var display : PatientUI = preload("res://scenes/patient/patient_ui.tscn").instantiate()
 
 @onready var landing : Landing = preload("res://scenes/landing/landing.tscn").instantiate()
-@onready var cabinet : MedicineCabinet = preload("res://scenes/medicine_cabinet/medicine_cabinet.tscn").instantiate()
+@onready var cabinet : MedicineCabinetUI = preload("res://scenes/medicine_cabinet/medicine_cabinet_ui.tscn").instantiate()
 var patients : Array[Patient] = []
 var backlog : Array[PatientData] = []
 
@@ -20,6 +23,7 @@ func initialize_landing() -> void:
 	add_child(landing)
 
 func initiate_cabinet() -> void:
+	cabinet.button_pressed.connect(attempt_add_item)
 	add_child(cabinet)
 
 func initialize_patient() -> void:
@@ -110,6 +114,15 @@ func attempt_heal(limb: int, id: int) -> void:
 	if result == Patient.Result.CLEAR || Patient.Result.NOCLEAR:
 		use_medicine.emit()
 	pass
+
+func attempt_add_item(button : MedicineCabinetButton) -> void:
+	if button.amount <= 0:
+		return
+	
+	request_item.emit(button.item)
+	await recieved_item
+	
+	button.amount -= 1
 
 func patient_cured(id : int) -> void:
 	patients[id].patient_data = null

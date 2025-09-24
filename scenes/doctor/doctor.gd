@@ -75,7 +75,10 @@ func remove_selected_item() -> bool:
 	# Returns true if an item was removed, false otherwise.
 	if selected_item_id < 0 or selected_item == null:
 		return false
-
+		
+	if not selected_item.consumable:
+		return false
+	
 	# Find the "root" slot for the selected id: if someone somehow selected a
 	# hidden slot, walk left to find the visible slot that actually owns the item.
 	var root_idx := selected_item_id
