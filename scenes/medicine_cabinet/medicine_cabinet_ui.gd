@@ -5,7 +5,7 @@ signal button_pressed(button : MedicineCabinetButton)
 
 var medicines = [
 	Data.recall("bandage"),
-	Data.recall("serum"),
+	Data.recall("antiseptic"),
 	Data.recall("antibiotic"),
 	Data.recall("stitches"),
 	Data.recall("painkiller"),

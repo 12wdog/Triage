@@ -99,6 +99,7 @@ func write_to_display(text : String) -> void:
 
 func attempt_heal(limb: int, id: int) -> void:
 	#print(Patient.Limbs.find_key(limb))
+	medicine = null
 	request_medicine.emit()
 	await recieved_medicine
 	if not medicine:
@@ -113,16 +114,36 @@ func attempt_heal(limb: int, id: int) -> void:
 	patients[id]._update_display(limb)
 	if result == Patient.Result.CLEAR || Patient.Result.NOCLEAR:
 		use_medicine.emit()
-	pass
+	medicine = null
 
 func attempt_add_item(button : MedicineCabinetButton) -> void:
 	if button.amount <= 0:
 		return
 	
+	medicine = null
 	request_item.emit(button.item)
 	await recieved_item
 	
+	if not medicine:
+		return
+	
 	button.amount -= 1
+	medicine = null
+
+func attempt_store_item(item : MedicineData) -> bool:
+	
+	var i = 0
+	for med_item in cabinet.medicines:
+		if med_item.reference == item.reference:
+			break
+		i += 1
+	
+	var button = cabinet.container.get_child(i)
+	if button.amount + 1 > button.max_amount:
+		return false
+	
+	button.amount += 1
+	return true
 
 func patient_cured(id : int) -> void:
 	patients[id].patient_data = null

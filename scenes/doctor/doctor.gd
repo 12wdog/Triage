@@ -2,6 +2,7 @@ extends Control
 class_name Doctor
 
 signal return_to_landing()
+signal item_selected()
 
 const button_size : float = 100.0
 
@@ -51,7 +52,7 @@ func select_item(medicine : MedicineData, id : int) -> void:
 	selected_item = medicine
 	selected_item_id = id
 	
-	print(str(selected_item, " ", selected_item_id))
+	item_selected.emit()
 
 func _clear_inventory_ui() -> void:
 	# Reset every inventory button back to a neutral state.

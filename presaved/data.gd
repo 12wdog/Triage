@@ -17,7 +17,7 @@ const shock            : InjuryData = preload("res://presaved/injuries/shock.tre
 # --- Medicine ---
 const amputation       : MedicineData = preload("res://presaved/medicine/amputation.tres")
 const antibiotic       : MedicineData = preload("res://presaved/medicine/antibiotic.tres")
-const serum            : MedicineData = preload("res://presaved/medicine/antiseptic.tres")
+const antiseptic       : MedicineData = preload("res://presaved/medicine/antiseptic.tres")
 const bandage          : MedicineData = preload("res://presaved/medicine/bandage.tres")
 const painkiller       : MedicineData = preload("res://presaved/medicine/painkiller.tres")
 const stitches         : MedicineData = preload("res://presaved/medicine/stitches.tres")
@@ -40,7 +40,7 @@ const _REGISTRY := {
 
 	"amputation": amputation,
 	"antibiotic": antibiotic,
-	"serum": serum,
+	"antiseptic": antiseptic,
 	"bandage": bandage,
 	"painkiller": painkiller,
 	"stitches": stitches,

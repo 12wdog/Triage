@@ -29,9 +29,12 @@ func game_setup(day : int) -> void:
 	add_child(doctor_canvas)
 	doctor_canvas.add_child(doctor)
 	doctor.return_to_landing.connect(landing)
+	doctor.item_selected.connect(item_selected)
 	
 	game.request_medicine.connect(medicine_request)
 	game.use_medicine.connect(remove_medicine)
+	
+	game.request_item.connect(item_request)
 
 	game.initialize_patient()
 	game.initialize_landing()
@@ -53,17 +56,33 @@ func medicine_request() -> void:
 	game.medicine = doctor.selected_item
 	game.call_deferred("emit_signal", "recieved_medicine")
 
+func item_request(item : MedicineData) -> void:
+	var can_add = doctor.add_item(item)
+	if can_add:
+		game.medicine = item
+	
+	game.call_deferred("emit_signal", "recieved_item")
+
 func remove_medicine() -> void:
 	print("Removing medicine...")
 	doctor.remove_selected_item()
 
 func fill_beds() -> void:
-	#while true:
-	if !in_game: return
-	if game.backlog.is_empty(): return
+	while true:
+		if !in_game: return
+		if game.backlog.is_empty(): return
+		
+		game.populate_bed()
+		await get_tree().create_timer(30).timeout
+
+func item_selected() -> void:
+	if !game.cabinet.visible:
+		return
 	
-	game.populate_bed()
-	#await get_tree().create_timer(30).timeout
+	if game.attempt_store_item(doctor.selected_item):
+		doctor.remove_selected_item()
+	
+	pass
 
 func landing() -> void:
 	doctor.return_button.visible = false
