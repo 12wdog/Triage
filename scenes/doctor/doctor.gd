@@ -72,12 +72,12 @@ func _clear_inventory_ui() -> void:
 	selected_item_id = -1
 
 
-func remove_selected_item() -> bool:
+func remove_selected_item(override : bool = false) -> bool:
 	# Returns true if an item was removed, false otherwise.
 	if selected_item_id < 0 or selected_item == null:
 		return false
 		
-	if not selected_item.consumable:
+	if !override and not selected_item.consumable:
 		return false
 	
 	# Find the "root" slot for the selected id: if someone somehow selected a

@@ -92,7 +92,7 @@ var medicine_array = [
 	""
 	),
 	MedicineData.new("surgery", "Surgical Tools", {
-		"broken_bone": [
+		"broken_limb": [
 			[0.4],
 			[0.7, "splint"]
 		],
@@ -142,6 +142,15 @@ var medicine_array = [
 	MedicineData.new("amputation", "Bone Saw", {
 		"*": [
 			[1.0, [0.8, "shock"], [0.6, "death"]]
+		]
+	},
+	2,
+	false,
+	""
+	),
+	MedicineData.new("splint", "Splint", {
+		"broken_limb": [
+			[0.4]
 		]
 	},
 	2,

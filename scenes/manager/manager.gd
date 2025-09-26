@@ -39,7 +39,7 @@ func game_setup(day : int) -> void:
 	game.initialize_patient()
 	game.initialize_landing()
 	game.initiate_cabinet()
-	game.initialize_random(days.data[day])
+	game.initialize_random([50, 1, 7])
 	
 	in_game = true
 	fill_beds()
@@ -68,19 +68,23 @@ func remove_medicine() -> void:
 	doctor.remove_selected_item()
 
 func fill_beds() -> void:
+	print("Making beds")
+	print(game.backlog.size())
 	while true:
-		if !in_game: return
-		if game.backlog.is_empty(): return
+		if !in_game: break
+		if game.backlog.is_empty(): break
 		
 		game.populate_bed()
 		await get_tree().create_timer(30).timeout
+		print("Timer done")
+	print("Loop done")
 
 func item_selected() -> void:
 	if !game.cabinet.visible:
 		return
 	
 	if game.attempt_store_item(doctor.selected_item):
-		doctor.remove_selected_item()
+		doctor.remove_selected_item(true)
 	
 	pass
 

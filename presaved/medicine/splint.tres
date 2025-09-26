@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MedicineData" load_steps=2 format=3 uid="uid://ytpoe5baq068"]
+
+[ext_resource type="Script" uid="uid://cgdv22283l1tl" path="res://resources/data/medicine_data.gd" id="1_tv8gy"]
+
+[resource]
+script = ExtResource("1_tv8gy")
+reference = "splint"
+medicine_name = "Splint"
+treatments = {
+"broken_bone": [[0.4]]
+}
+size = 2
+consumable = false

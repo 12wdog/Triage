@@ -34,6 +34,7 @@ func initialize_patient() -> void:
 		patient.visible = false
 		patient.display.connect(write_to_display)
 		patient.limb_click.connect(attempt_heal)
+		patient.cured.connect(patient_cured)
 		add_child(patient)
 	add_child(display)
 

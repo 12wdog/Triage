@@ -105,11 +105,14 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 			if result == Result.UNABLE:
 				print("UNABLE")
 				return result
-
+	
+	
+	
 	# Only log as attempted if something was actually applied
 	if applied:
 		attempted_cures[limb].append(medicine)
 		print("ABLE")
+		is_cured()
 		return result
 	else:
 		print("Medicine has no effect on this injury")
@@ -272,12 +275,11 @@ func _update_display(limb : int) -> void:
 	display.emit(text)
 
 func is_cured() -> void:
-	# Check every limb’s injury list
+	print("Checking if cured")
 	for limb_injuries in injuries:
 		if not limb_injuries.is_empty():
 			return   # still injured, stop
-
-	# If we got here, no injuries remain → emit signal
+	print("is cured")
 	cured.emit(id)
 
 func _physics_process(_delta):
