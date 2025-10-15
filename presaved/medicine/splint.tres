@@ -7,7 +7,7 @@ script = ExtResource("1_tv8gy")
 reference = "splint"
 medicine_name = "Splint"
 treatments = {
-"broken_bone": [[0.4]]
+"broken_limb": [[0.4]]
 }
 size = 2
 consumable = false

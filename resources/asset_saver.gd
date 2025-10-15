@@ -61,7 +61,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	"res://textures/medicine/serum.png"
+	"res://textures/medicine/Serum.png"
 	),
 	MedicineData.new("stitches", "Stitches", {
 		"heavy_bleed": [

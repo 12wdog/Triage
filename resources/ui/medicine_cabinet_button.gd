@@ -18,7 +18,7 @@ func update_icon() -> void:
 	button.icon = null
 	button.text = ""
 	if item:
-		if FileAccess.file_exists(item.asset_path):
+		if ResourceLoader.exists(item.asset_path):
 			button.icon = load(item.asset_path)
 		else:
 			button.text = item.medicine_name

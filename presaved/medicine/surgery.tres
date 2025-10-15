@@ -7,7 +7,7 @@ script = ExtResource("1_vyu0y")
 reference = "surgery"
 medicine_name = "Surgical Tools"
 treatments = {
-"broken_bone": [[0.4], [0.7, "splint"]],
+"broken_limb": [[0.4], [0.7, "splint"]],
 "necrosis": [[0.4, [0.6, "shock"]], [0.8, "antibiotic"]],
 "shock": [[0.3, [0.6, "death"]]]
 }

@@ -16,6 +16,7 @@ size = Vector2(115, 326)
 size = Vector2(118, 324)
 
 [node name="Landing" type="Node2D"]
+scale = Vector2(1.72, 1.72)
 script = ExtResource("1_adj6j")
 
 [node name="Land2" type="Sprite2D" parent="."]

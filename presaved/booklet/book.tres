@@ -1,7 +1,0 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bc1m5q15ugthy"]
-
-[sub_resource type="GDScript" id="GDScript_l3o8e"]
-
-[resource]
-script = SubResource("GDScript_l3o8e")
-pages = PackedStringArray("• [b]HE[i] - High Effiquacy[/i][/b]\n• [b]LE[i] - Low Effiquacy[/i][/b]\n• [b]ME[i] - Medium Effiquacy[/i][/b]\n\n[b][i]Bandage[/i][/b]\n• [b]HE[/b] for [i]Light Bleeding[/i]\n• [b]HE[/b] when used with [u]Serum[/u] for [i]Surface Infection[/i]\n• [b]HE[/b] when used with [u]Surgery[/u] for [i]Severe Bleeding[/i]\n• [b]ME[/b] for [i]Surface Bullet Wound[/i]\n• [b]HE[/b] when used with [u]Surgery[/u] for [i]Surface Bullet Wound[/i]\n", "This is another page")

@@ -15,6 +15,9 @@ const button_size : float = 100.0
 ]
 @onready var return_button : Button = $ReturnButton
 
+@onready var clipboard_button : Button = $ClipboardButton
+@onready var booklet : Booklet = $Booklet
+
 var inventory_used : int = 0
 var selected_item : MedicineData = null
 var selected_item_id : int = -1
@@ -30,13 +33,15 @@ func _ready():
 	
 	return_button.pressed.connect(func() : return_to_landing.emit())
 	
+	booklet.close_menu.connect(display_hide_booklet)
+	clipboard_button.pressed.connect(display_hide_booklet)
 
 func add_item(item: MedicineData) -> bool:
 	if inventory_used + item.size > 5: return false
 	
 	inventory[inventory_used].item = item
-	if FileAccess.file_exists(item.asset_path):
-		inventory[inventory_used].icon = load(item.asset_path)
+	if ResourceLoader.exists(item.asset_path):
+		inventory[inventory_used].icon = ResourceLoader.load(item.asset_path)
 	else: 
 		inventory[inventory_used].text = item.medicine_name
 	
@@ -118,3 +123,7 @@ func remove_selected_item(override : bool = false) -> bool:
 			return false
 
 	return true
+
+func display_hide_booklet() -> void:
+	booklet.visible = !booklet.visible
+	clipboard_button.visible = !clipboard_button.visible
