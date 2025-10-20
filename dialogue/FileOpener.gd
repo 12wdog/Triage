@@ -4,7 +4,7 @@ class_name FileOpener
 
 static func getFile(filepath : String) -> PackedStringArray:
 	
-	var f = FileAccess.open(filepath, FileAccess.READ)
+	var f = ResourceLoader.load(filepath)
 	
 	var regex = RegEx.new()
 	regex.compile("\\S+\\N+")

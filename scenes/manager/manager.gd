@@ -33,7 +33,8 @@ func game_setup(day : int) -> void:
 	
 	game.request_medicine.connect(medicine_request)
 	game.use_medicine.connect(remove_medicine)
-	game.display.connect(func(x): doctor.patient_display.write(x))
+	game.display.connect(doctor.patient_display.write)
+	game.has_dialogue.connect(show_dialogue)
 	
 	game.request_item.connect(item_request)
 
@@ -95,4 +96,9 @@ func landing() -> void:
 
 func _physics_process(_delta):
 	doctor.return_button.visible = !game.landing.visible
+	doctor.kick_out_button.visible = doctor.return_button.visible
 	doctor.patient_display.visible = !(game.landing.visible || game.cabinet.visible)
+
+func show_dialogue(text : String) -> void:
+	
+	pass

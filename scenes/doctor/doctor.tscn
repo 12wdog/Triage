@@ -107,3 +107,14 @@ text = "Back to Entrance"
 [node name="Dialogue" parent="." instance=ExtResource("6_4xleg")]
 visible = false
 layout_mode = 1
+
+[node name="KickOutButton" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -174.0
+offset_bottom = 92.0
+grow_horizontal = 0
+text = "Kick Out Patient"

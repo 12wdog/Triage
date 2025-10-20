@@ -5,6 +5,7 @@ signal request_medicine()
 signal recieved_medicine()
 signal use_medicine()
 signal display(text : String)
+signal has_dialogue(text : String)
 
 signal request_item(item : MedicineData)
 signal recieved_item()
@@ -65,6 +66,9 @@ func go_to_bed(bed : int) -> void:
 	landing.visible = false
 	cabinet.visible = false
 	patients[bed].visible = true
+	
+	if patients[bed].is_dialogue:
+		has_dialogue.emit(patients[bed].dialogue)
 	
 func go_to(location_name : String) -> void:
 	match location_name.to_upper():

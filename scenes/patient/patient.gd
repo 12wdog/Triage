@@ -6,6 +6,8 @@ signal limb_click(limb : int, id : int)
 signal cured(id : int)
 
 var id : int
+var is_dialogue : bool = false
+var dialogue : String = ""
 
 @export var patient_data : PatientData
 
@@ -43,6 +45,9 @@ func _init(data : PatientData = null) -> void:
 	if data:
 		patient_data = data
 		populate()
+		if data is DialoguePatientData:
+			is_dialogue = true
+			dialogue = data.dialogue
 
 func _ready():
 	setup()
