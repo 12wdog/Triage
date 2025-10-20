@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 class_name Manager
 
 var game : TriageGame

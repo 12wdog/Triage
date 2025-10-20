@@ -8,6 +8,8 @@ var var_color := "06402b"
 
 var dialogue : PackedStringArray
 
+var manager : Manager
+
 var functions: Dictionary
 var variables: Dictionary
 var characters: Dictionary
@@ -22,9 +24,17 @@ var blacked_out := false
 @onready var speaker : Label = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/MarginContainer/NamePanel/Name
 @onready var speaker_panel : PanelContainer = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/MarginContainer/NamePanel
 @onready var words : RichTextLabel = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/Dialogue
-@onready var container : Container = $HeadContainer
+@onready var words_panel : PanelContainer = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2
 
 func read_file(path : String) -> void:
+	
+	functions.clear()
+	variables.clear()
+	backgrounds.clear()
+	sounds.clear()
+	musics.clear()
+	jumppoints.clear()
+	
 	dialogue = FileOpener.getFile(path)
 	
 	_get_functions()
@@ -41,9 +51,9 @@ func read_next_line() -> void:
 		cont.emit();
 
 func start() -> void:
-	container.visible = true
+	self.visible = true
 	await _read(functions.get("#MAIN") + 1)
-	container.visible = false
+	self.visible = false
 
 func _read(line : int) -> int:
 	while(true):
@@ -94,9 +104,19 @@ func _run_command(pos: int) -> void:
 					await _read(functions.get(command[3]) + 1)
 		"WAIT":
 			await get_tree().create_timer(float(command[1])).timeout
+		"HIDE":
+			words_panel.visible = false
+		"SHOW":
+			words_panel.visible = true
+		"CALL":
+			_run_intern_function(command[1], command.slice(2))
+		_:
+			_write(line)
+			await cont
 
-func _run_intern_function(line: int) -> int:
-	return line;
+func _run_intern_function(function : String, args : Array[String]) -> void:
+	var function_call = Callable.create(manager, function)
+	function_call.call(args)
 
 func _write(line: String) -> void:
 	if line.contains('('):

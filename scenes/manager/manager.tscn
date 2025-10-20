@@ -2,5 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cnc5iypnib6hu" path="res://scenes/manager/manager.gd" id="1_qrdhj"]
 
-[node name="Manager" type="Node2D"]
+[node name="Manager" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_qrdhj")
