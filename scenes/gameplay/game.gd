@@ -4,12 +4,12 @@ class_name TriageGame
 signal request_medicine()
 signal recieved_medicine()
 signal use_medicine()
+signal display(text : String)
 
 signal request_item(item : MedicineData)
 signal recieved_item()
 
 @onready var rng := RandomNumberGenerator.new()
-@onready var display : PatientUI = preload("res://scenes/patient/patient_ui.tscn").instantiate()
 
 @onready var landing : Landing = preload("res://scenes/landing/landing.tscn").instantiate()
 @onready var cabinet : MedicineCabinetUI = preload("res://scenes/medicine_cabinet/medicine_cabinet_ui.tscn").instantiate()
@@ -32,11 +32,10 @@ func initialize_patient() -> void:
 		patients.append(patient)
 		patient.id = i
 		patient.visible = false
-		patient.display.connect(write_to_display)
+		patient.display.connect(display.emit)
 		patient.limb_click.connect(attempt_heal)
 		patient.cured.connect(patient_cured)
 		add_child(patient)
-	add_child(display)
 
 func initialize_random(state : Array) -> void:
 	backlog = []
@@ -62,8 +61,7 @@ func go_to_bed(bed : int) -> void:
 	for patient in patients:
 		patient.visible = false
 	
-	write_to_display("")
-	display.visible = true
+	display.emit("")
 	landing.visible = false
 	cabinet.visible = false
 	patients[bed].visible = true
@@ -83,7 +81,6 @@ func go_to_landing() -> void:
 	for patient in patients:
 		patient.visible = false
 	
-	display.visible = false
 	cabinet.visible = false
 	landing.visible = true
 
@@ -91,12 +88,8 @@ func go_to_cabinet() -> void:
 	for patient in patients:
 		patient.visible = false
 	
-	display.visible = false
 	cabinet.visible = true
 	landing.visible = false
-
-func write_to_display(text : String) -> void:
-	display.write(text)
 
 func attempt_heal(limb: int, id: int) -> void:
 	#print(Patient.Limbs.find_key(limb))

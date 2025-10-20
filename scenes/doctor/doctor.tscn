@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://nfudh04fqg0d"]
+[gd_scene load_steps=7 format=3 uid="uid://nfudh04fqg0d"]
 
 [ext_resource type="Script" uid="uid://p8qjhndkjhti" path="res://scenes/doctor/doctor.gd" id="1_ll7ka"]
 [ext_resource type="Texture2D" uid="uid://nle47064vxw8" path="res://textures/temp/clipboard-isolated-on-transparent-background-free-png.webp" id="3_44hvh"]
 [ext_resource type="Script" uid="uid://dxaqadg0f4qv6" path="res://resources/ui/inventory_button.gd" id="3_ow3c1"]
 [ext_resource type="PackedScene" uid="uid://dm5epu2jyx6vk" path="res://scenes/booklet/booklet.tscn" id="4_44hvh"]
+[ext_resource type="PackedScene" uid="uid://c1x1k5io21d8x" path="res://scenes/patient/patient_ui.tscn" id="4_m8bar"]
+[ext_resource type="PackedScene" uid="uid://b138877gqmwf8" path="res://dialogue/dialogue.tscn" id="6_4xleg"]
 
 [node name="Doctor" type="Control"]
 layout_mode = 3
@@ -88,6 +90,9 @@ icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 
+[node name="PatientUI" parent="." instance=ExtResource("4_m8bar")]
+layout_mode = 1
+
 [node name="Booklet" parent="." instance=ExtResource("4_44hvh")]
 visible = false
 layout_mode = 1
@@ -98,3 +103,7 @@ layout_mode = 0
 offset_right = 173.0
 offset_bottom = 91.0
 text = "Back to Entrance"
+
+[node name="Dialogue" parent="." instance=ExtResource("6_4xleg")]
+visible = false
+layout_mode = 1
