@@ -1,7 +1,7 @@
-extends CanvasLayer
+extends Control
 class_name PatientUI
 
-@onready var label : RichTextLabel = $Control/Panel/RichTextLabel
+@onready var label : RichTextLabel = $Panel/RichTextLabel
 
 func write(text : String):
 	label.text = text

@@ -16,8 +16,10 @@ const button_size : float = 100.0
 @onready var return_button : Button = $ReturnButton
 
 @onready var clipboard_button : Button = $ClipboardButton
-@onready var booklet : Booklet = $Booklet
+@onready var kick_out_button : Button = $KickOutButton
 
+@onready var booklet : Booklet = $Booklet
+@onready var patient_display : PatientUI = $PatientUI
 var inventory_used : int = 0
 var selected_item : MedicineData = null
 var selected_item_id : int = -1

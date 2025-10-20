@@ -1,0 +1,6 @@
+[#INJURY]
+	{LARM} (burn_one | )
+[END]
+[#MAIN]
+	
+[END]
