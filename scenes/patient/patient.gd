@@ -45,9 +45,6 @@ func _init(data : PatientData = null) -> void:
 	if data:
 		patient_data = data
 		populate()
-		if data is DialoguePatientData:
-			is_dialogue = true
-			dialogue = data.dialogue
 
 func _ready():
 	setup()
@@ -74,6 +71,11 @@ func populate() -> void:
 	for limb in patient_data.injuries.keys():
 		for injury in patient_data.injuries[limb]:
 			injuries[Limbs.get(limb)].append(injury)
+	
+	if patient_data is DialoguePatientData:
+			is_dialogue = true
+			dialogue = patient_data.dialogue_path
+
 
 func cure(limb : int, medicine : MedicineData) -> Result:
 	if dead:

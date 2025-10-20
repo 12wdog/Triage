@@ -116,7 +116,7 @@ func _run_command(pos: int) -> void:
 
 func _run_intern_function(function : String, args : Array[String]) -> void:
 	var function_call = Callable.create(manager, function)
-	function_call.call(args)
+	await function_call.call(args)
 
 func _write(line: String) -> void:
 	if line.contains('('):

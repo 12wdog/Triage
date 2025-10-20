@@ -30,6 +30,7 @@ func game_setup(day : int) -> void:
 	doctor_canvas.add_child(doctor)
 	doctor.return_to_landing.connect(landing)
 	doctor.item_selected.connect(item_selected)
+	doctor.dialogue.manager = self
 	
 	game.request_medicine.connect(medicine_request)
 	game.use_medicine.connect(remove_medicine)
@@ -41,7 +42,8 @@ func game_setup(day : int) -> void:
 	game.initialize_patient()
 	game.initialize_landing()
 	game.initiate_cabinet()
-	game.initialize_random([50, 1, 7])
+	
+	game.backlog.append(DialoguePatientData.new("ref1", {}, "patient", "res://dialogue/dialogue_text/test_dialogue.txt"))
 	
 	in_game = true
 	fill_beds()
@@ -95,10 +97,16 @@ func landing() -> void:
 	game.go_to_landing()
 
 func _physics_process(_delta):
-	doctor.return_button.visible = !game.landing.visible
+	doctor.return_button.visible = !game.landing.visible && !doctor.dialogue.visible
 	doctor.kick_out_button.visible = doctor.return_button.visible
 	doctor.patient_display.visible = !(game.landing.visible || game.cabinet.visible)
 
 func show_dialogue(text : String) -> void:
+	print(text)
+	if doctor.dialogue.dialogue.size() != 0:
+		return
 	
+	doctor.dialogue.read_file(text)
+	doctor.dialogue.visible = true
+	doctor.dialogue.start()
 	pass

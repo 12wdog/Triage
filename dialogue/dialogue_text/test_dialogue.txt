@@ -1,6 +1,5 @@
-[#INJURY]
-	{LARM} (burn_one | )
-[END]
+
 [#MAIN]
-	
+	This is an example of a dialogue!
+	Tadaaaa!!
 [END]

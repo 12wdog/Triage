@@ -20,6 +20,9 @@ const button_size : float = 100.0
 
 @onready var booklet : Booklet = $Booklet
 @onready var patient_display : PatientUI = $PatientUI
+
+@onready var dialogue : Dialogue = $Dialogue
+
 var inventory_used : int = 0
 var selected_item : MedicineData = null
 var selected_item_id : int = -1
