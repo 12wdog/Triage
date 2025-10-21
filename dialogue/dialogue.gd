@@ -4,6 +4,7 @@ class_name Dialogue
 signal cont()
 signal blackout_done()
 signal completed()
+signal button_press(funct : String)
 
 var var_color := "06402b"
 
@@ -24,6 +25,8 @@ var blacked_out := false
 @onready var speaker_panel : PanelContainer = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/MarginContainer/NamePanel
 @onready var words : RichTextLabel = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2/Dialogue
 @onready var words_panel : PanelContainer = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/PanelContainer2
+@onready var continue_button : Button = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer/ContinueButton
+@onready var buttons: HBoxContainer = $HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer
 
 func read_file(path : String) -> void:
 	
@@ -63,6 +66,8 @@ func _read(line : int) -> int:
 		elif current_line[0] == '{':
 			line = await _run_command(line)
 			line += 1
+		elif current_line[0] == '[':
+			line = await _run_nested_command(line)
 		else:
 			_write(current_line)
 			line += 1
@@ -123,6 +128,16 @@ func _run_intern_function(function : String, args : Array[String]) -> void:
 	var function_call = Callable.create(manager, function)
 	await function_call.call(args)
 
+func _run_nested_command(pos : int) -> int:
+	var function : String = dialogue[pos]
+	
+	match function:
+		"[BUTTON]":
+			var output = await _make_buttons(pos + 1)
+			return output
+		
+	return pos + 1
+
 func _write(line: String) -> void:
 	if line.contains('('):
 		var charPosition = line.find('(')
@@ -141,6 +156,42 @@ func _write(line: String) -> void:
 				break
 	
 	words.text = '[center]' + line
+
+func _make_buttons(pos : int) -> int:
+	
+	var message := _split_command(dialogue[pos])
+	_write(message[1])
+	can_continue = false
+	continue_button.visible = false
+	pos += 1
+	#var buttonStyle : Theme = load("res://Style/SelectionButtons.tres")
+	
+	while dialogue[pos] != "[END]":
+		var button_command := _split_command(dialogue[pos])
+		var new_button = SummonButton.new(button_command[2])
+		#newButton.theme = buttonStyle
+		new_button.text = button_command[1]
+		new_button.name = button_command[2]
+		new_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		new_button.connect("function", _button_function)
+		buttons.add_child(new_button)
+		pos += 1
+	
+	var result : String = await button_press
+	
+	
+	await _read(functions.get(result) + 1)
+	return pos + 1
+
+func _button_function(funct : String) -> void:
+	for button in buttons.get_children():
+		if button != buttons.get_child(0):
+			button.queue_free()
+	
+	continue_button.visible = true
+	can_continue = true
+	
+	button_press.emit(funct)
 
 func _set_name(new_name : String) -> void:
 	speaker.text = new_name.capitalize()

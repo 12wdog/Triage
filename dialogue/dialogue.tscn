@@ -70,10 +70,10 @@ custom_minimum_size = Vector2(0, 67.2)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Button" type="Button" parent="HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="ContinueButton" type="Button" parent="HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_mwwob")
 text = "CONTINUE"
 
-[connection signal="pressed" from="HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer/Button" to="." method="read_next_line"]
+[connection signal="pressed" from="HeadContainer/PanelContainer/MarginContainer2/VBoxContainer/HBoxContainer/ContinueButton" to="." method="read_next_line"]

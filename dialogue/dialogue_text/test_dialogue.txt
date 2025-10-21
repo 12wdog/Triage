@@ -2,6 +2,19 @@
 [#MAIN]
 	This is an example of a dialogue!
 	Tadaaaa!!
-	{CALL} (dialogue_cure_patient | ref1)
+	[BUTTON]
+		{MESSAGE} (Here is an example of the buttons!)
+		{BUTTON} (That's so cool!! | COOL)
+		{BUTTON} (It's neat I suppose... | NOTCOOL)
+	[END]
 	{END}
+[END]
+
+[COOL]
+	I'm glad you think so!
+[END]
+
+[NOTCOOL]
+	Oh... yeah that's fine...
+	Not like I worked hard on this or anything...
 [END]
