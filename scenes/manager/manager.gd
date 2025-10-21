@@ -17,6 +17,12 @@ func _ready() -> void:
 	
 	landing()
 	
+	var test = game.cabinet.get_medicine_amount()
+	print(test)
+	SaveGame.save(test)
+	
+	print(SaveGame.load())
+	
 func cleanup() -> void:
 	var children = get_children()
 	for child in children:
