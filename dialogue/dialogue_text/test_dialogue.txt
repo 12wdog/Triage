@@ -2,4 +2,6 @@
 [#MAIN]
 	This is an example of a dialogue!
 	Tadaaaa!!
+	{CALL} (dialogue_cure_patient | ref1)
+	{END}
 [END]

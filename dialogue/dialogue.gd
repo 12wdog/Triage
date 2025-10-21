@@ -3,6 +3,7 @@ class_name Dialogue
 
 signal cont()
 signal blackout_done()
+signal completed()
 
 var var_color := "06402b"
 
@@ -13,9 +14,7 @@ var manager : Manager
 var functions: Dictionary
 var variables: Dictionary
 var characters: Dictionary
-var backgrounds: Dictionary
 var sounds: Dictionary
-var musics: Dictionary
 var jumppoints: Dictionary
 
 var can_continue := true
@@ -30,9 +29,7 @@ func read_file(path : String) -> void:
 	
 	functions.clear()
 	variables.clear()
-	backgrounds.clear()
 	sounds.clear()
-	musics.clear()
 	jumppoints.clear()
 	
 	dialogue = FileOpener.getFile(path)
@@ -64,7 +61,7 @@ func _read(line : int) -> int:
 			_set_name(current_line.trim_prefix("#"))
 			line += 1
 		elif current_line[0] == '{':
-			await _run_command(line)
+			line = await _run_command(line)
 			line += 1
 		else:
 			_write(current_line)
@@ -73,7 +70,7 @@ func _read(line : int) -> int:
 	
 	return 0;
 
-func _run_command(pos: int) -> void:
+func _run_command(pos: int) -> int:
 	var line := dialogue[pos]
 	var command := _split_command(line)
 
@@ -104,15 +101,23 @@ func _run_command(pos: int) -> void:
 					await _read(functions.get(command[3]) + 1)
 		"WAIT":
 			await get_tree().create_timer(float(command[1])).timeout
+		"JUMPPOINT":
+			jumppoints[command[1]] = pos
+		"JUMP":
+			pos = jumppoints[command[1]]
 		"HIDE":
 			words_panel.visible = false
 		"SHOW":
 			words_panel.visible = true
 		"CALL":
-			_run_intern_function(command[1], command.slice(2))
+			await _run_intern_function(command[1], command.slice(2))
+		"END":
+			completed.emit()
 		_:
 			_write(line)
 			await cont
+	
+	return pos
 
 func _run_intern_function(function : String, args : Array[String]) -> void:
 	var function_call = Callable.create(manager, function)

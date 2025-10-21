@@ -110,3 +110,13 @@ func show_dialogue(text : String) -> void:
 	doctor.dialogue.visible = true
 	doctor.dialogue.start()
 	pass
+
+
+func dialogue_cure_patient(args : Array) -> void:
+	var index := 0
+	for patient in game.patients:
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			patient.cured.emit(index)
+			return
+		index += 1
+	
