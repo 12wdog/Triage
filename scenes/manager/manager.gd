@@ -7,8 +7,10 @@ var doctor_canvas : CanvasLayer
 var days : DayData = preload("res://presaved/day/days.tres")
 var in_game := false
 
+var current_day : int = 0
+
 func _ready() -> void:
-	game_setup(0)
+	game_setup(current_day)
 		
 	for patient in game.backlog:
 		print(patient)
@@ -38,12 +40,16 @@ func game_setup(day : int) -> void:
 	game.has_dialogue.connect(show_dialogue)
 	
 	game.request_item.connect(item_request)
+	
+	game.day_finished.connect(day_over)
 
 	game.initialize_patient()
 	game.initialize_landing()
 	game.initiate_cabinet()
 	
-	game.backlog.append(DialoguePatientData.new("ref1", {}, "patient", "res://dialogue/dialogue_text/test_dialogue.txt"))
+	#game.backlog.append(DialoguePatientData.new("ref1", {}, "patient", "res://dialogue/dialogue_text/test_dialogue.txt"))
+	
+	game.initialize_random([1, 1, 1])
 	
 	in_game = true
 	fill_beds()
@@ -95,6 +101,12 @@ func item_selected() -> void:
 func landing() -> void:
 	doctor.return_button.visible = false
 	game.go_to_landing()
+
+func day_over() -> void:
+	in_game = false
+	remove_child(game)
+	remove_child(doctor_canvas)
+	pass
 
 func _physics_process(_delta):
 	doctor.return_button.visible = !game.landing.visible && !doctor.dialogue.visible

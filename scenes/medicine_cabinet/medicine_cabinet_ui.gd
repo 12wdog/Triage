@@ -29,3 +29,15 @@ func _ready():
 		button.name = medicine.reference
 		button.pressed.connect(func(b) : button_pressed.emit(b))
 		container.add_child(button)
+
+
+func get_medicine_amount() -> Array[int]:
+	
+	var output : Array[int] = []
+	
+	for medicine in container.get_children():
+		if medicine is MedicineCabinetButton:
+			output.append(medicine.amount)
+	
+	return output
+	

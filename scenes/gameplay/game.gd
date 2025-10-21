@@ -10,6 +10,8 @@ signal has_dialogue(text : String)
 signal request_item(item : MedicineData)
 signal recieved_item()
 
+signal day_finished()
+
 @onready var rng := RandomNumberGenerator.new()
 
 @onready var landing : Landing = preload("res://scenes/landing/landing.tscn").instantiate()
@@ -145,3 +147,11 @@ func attempt_store_item(item : MedicineData) -> bool:
 
 func patient_cured(id : int) -> void:
 	patients[id].patient_data = null
+	if backlog.size() == 0:
+		for patient in patients:
+			if patient.patient_data:
+				return
+		
+		day_finished.emit()
+	
+	
