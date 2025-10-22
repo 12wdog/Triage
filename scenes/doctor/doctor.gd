@@ -6,7 +6,7 @@ signal item_selected()
 
 const button_size : float = 100.0
 
-@onready var inventory : Array[Button] = [
+@onready var inventory : Array[InventoryButton] = [
 	$PanelContainer/MarginContainer/HBoxContainer/Inv1,
 	$PanelContainer/MarginContainer/HBoxContainer/Inv2,
 	$PanelContainer/MarginContainer/HBoxContainer/Inv3,
@@ -99,11 +99,7 @@ func remove_selected_item(override : bool = false) -> bool:
 		return false
 
 	# Build a compact ordered list of the items currently in the inventory
-	var items_in_order : Array = []
-	for i in range(inventory.size()):
-		var btn = inventory[i]
-		if btn.item != null:
-			items_in_order.append(btn.item)
+	var items_in_order : Array = get_items_in_order()
 
 	# Compute which position in items_in_order corresponds to root_idx
 	var pos := 0
@@ -128,6 +124,16 @@ func remove_selected_item(override : bool = false) -> bool:
 			return false
 
 	return true
+
+func get_items_in_order() -> Array:
+	var items_in_order : Array = []
+	for i in range(inventory.size()):
+		var btn = inventory[i]
+		if btn.item != null:
+			items_in_order.append(btn.item)
+	
+	return items_in_order
+
 
 func display_hide_booklet() -> void:
 	booklet.visible = !booklet.visible

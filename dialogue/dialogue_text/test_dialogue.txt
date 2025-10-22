@@ -7,6 +7,7 @@
 		{BUTTON} (That's so cool!! | COOL)
 		{BUTTON} (It's neat I suppose... | NOTCOOL)
 	[END]
+	{CALL} (dialogue_cure_patient | ref1)
 	{END}
 [END]
 

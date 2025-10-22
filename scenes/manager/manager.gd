@@ -56,6 +56,7 @@ func game_setup(day : int) -> void:
 	#game.backlog.append(DialoguePatientData.new("ref1", {}, "patient", "res://dialogue/dialogue_text/test_dialogue.txt"))
 	
 	game.initialize_random([1, 1, 1])
+	game.backlog.append(DialoguePatientData.new("ref1", {}, "patient", "res://dialogue/dialogue_text/test_dialogue.txt"))
 	
 	in_game = true
 	fill_beds()
