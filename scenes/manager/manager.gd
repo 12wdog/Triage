@@ -1,7 +1,7 @@
 extends Control
 class_name Manager
 
-var main_menu : MainMenu = preload("res://scenes/menus/main_menu.tscn").instantiate()
+var main_menu : MainMenu
 
 var game : TriageGame
 var doctor : Doctor 
@@ -20,9 +20,16 @@ func cleanup() -> void:
 		child.queue_free()
 
 func menu_setup() -> void:
-	pass
+	cleanup()
+	main_menu = load("res://scenes/menus/main_menu.tscn").instantiate()
+	add_child(main_menu)
+	
+	main_menu.exit.connect(func() : get_tree().quit())
+	main_menu.new_game.connect(func() : game_setup(0))
+
 
 func game_setup(day : int) -> void:
+	cleanup()
 	game = TriageGame.new()
 	doctor = load("res://scenes/doctor/doctor.tscn").instantiate()
 	doctor_canvas = CanvasLayer.new()
@@ -105,8 +112,7 @@ func landing() -> void:
 
 func day_over() -> void:
 	in_game = false
-	remove_child(game)
-	remove_child(doctor_canvas)
+	cleanup()
 	current_day += 1
 	pass
 
@@ -118,9 +124,10 @@ func save_game() -> void:
 	SaveGame.save(cabinet, doc_med, doc_dialogue_vars)
 
 func _physics_process(_delta):
-	doctor.return_button.visible = !game.landing.visible && !doctor.dialogue.visible
-	doctor.kick_out_button.visible = doctor.return_button.visible
-	doctor.patient_display.visible = !(game.landing.visible || game.cabinet.visible)
+	if in_game:
+		doctor.return_button.visible = !game.landing.visible && !doctor.dialogue.visible
+		doctor.kick_out_button.visible = doctor.return_button.visible
+		doctor.patient_display.visible = !(game.landing.visible || game.cabinet.visible)
 
 func show_dialogue(text : String) -> void:
 	print(text)
