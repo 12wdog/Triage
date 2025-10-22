@@ -1,0 +1,43 @@
+
+
+[#MAIN]
+	{NONE}
+	In front of you, a wounded soldier lays.
+	His body is racked with the pains of war, as he grunts and coughs harshly.
+	It's my duty, as the only medic for this sector, to try and treat these poor souls.
+	#Me
+	Alrighty, sir. I am going to look you over okay? I need to check for any major injuries.
+	{NONE}
+	The soldier just grunts, pain being the only thing his brain can think of.
+	I'll need to look over each area of his body to try and find what's wrong.
+	{CALL} (dialogue_wait_find_injury | tut | LARM)
+	There, lodged deep into the muscle, a bullet.
+	It doesn't look fatal, but I can't just leave him in pain like this.
+	If I check my clipboard, I should be able to see what I need to do to take care of this.
+	{CALL} (dialogue_wait_open_clipboard)
+	Let's see here...
+	I think the best course of action is to take out the bullet with tongs, then bandage him up.
+	I should be able to find what I need in the medicine cabinet back in the main area.
+	I should also be able to write down stuff here on the right in case I need to refer back to it.
+	{CALL} (dialogue_force_medicine | tut | LARM | tongs)
+	{CALL} (dialogue_force_medicine | tut | LARM | bandage)
+	{CALL} (dialogue_treat_injury | tut | LARM | bullet)
+	{CALL} (dialogue_add_injury | tut | LARM | infection)
+	{CALL} (dialogue_update_patient_display)
+	There, all better.
+	Though it looks as though the area is getting red and hot.
+	Likely an infection from the wound being open for so long. I'll need to fight this off too.
+	There are a few different ways I could try to treat him... But I can't just spend all the medicine on one guy.
+	I should probably stick to one of the simpler options so I don't run out of medication.
+	{CALL} (dialogue_wait_treat_injury_fail | tut | LARM | infection)
+	Hmm... That didn't seem to work. This infection is strong.
+	I can't guarantee the meds I give will cure everything. Though I should be able to try again and hit it harder.
+	The medicine I already used is still there, so it should still be able to help, even if I add more to it.
+	{CALL} (dialogue_wait_treat_injury_succeed | tut | LARM | infection)
+	There we go, the redness is starting to die down. He should be good to go now.
+	#Me
+	Alrighty soldier, that's all I can do for you. Try to take it easy, alright?
+	{NONE}
+	The soldier nods, standing up slowly and begins to walk out of the tent.
+	{CALL} (dialogue_cure_patient | tut)
+[END]
