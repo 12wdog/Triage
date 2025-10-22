@@ -23,7 +23,7 @@ static func make(reference: String, injury_number : int, seed : int = -1) -> Pat
 			if injury is InjuryData:
 				if injury.reference == "shock" || injury.reference == "death":
 					continue
-				if limb == Patient.Limbs.HEAD && (injury.reference == "bullet" || injury.reference == "broken_bone"):
+				if limb == Patient.Limbs.HEAD && (injury.reference == "bullet" || injury.reference == "broken_limb"):
 					continue
 				if patient.injuries.has(key) && patient.injuries[key].has(injury):
 					continue

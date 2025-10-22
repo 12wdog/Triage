@@ -1,6 +1,8 @@
 extends Control
 class_name Manager
 
+var main_menu : MainMenu = preload("res://scenes/menus/main_menu.tscn").instantiate()
+
 var game : TriageGame
 var doctor : Doctor 
 var doctor_canvas : CanvasLayer
@@ -10,23 +12,15 @@ var in_game := false
 var current_day : int = 0
 
 func _ready() -> void:
-	game_setup(current_day)
-		
-	for patient in game.backlog:
-		print(patient)
-	
-	landing()
-	
-	var test = game.cabinet.get_medicine_amount()
-	print(test)
-	SaveGame.save(test)
-	
-	print(SaveGame.load())
+	menu_setup()
 	
 func cleanup() -> void:
 	var children = get_children()
 	for child in children:
 		child.queue_free()
+
+func menu_setup() -> void:
+	pass
 
 func game_setup(day : int) -> void:
 	game = TriageGame.new()
@@ -113,7 +107,15 @@ func day_over() -> void:
 	in_game = false
 	remove_child(game)
 	remove_child(doctor_canvas)
+	current_day += 1
 	pass
+
+func save_game() -> void:
+	var cabinet = game.cabinet.get_medicine_amount()
+	var doc_med = doctor.get_items_in_order()
+	var doc_dialogue_vars = doctor.dialogue.variables
+	
+	SaveGame.save(cabinet, doc_med, doc_dialogue_vars)
 
 func _physics_process(_delta):
 	doctor.return_button.visible = !game.landing.visible && !doctor.dialogue.visible
