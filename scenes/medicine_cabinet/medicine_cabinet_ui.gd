@@ -41,3 +41,11 @@ func get_medicine_amount() -> Array[int]:
 	
 	return output
 	
+
+func set_medicine_amount(amounts : Array[int]) -> void:
+	
+	var i = 0
+	for medicine in container.get_children():
+		if medicine is MedicineCabinetButton:
+			medicine.amount = amounts[i]
+			i += 1

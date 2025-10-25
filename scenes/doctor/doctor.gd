@@ -152,8 +152,8 @@ func remove_selected_item(override : bool = false) -> bool:
 
 	return true
 
-func get_items_in_order() -> Array:
-	var items_in_order : Array = []
+func get_items_in_order() -> Array[MedicineData]:
+	var items_in_order : Array[MedicineData] = []
 	for i in range(inventory.size()):
 		var btn = inventory[i]
 		if btn.item != null:
@@ -161,6 +161,10 @@ func get_items_in_order() -> Array:
 	
 	return items_in_order
 
+func add_items_in_order(items : Array[MedicineData]) -> void:
+	
+	for item in items:
+		add_item(item)
 
 func display_hide_booklet() -> void:
 	booklet.visible = !booklet.visible

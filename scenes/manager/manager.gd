@@ -12,6 +12,9 @@ var in_game := false
 var current_day : int = 0
 var end_of_day_menu : EndOfDay
 
+var temp_cabinet_storage : Array[int] = []
+var temp_inventory_storage : Array[MedicineData] = []
+
 func _ready() -> void:
 	menu_setup()
 	
@@ -65,6 +68,11 @@ func game_setup(day : int) -> void:
 		
 	if not game.day_finished.is_connected(day_over):
 		game.day_finished.connect(day_over)
+	
+	if !temp_cabinet_storage.is_empty():
+		doctor.cabinet.set_medicine_amount(temp_cabinet_storage)
+	if !temp_inventory_storage.is_empty():
+		doctor.add_items_in_order(temp_inventory_storage)
 	
 	game.initialize_patient()
 	game.initialize_landing()
@@ -127,6 +135,8 @@ func landing() -> void:
 func day_over() -> void:
 	in_game = false
 	current_day += 1
+	temp_cabinet_storage = doctor.cabinet.get_medicine_amount()
+	temp_inventory_storage = doctor.get_items_in_order()
 	end_of_day_setup()
 	pass
 
