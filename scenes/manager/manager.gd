@@ -88,6 +88,9 @@ func end_of_day_setup() -> void:
 	end_of_day_menu = load("res://scenes/menus/end_of_day_menu.tscn").instantiate()
 	add_child(end_of_day_menu)
 	
+	if current_day >= days.data.size():
+		end_of_day_menu.continue_button.disabled = true
+	
 	end_of_day_menu.continue_signal.connect(func() : game_setup(current_day))
 	end_of_day_menu.exit_signal.connect(_on_menu_exit)
 
