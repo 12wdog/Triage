@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1mr1ayv2fyia"]
+
+[ext_resource type="Script" uid="uid://cnc5iypnib6hu" path="res://scenes/manager/manager.gd" id="1_qrdhj"]
+
+[node name="Manager" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qrdhj")

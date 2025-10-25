@@ -55,10 +55,9 @@ func game_setup(day : int) -> void:
 	game.initiate_cabinet()
 	
 	#game.backlog.append(DialoguePatientData.new("ref1", {}, "patient", "res://dialogue/dialogue_text/test_dialogue.txt"))
-	
-	game.initialize_random([1, 1, 1])
-	game.backlog.append(DialoguePatientData.new("ref1", {}, "patient", "res://dialogue/dialogue_text/test_dialogue.txt"))
-	
+	var tutorial_patient : DialoguePatientData = load("res://presaved/patients/tut.tres")
+	game.backlog.append(tutorial_patient)
+	#game.initialize_random([1,2,2])
 	in_game = true
 	fill_beds()
 
@@ -130,7 +129,6 @@ func _physics_process(_delta):
 		doctor.patient_display.visible = !(game.landing.visible || game.cabinet.visible)
 
 func show_dialogue(text : String) -> void:
-	print(text)
 	if doctor.dialogue.dialogue.size() != 0:
 		return
 	
@@ -140,7 +138,19 @@ func show_dialogue(text : String) -> void:
 	pass
 
 
-func dialogue_cure_patient(args : Array) -> void:
+func dialogue_lock_patient(args : Array = []) -> void:
+	for patient in game.patients:
+		if patient.patient_data: print(patient.patient_data.reference)
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			patient.is_locked = true
+
+func dialogue_unlock_patient(args : Array = []) -> void:
+	for patient in game.patients:
+		if patient.patient_data: print(patient.patient_data.reference)
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			patient.is_locked = false
+
+func dialogue_cure_patient(args : Array = []) -> void:
 	var index := 0
 	for patient in game.patients:
 		if patient.patient_data && patient.patient_data.reference == args[0]:
@@ -148,3 +158,124 @@ func dialogue_cure_patient(args : Array) -> void:
 			return
 		index += 1
 	
+
+func dialogue_wait_find_injury(args : Array = []) -> void:
+	doctor.dialogue.visible = false
+	
+	var selected_patient : Patient
+	for patient in game.patients:
+		if patient.patient_data: print(patient.patient_data.reference)
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			selected_patient = patient
+			break
+	
+	while true:
+		var selected_limb = await selected_patient.shown_limb
+		if selected_limb == args[1]: break
+	
+	doctor.dialogue.visible = true
+
+func dialogue_wait_open_clipboard(_args : Array = []) -> void :
+	doctor.dialogue.visible = false
+	
+	await doctor.clipboard_button.pressed
+	
+	doctor.dialogue.visible = true
+
+func dialogue_force_medicine(args : Array = []) -> void:
+	doctor.dialogue.visible = false
+	
+	var selected_patient : Patient
+	for patient in game.patients:
+		if patient.patient_data: print(patient.patient_data.reference)
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			selected_patient = patient
+			break
+	
+	selected_patient.force_medicine = true
+	
+	while true:
+		var attempted_medicine = await selected_patient.medicine_input
+		if (attempted_medicine[0] == args[1] && attempted_medicine[1].reference == args[2]):
+			selected_patient.medicine_continue.emit(true)
+			break
+		else:
+			selected_patient.medicine_continue.emit(false)
+	
+	selected_patient.force_medicine = false
+	
+	doctor.dialogue.visible = true
+
+func dialogue_treat_injury(args : Array = []) -> void:
+	
+	var selected_patient : Patient
+	for patient in game.patients:
+		if patient.patient_data: print(patient.patient_data.reference)
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			selected_patient = patient
+			break
+	
+	print(selected_patient.injuries)
+	selected_patient.injuries[Patient.Limbs[args[1]]].erase(Data.recall(args[2]))
+
+func dialogue_add_injury(args : Array = []) -> void:
+	
+	var selected_patient : Patient
+	for patient in game.patients:
+		if patient.patient_data: print(patient.patient_data.reference)
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			selected_patient = patient
+			break
+	
+	selected_patient.injuries[Patient.Limbs[args[1]]].append(Data.recall(args[2]))
+
+func dialogue_update_display(args : Array = []) -> void:
+	
+	var selected_patient : Patient
+	for patient in game.patients:
+		if patient.patient_data: print(patient.patient_data.reference)
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			selected_patient = patient
+			break
+	
+	selected_patient._update_display(Patient.Limbs[args[1]])
+
+func dialogue_wait_treat_injury_fail(args : Array = []) -> void:
+	doctor.dialogue.visible = false
+	
+	var selected_patient : Patient
+	for patient in game.patients:
+		if patient.patient_data: print(patient.patient_data.reference)
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			selected_patient = patient
+			break
+	
+	selected_patient.able_to_cure = -1 
+	var temp_is_locked = selected_patient.is_locked
+	selected_patient.is_locked = false
+	await selected_patient.cure_attempted
+	
+	selected_patient.able_to_cure = 0
+	selected_patient.is_locked = temp_is_locked
+	
+	doctor.dialogue.visible = true
+	
+func dialogue_wait_treat_injury_succeed(args : Array = []) -> void:
+	doctor.dialogue.visible = false
+	
+	var selected_patient : Patient
+	for patient in game.patients:
+		if patient.patient_data: print(patient.patient_data.reference)
+		if patient.patient_data && patient.patient_data.reference == args[0]:
+			selected_patient = patient
+			break
+	
+	selected_patient.able_to_cure = 1 
+	var temp_is_locked = selected_patient.is_locked
+	selected_patient.is_locked = false
+	await selected_patient.cure_attempted
+	
+	selected_patient.able_to_cure = 0
+	selected_patient.is_locked = temp_is_locked
+	
+	doctor.dialogue.visible = true

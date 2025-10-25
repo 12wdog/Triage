@@ -4,6 +4,10 @@ class_name Patient
 signal display(text : String)
 signal limb_click(limb : int, id : int)
 signal cured(id : int)
+signal shown_limb(limb : String)
+signal medicine_input(limb : String, medicine : MedicineData)
+signal medicine_continue(success : bool)
+signal cure_attempted()
 
 var id : int
 var is_dialogue : bool = false
@@ -21,6 +25,12 @@ var dialogue : String = ""
 var dead : bool = false
 var selected_area : Limbs
 var hovered: Area2D
+
+var force_medicine : bool = false
+var is_locked : bool = false
+var dialogue_can_cure = false
+
+var able_to_cure : int = 0
 
 enum Limbs {
 	HEAD,
@@ -80,7 +90,20 @@ func populate() -> void:
 func cure(limb : int, medicine : MedicineData) -> Result:
 	if dead:
 		return Result.DEAD
-
+		
+	if force_medicine:
+		print("forced med")
+		call_deferred("emit_signal", "medicine_input", Limbs.find_key(limb), medicine)
+		var success = await self.medicine_continue
+		if success:
+			attempted_cures[limb].append(medicine)
+			return Result.CLEAR
+		else:
+			return Result.UNABLE
+	
+	if is_locked:
+		return Result.UNABLE
+	
 	print(Limbs.find_key(limb))
 
 	if medicine.reference == "amputation" and (limb == Limbs.HEAD or limb == Limbs.TORSO):
@@ -147,6 +170,7 @@ func input_event(limb: Area2D, event: InputEvent) -> void:
 func area_entered(area : Area2D) -> void:
 	selected_area = Limbs.get(area.name)
 	_update_display(selected_area)
+	shown_limb.emit(area.name)
 
 func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Result:
 	var best_cure : Array = _get_best_cure(medicine.treatments.get(injury), limb)
@@ -157,12 +181,17 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 	
 	var rng = RandomNumberGenerator.new()
 	var result : Result
-	if rng.randf() <= best_cure[0]:
+	if (able_to_cure == 1) || (able_to_cure != -1) && rng.randf() <= best_cure[0]:
 		if injury == "*":
 			injuries[limb].clear()
 		else:
 			injuries[limb].erase(Data.recall(injury))
 		result = Result.CLEAR
+		call_deferred_thread_group("emit_signal", "cure_attempted")
+	elif able_to_cure == -1 && best_cure[0] > 0:
+		print("force fail")
+		call_deferred_thread_group("emit_signal", "cure_attempted")
+		result = Result.NOCLEAR
 	else: result = Result.NOCLEAR
 	
 	if best_cure[-1] is Array:
@@ -286,7 +315,11 @@ func is_cured() -> void:
 	for limb_injuries in injuries:
 		if not limb_injuries.is_empty():
 			return   # still injured, stop
+	
+	if !dialogue.is_empty(): return
+	
 	print("is cured")
+	
 	cured.emit(id)
 
 func _physics_process(_delta):

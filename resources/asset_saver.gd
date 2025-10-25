@@ -159,15 +159,11 @@ var medicine_array = [
 	)
 ]
 var patient_array = [
-	PatientData.new("test", {
-		"HEAD": [
-			"light_bleed",
-		],
-		"LARM": [
-			"light_bleed",
-			"infection"
-		]
-	})
+	DialoguePatientData.new("tut", {
+		"LARM": [Data.recall("bullet")]
+	}, 
+	"patient", 
+	"res://dialogue/dialogue_text/tutorial.txt")
 ]
 
 var day : DayData = DayData.new([

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DialoguePatientData" load_steps=3 format=3 uid="uid://dyjr0gtfcf2y1"]
+
+[ext_resource type="Resource" uid="uid://b4xjnb43uw5g5" path="res://presaved/injuries/bullet.tres" id="1_ig124"]
+[ext_resource type="Script" uid="uid://cp5hql2hijwfo" path="res://resources/data/dialogue_patient_data.gd" id="1_m5atq"]
+
+[resource]
+script = ExtResource("1_m5atq")
+patient_name = "patient"
+dialogue_path = "res://dialogue/dialogue_text/tutorial.txt"
+reference = "tut"
+injuries = {
+"LARM": [ExtResource("1_ig124")]
+}

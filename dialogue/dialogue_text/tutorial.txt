@@ -1,6 +1,7 @@
 
 
 [#MAIN]
+	{CALL} (dialogue_lock_patient | tut)
 	{NONE}
 	In front of you, a wounded soldier lays.
 	His body is racked with the pains of war, as he grunts and coughs harshly.
@@ -23,17 +24,17 @@
 	{CALL} (dialogue_force_medicine | tut | LARM | bandage)
 	{CALL} (dialogue_treat_injury | tut | LARM | bullet)
 	{CALL} (dialogue_add_injury | tut | LARM | infection)
-	{CALL} (dialogue_update_patient_display)
+	{CALL} (dialogue_update_display | tut | LARM)
 	There, all better.
 	Though it looks as though the area is getting red and hot.
 	Likely an infection from the wound being open for so long. I'll need to fight this off too.
 	There are a few different ways I could try to treat him... But I can't just spend all the medicine on one guy.
 	I should probably stick to one of the simpler options so I don't run out of medication.
-	{CALL} (dialogue_wait_treat_injury_fail | tut | LARM | infection)
+	{CALL} (dialogue_wait_treat_injury_fail | tut )
 	Hmm... That didn't seem to work. This infection is strong.
 	I can't guarantee the meds I give will cure everything. Though I should be able to try again and hit it harder.
 	The medicine I already used is still there, so it should still be able to help, even if I add more to it.
-	{CALL} (dialogue_wait_treat_injury_succeed | tut | LARM | infection)
+	{CALL} (dialogue_wait_treat_injury_succeed | tut )
 	There we go, the redness is starting to die down. He should be good to go now.
 	#Me
 	Alrighty soldier, that's all I can do for you. Try to take it easy, alright?
