@@ -34,7 +34,7 @@ func initialize_patient() -> void:
 		add_child(patient)
 
 func initialize_random(state : Array) -> void:
-	backlog = []
+	#backlog = []
 	for patient in range(state[0]):
 		var num_injuries : int = rng.randi_range(state[1], state[2])
 		backlog.append(PatientRandomizer.make(str(patient), num_injuries))

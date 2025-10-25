@@ -10,6 +10,7 @@ var days : DayData = preload("res://presaved/day/days.tres")
 var in_game := false
 
 var current_day : int = 0
+var end_of_day_menu : EndOfDay
 
 func _ready() -> void:
 	menu_setup()
@@ -24,9 +25,19 @@ func menu_setup() -> void:
 	main_menu = load("res://scenes/menus/main_menu.tscn").instantiate()
 	add_child(main_menu)
 	
-	main_menu.exit.connect(func() : get_tree().quit())
-	main_menu.new_game.connect(func() : game_setup(0))
+	
+	if not main_menu.exit.is_connected(_on_menu_exit):
+		main_menu.exit.connect(_on_menu_exit)
+	
+	if not main_menu.new_game.is_connected(_on_new_game):
+		main_menu.new_game.connect(_on_new_game)
+	
+func _on_menu_exit() -> void:
+	get_tree().quit()
 
+func _on_new_game() -> void:
+	current_day = 0
+	game_setup(current_day)
 
 func game_setup(day : int) -> void:
 	cleanup()
@@ -37,27 +48,40 @@ func game_setup(day : int) -> void:
 	add_child(game)
 	add_child(doctor_canvas)
 	doctor_canvas.add_child(doctor)
-	doctor.return_to_landing.connect(landing)
-	doctor.item_selected.connect(item_selected)
+	if not doctor.return_to_landing.is_connected(landing):
+		doctor.return_to_landing.connect(landing)
+	if not doctor.item_selected.is_connected(item_selected):
+		doctor.item_selected.connect(item_selected)
 	doctor.dialogue.manager = self
 	
-	game.request_medicine.connect(medicine_request)
-	game.use_medicine.connect(remove_medicine)
-	game.display.connect(doctor.patient_display.write)
-	game.has_dialogue.connect(show_dialogue)
+	if not game.request_medicine.is_connected(medicine_request):
+		game.request_medicine.connect(medicine_request)
+	if not game.use_medicine.is_connected(remove_medicine):
+		game.use_medicine.connect(remove_medicine)
+	if not game.display.is_connected(doctor.patient_display.write):
+		game.display.connect(doctor.patient_display.write)
+	if not game.has_dialogue.is_connected(show_dialogue):
+		game.has_dialogue.connect(show_dialogue)
+		
+	if not game.day_finished.is_connected(day_over):
+		game.day_finished.connect(day_over)
 	
-	game.day_finished.connect(day_over)
-
 	game.initialize_patient()
 	game.initialize_landing()
-
 	
-	#game.backlog.append(DialoguePatientData.new("ref1", {}, "patient", "res://dialogue/dialogue_text/test_dialogue.txt"))
-	var tutorial_patient : DialoguePatientData = load("res://presaved/patients/tut.tres")
-	game.backlog.append(tutorial_patient)
-	#game.initialize_random([1,2,2])
+	var day_data = days.data[day]
+	game.backlog.append_array(day_data)
+	
 	in_game = true
 	fill_beds()
+
+func end_of_day_setup() -> void:
+	cleanup()
+	end_of_day_menu = load("res://scenes/menus/end_of_day_menu.tscn").instantiate()
+	add_child(end_of_day_menu)
+	
+	end_of_day_menu.continue_signal.connect(func() : game_setup(current_day))
+	end_of_day_menu.exit_signal.connect(_on_menu_exit)
 
 func medicine_request() -> void:
 	print("Medicine request")
@@ -83,7 +107,7 @@ func fill_beds() -> void:
 		if game.backlog.is_empty(): break
 		
 		game.populate_bed()
-		await get_tree().create_timer(30).timeout
+		await get_tree().create_timer(5).timeout
 		print("Timer done")
 	print("Loop done")
 
@@ -102,8 +126,8 @@ func landing() -> void:
 
 func day_over() -> void:
 	in_game = false
-	cleanup()
 	current_day += 1
+	end_of_day_setup()
 	pass
 
 func save_game() -> void:

@@ -167,9 +167,8 @@ var patient_array = [
 ]
 
 var day : DayData = DayData.new([
-	[1, 1, 2],
-	[2, 1, 4],
-	[4, 2, 4]
+	[preload("res://presaved/patients/tut.tres") as DialoguePatientData],
+	[PatientRandomizer.make("0", 1), PatientRandomizer.make("1", 2)]
 ])
 
 func _run():
