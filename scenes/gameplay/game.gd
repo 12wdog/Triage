@@ -7,27 +7,20 @@ signal use_medicine()
 signal display(text : String)
 signal has_dialogue(text : String)
 
-signal request_item(item : MedicineData)
-signal recieved_item()
-
 signal day_finished()
 
 @onready var rng := RandomNumberGenerator.new()
 
 @onready var landing : Landing = preload("res://scenes/landing/landing.tscn").instantiate()
-@onready var cabinet : MedicineCabinetUI = preload("res://scenes/medicine_cabinet/medicine_cabinet_ui.tscn").instantiate()
 var patients : Array[Patient] = []
 var backlog : Array[PatientData] = []
+var at_cabinet : bool = false
 
 var medicine : MedicineData
 
 func initialize_landing() -> void:
 	landing.zone_click.connect(go_to)
 	add_child(landing)
-
-func initiate_cabinet() -> void:
-	cabinet.button_pressed.connect(attempt_add_item)
-	add_child(cabinet)
 
 func initialize_patient() -> void:
 	for i in range(3):
@@ -66,8 +59,8 @@ func go_to_bed(bed : int) -> void:
 	
 	display.emit("")
 	landing.visible = false
-	cabinet.visible = false
 	patients[bed].visible = true
+	at_cabinet = false
 	
 	if patients[bed].is_dialogue:
 		has_dialogue.emit(patients[bed].dialogue)
@@ -87,15 +80,15 @@ func go_to_landing() -> void:
 	for patient in patients:
 		patient.visible = false
 	
-	cabinet.visible = false
 	landing.visible = true
+	at_cabinet = false
 
 func go_to_cabinet() -> void:
 	for patient in patients:
 		patient.visible = false
 	
-	cabinet.visible = true
 	landing.visible = false
+	at_cabinet = true
 
 func attempt_heal(limb: int, id: int) -> void:
 	#print(Patient.Limbs.find_key(limb))
@@ -115,35 +108,6 @@ func attempt_heal(limb: int, id: int) -> void:
 	if result == Patient.Result.CLEAR || result == Patient.Result.NOCLEAR:
 		use_medicine.emit()
 	medicine = null
-
-func attempt_add_item(button : MedicineCabinetButton) -> void:
-	if button.amount <= 0:
-		return
-	
-	medicine = null
-	request_item.emit(button.item)
-	await recieved_item
-	
-	if not medicine:
-		return
-	
-	button.amount -= 1
-	medicine = null
-
-func attempt_store_item(item : MedicineData) -> bool:
-	
-	var i = 0
-	for med_item in cabinet.medicines:
-		if med_item.reference == item.reference:
-			break
-		i += 1
-	
-	var button = cabinet.container.get_child(i)
-	if button.amount + 1 > button.max_amount:
-		return false
-	
-	button.amount += 1
-	return true
 
 func patient_cured(id : int) -> void:
 	patients[id].patient_data = null

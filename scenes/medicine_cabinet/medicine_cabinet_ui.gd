@@ -1,7 +1,7 @@
-extends CanvasLayer
+extends Control
 class_name MedicineCabinetUI
 signal button_pressed(button : MedicineCabinetButton)
-@onready var container = $MedicineCabinetUI/GridContainer
+@onready var container = $GridContainer
 
 var medicines = [
 	Data.recall("bandage"),

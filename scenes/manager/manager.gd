@@ -46,13 +46,11 @@ func game_setup(day : int) -> void:
 	game.display.connect(doctor.patient_display.write)
 	game.has_dialogue.connect(show_dialogue)
 	
-	game.request_item.connect(item_request)
-	
 	game.day_finished.connect(day_over)
 
 	game.initialize_patient()
 	game.initialize_landing()
-	game.initiate_cabinet()
+
 	
 	#game.backlog.append(DialoguePatientData.new("ref1", {}, "patient", "res://dialogue/dialogue_text/test_dialogue.txt"))
 	var tutorial_patient : DialoguePatientData = load("res://presaved/patients/tut.tres")
@@ -73,13 +71,6 @@ func medicine_request() -> void:
 	game.medicine = doctor.selected_item
 	game.call_deferred("emit_signal", "recieved_medicine")
 
-func item_request(item : MedicineData) -> void:
-	var can_add = doctor.add_item(item)
-	if can_add:
-		game.medicine = item
-	
-	game.call_deferred("emit_signal", "recieved_item")
-
 func remove_medicine() -> void:
 	print("Removing medicine...")
 	doctor.remove_selected_item()
@@ -97,10 +88,10 @@ func fill_beds() -> void:
 	print("Loop done")
 
 func item_selected() -> void:
-	if !game.cabinet.visible:
+	if !game.at_cabinet:
 		return
 	
-	if game.attempt_store_item(doctor.selected_item):
+	if doctor.attempt_store_item_cabinet(doctor.selected_item):
 		doctor.remove_selected_item(true)
 	
 	pass
@@ -125,8 +116,9 @@ func save_game() -> void:
 func _physics_process(_delta):
 	if in_game:
 		doctor.return_button.visible = !game.landing.visible && !doctor.dialogue.visible
-		doctor.kick_out_button.visible = doctor.return_button.visible
-		doctor.patient_display.visible = !(game.landing.visible || game.cabinet.visible)
+		#doctor.kick_out_button.visible = doctor.return_button.visible
+		doctor.patient_display.visible = !game.landing.visible && !game.at_cabinet
+		doctor.cabinet.visible = game.at_cabinet
 
 func show_dialogue(text : String) -> void:
 	if doctor.dialogue.dialogue.size() != 0:

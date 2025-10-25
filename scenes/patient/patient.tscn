@@ -39,6 +39,7 @@ script = ExtResource("1_rbo5v")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="PatientVisual" type="Node2D" parent="."]
+scale = Vector2(1.6, 1.6)
 
 [node name="HEAD" type="Area2D" parent="PatientVisual"]
 scale = Vector2(0.53, 0.53)

@@ -20,6 +20,7 @@ const button_size : float = 100.0
 
 @onready var booklet : Booklet = $Booklet
 @onready var patient_display : PatientUI = $PatientUI
+@onready var cabinet : MedicineCabinetUI = $MedicineCabinetUi
 
 @onready var dialogue : Dialogue = $Dialogue
 
@@ -40,6 +41,32 @@ func _ready():
 	
 	booklet.close_menu.connect(display_hide_booklet)
 	clipboard_button.pressed.connect(display_hide_booklet)
+	
+	cabinet.button_pressed.connect(attempt_add_item_cabinet)
+
+func attempt_add_item_cabinet(button : MedicineCabinetButton) -> void:
+	if button.amount <= 0:
+		return
+	
+	var can_add = add_item(button.item)
+	if can_add:
+		button.amount -= 1
+
+func attempt_store_item_cabinet(item : MedicineData) -> bool:
+	
+	var i = 0
+	for med_item in cabinet.medicines:
+		if med_item.reference == item.reference:
+			break
+		i += 1
+	
+	var button = cabinet.container.get_child(i)
+	if button.amount + 1 > button.max_amount:
+		return false
+	
+	button.amount += 1
+	return true
+
 
 func add_item(item: MedicineData) -> bool:
 	if inventory_used + item.size > 5: return false

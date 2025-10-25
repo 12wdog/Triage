@@ -1,10 +1,11 @@
-extends Panel
+extends PanelContainer
 class_name MedicineCabinetButton
 
 signal pressed(button : MedicineCabinetButton)
 
-@onready var button : Button = $VBoxContainer/Button
-@onready var label : Label = $VBoxContainer/Label
+@onready var button : Button = $MarginContainer/VBoxContainer/Button
+@onready var label : Label = $MarginContainer/VBoxContainer/Amount
+@onready var item_name : Label = $MarginContainer/VBoxContainer/Name
 
 var item : MedicineData
 var amount : int
@@ -22,6 +23,8 @@ func update_icon() -> void:
 			button.icon = load(item.asset_path)
 		else:
 			button.text = item.medicine_name
+		
+		item_name.text = item.medicine_name
 
 func _physics_process(_delta):
 	label.text = str(amount, " / ", max_amount)
