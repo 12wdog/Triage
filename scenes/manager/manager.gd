@@ -148,8 +148,6 @@ func save_game() -> void:
 	var doc_med = doctor.get_items_in_order()
 	var doc_dialogue_vars = doctor.dialogue.variables
 	
-	SaveGame.save(cabinet, doc_med, doc_dialogue_vars)
-
 func _physics_process(_delta):
 	if in_game:
 		doctor.return_button.visible = !game.landing.visible && !doctor.dialogue.visible
