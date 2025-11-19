@@ -140,6 +140,9 @@ func day_over() -> void:
 	current_day += 1
 	temp_cabinet_storage = doctor.cabinet.get_medicine_amount()
 	temp_inventory_storage = doctor.get_items_in_order()
+	
+	save_game()
+	
 	end_of_day_setup()
 	pass
 
@@ -147,6 +150,8 @@ func save_game() -> void:
 	var cabinet = game.cabinet.get_medicine_amount()
 	var doc_med = doctor.get_items_in_order()
 	var doc_dialogue_vars = doctor.dialogue.variables
+	
+	SaveGame.save(cabinet, doc_med, doc_dialogue_vars)
 	
 func _physics_process(_delta):
 	if in_game:

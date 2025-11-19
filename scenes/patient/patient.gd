@@ -28,6 +28,11 @@ var dialogue : String = ""
 @onready var rarm_vis = $PatientVisual/Sprites/RARM
 @onready var lleg_vis = $PatientVisual/Sprites/LLEG
 @onready var rleg_vis = $PatientVisual/Sprites/RLEG
+@onready var face_vis = $PatientVisual/Sprites/FACE
+
+var face_path = "res://textures/patient/FACES/Face_%s.png"
+
+var face = ""
 
 var dead : bool = false
 var selected_area : Limbs
@@ -92,6 +97,8 @@ func populate() -> void:
 	if patient_data is DialoguePatientData:
 			is_dialogue = true
 			dialogue = patient_data.dialogue_path
+	
+	face = face_path % [str(randi_range(1, 5))]
 	
 	update_sprites()
 
@@ -365,6 +372,11 @@ func update_sprites():
 				var sprite = Sprite2D.new();
 				sprite.texture = ResourceLoader.load(sprite_path)
 				limb.add_child(sprite)
+	
+	if ResourceLoader.exists(face):
+		var face_sprite = Sprite2D.new()
+		face_sprite.texture = ResourceLoader.load(face)
+		face_vis.add_child(face_sprite)
 
 
 func is_cured() -> void:
