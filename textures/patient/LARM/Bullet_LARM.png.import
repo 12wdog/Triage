@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqk3oko4rgha1"
-path="res://.godot/imported/Chest_and_Head.png-30ce0d87d03be26aa37579f182440d42.ctex"
+uid="uid://d33tuoaebi8ml"
+path="res://.godot/imported/Bullet_LARM.png-b584c76737607ebf969c8d06ef6b9553.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/patient/HEAD/Chest_and_Head.png"
-dest_files=["res://.godot/imported/Chest_and_Head.png-30ce0d87d03be26aa37579f182440d42.ctex"]
+source_file="res://textures/patient/LARM/Bullet_LARM.png"
+dest_files=["res://.godot/imported/Bullet_LARM.png-b584c76737607ebf969c8d06ef6b9553.ctex"]
 
 [params]
 

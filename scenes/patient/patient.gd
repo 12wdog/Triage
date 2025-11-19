@@ -22,6 +22,13 @@ var dialogue : String = ""
 @onready var lleg = $PatientVisual/LLEG
 @onready var rleg = $PatientVisual/RLEG
 
+@onready var head_vis = $PatientVisual/Sprites/HEAD
+@onready var torso_vis = $PatientVisual/Sprites/TORSO
+@onready var larm_vis = $PatientVisual/Sprites/LARM
+@onready var rarm_vis = $PatientVisual/Sprites/RARM
+@onready var lleg_vis = $PatientVisual/Sprites/LLEG
+@onready var rleg_vis = $PatientVisual/Sprites/RLEG
+
 var dead : bool = false
 var selected_area : Limbs
 var hovered: Area2D
@@ -85,6 +92,8 @@ func populate() -> void:
 	if patient_data is DialoguePatientData:
 			is_dialogue = true
 			dialogue = patient_data.dialogue_path
+	
+	update_sprites()
 
 
 func cure(limb : int, medicine : MedicineData) -> Result:
@@ -309,6 +318,54 @@ func _update_display(limb : int) -> void:
 		text += " • NONE\n"
 	
 	display.emit(text)
+	
+func update_sprites():
+	
+	var limb_vis = [head_vis, torso_vis, larm_vis, rarm_vis, lleg_vis, rleg_vis]
+	
+	for i in range(6):
+		var limb = limb_vis[i]
+		for n in limb.get_children():
+			limb.remove_child(n);
+			n.queue_free()
+		
+		var has_amputation = false
+		
+		var body_path = "res://textures/patient/%s/Clothed_%s.png"
+		body_path = body_path % [Limbs.find_key(i), Limbs.find_key(i)]
+		if ResourceLoader.exists(body_path):
+			var body_sprite = Sprite2D.new()
+			body_sprite.texture = ResourceLoader.load(body_path)
+			limb.add_child(body_sprite)
+				
+		for attempt_cure in attempted_cures[i]:
+			
+			if attempt_cure.reference == "amputation":
+				for n in limb.get_children():
+					limb.remove_child(n);
+					n.queue_free()
+				
+				has_amputation = true
+			
+			var sprite_path = "res://textures/patient/%s/%s_%s.png"
+			sprite_path = sprite_path % [Limbs.find_key(i), attempt_cure.reference.capitalize(), Limbs.find_key(i)]
+			if ResourceLoader.exists(sprite_path):
+				var sprite = Sprite2D.new();
+				sprite.texture = ResourceLoader.load(sprite_path)
+				limb.add_child(sprite)
+			
+			if has_amputation: break
+		
+		if has_amputation: continue
+		
+		for injury in injuries[i]:
+			var sprite_path = "res://textures/patient/%s/%s_%s.png"
+			sprite_path = sprite_path % [Limbs.find_key(i), injury.reference.capitalize(), Limbs.find_key(i)]
+			if ResourceLoader.exists(sprite_path):
+				var sprite = Sprite2D.new();
+				sprite.texture = ResourceLoader.load(sprite_path)
+				limb.add_child(sprite)
+
 
 func is_cured() -> void:
 	print("Checking if cured")

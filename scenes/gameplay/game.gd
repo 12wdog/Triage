@@ -105,6 +105,7 @@ func attempt_heal(limb: int, id: int) -> void:
 	var result : Patient.Result = await patients[id].cure(limb, medicine)
 	print(Patient.Result.find_key(result))
 	patients[id]._update_display(limb)
+	patients[id].update_sprites()
 	if result == Patient.Result.CLEAR || result == Patient.Result.NOCLEAR:
 		use_medicine.emit()
 	medicine = null

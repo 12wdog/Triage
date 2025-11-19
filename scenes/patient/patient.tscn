@@ -1,14 +1,13 @@
-[gd_scene load_steps=20 format=3 uid="uid://bk88x85mnk010"]
+[gd_scene load_steps=19 format=3 uid="uid://bk88x85mnk010"]
 
 [ext_resource type="Script" uid="uid://b2ak3w6x8lhd" path="res://scenes/patient/patient.gd" id="1_rbo5v"]
 [ext_resource type="Texture2D" uid="uid://brmcuboykbak" path="res://textures/patient/base/Patient_Test.png" id="2_a6gn1"]
 [ext_resource type="Texture2D" uid="uid://bfftrmggyj75o" path="res://textures/patient/LARM/Clothed_LARM.png" id="3_grsko"]
-[ext_resource type="Texture2D" uid="uid://dqk3oko4rgha1" path="res://textures/patient/HEAD/Chest_and_Head.png" id="4_hb45g"]
+[ext_resource type="Texture2D" uid="uid://dqk3oko4rgha1" path="res://textures/patient/HEAD/Clothed_HEAD.png" id="4_hb45g"]
 [ext_resource type="Texture2D" uid="uid://babkb7ydh1dbo" path="res://textures/patient/TORSO/Clothed_TORSO.png" id="5_v3p8c"]
 [ext_resource type="Texture2D" uid="uid://dq0mwdg0axita" path="res://textures/patient/RLEG/Clothed_RLeg.png" id="6_oar3u"]
 [ext_resource type="Texture2D" uid="uid://dab47ae2eduqg" path="res://textures/patient/RARM/Clothed_RArm.png" id="7_pd65j"]
 [ext_resource type="Texture2D" uid="uid://76yh3s8dnp7y" path="res://textures/patient/LLEG/Clothed_LLeg.png" id="8_bo8h2"]
-[ext_resource type="Texture2D" uid="uid://ch6il1b0o66bu" path="res://textures/patient/FACES/Face_4.png" id="9_hb45g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yacii"]
 size = Vector2(94.622635, 164.71698)
@@ -162,6 +161,3 @@ scale = Vector2(0.99999994, 0.99999994)
 texture = ExtResource("6_oar3u")
 
 [node name="FACE" type="Node2D" parent="PatientVisual/Sprites"]
-
-[node name="Face4" type="Sprite2D" parent="PatientVisual/Sprites/FACE"]
-texture = ExtResource("9_hb45g")
