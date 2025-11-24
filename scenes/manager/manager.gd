@@ -78,7 +78,15 @@ func game_setup(day : int) -> void:
 	game.initialize_landing()
 	
 	var day_data = days.data[day]
-	game.backlog.append_array(day_data)
+	
+	for data in day_data:
+		if data is PatientData:
+			game.backlog.append(data)
+		elif data is Array:
+			var patient_array = []
+			for i in range(data[0]):
+				patient_array.append(PatientRandomizer.make(str(i + game.backlog.size()), randi_range(data[1], data[2])))
+			game.backlog.append_array(patient_array)
 	
 	in_game = true
 	fill_beds()
@@ -95,32 +103,24 @@ func end_of_day_setup() -> void:
 	end_of_day_menu.exit_signal.connect(_on_menu_exit)
 
 func medicine_request() -> void:
-	print("Medicine request")
 	if doctor.selected_item_id < 0 || doctor.selected_item == null:
-		print("No Medicine")
 		game.medicine = null
 		game.call_deferred("emit_signal", "recieved_medicine")
 		return
 	
-	print("Medicine")
 	game.medicine = doctor.selected_item
 	game.call_deferred("emit_signal", "recieved_medicine")
 
 func remove_medicine() -> void:
-	print("Removing medicine...")
 	doctor.remove_selected_item()
 
 func fill_beds() -> void:
-	print("Making beds")
-	print(game.backlog.size())
 	while true:
 		if !in_game: break
 		if game.backlog.is_empty(): break
 		
 		game.populate_bed()
 		await get_tree().create_timer(5).timeout
-		print("Timer done")
-	print("Loop done")
 
 func item_selected() -> void:
 	if !game.at_cabinet:
@@ -141,7 +141,7 @@ func day_over() -> void:
 	temp_cabinet_storage = doctor.cabinet.get_medicine_amount()
 	temp_inventory_storage = doctor.get_items_in_order()
 	
-	save_game()
+	#save_game()
 	
 	end_of_day_setup()
 	pass
@@ -172,13 +172,11 @@ func show_dialogue(text : String) -> void:
 
 func dialogue_lock_patient(args : Array = []) -> void:
 	for patient in game.patients:
-		if patient.patient_data: print(patient.patient_data.reference)
 		if patient.patient_data && patient.patient_data.reference == args[0]:
 			patient.is_locked = true
 
 func dialogue_unlock_patient(args : Array = []) -> void:
 	for patient in game.patients:
-		if patient.patient_data: print(patient.patient_data.reference)
 		if patient.patient_data && patient.patient_data.reference == args[0]:
 			patient.is_locked = false
 
@@ -196,7 +194,6 @@ func dialogue_wait_find_injury(args : Array = []) -> void:
 	
 	var selected_patient : Patient
 	for patient in game.patients:
-		if patient.patient_data: print(patient.patient_data.reference)
 		if patient.patient_data && patient.patient_data.reference == args[0]:
 			selected_patient = patient
 			break
@@ -219,7 +216,6 @@ func dialogue_force_medicine(args : Array = []) -> void:
 	
 	var selected_patient : Patient
 	for patient in game.patients:
-		if patient.patient_data: print(patient.patient_data.reference)
 		if patient.patient_data && patient.patient_data.reference == args[0]:
 			selected_patient = patient
 			break
@@ -242,30 +238,28 @@ func dialogue_treat_injury(args : Array = []) -> void:
 	
 	var selected_patient : Patient
 	for patient in game.patients:
-		if patient.patient_data: print(patient.patient_data.reference)
 		if patient.patient_data && patient.patient_data.reference == args[0]:
 			selected_patient = patient
 			break
 	
-	print(selected_patient.injuries)
 	selected_patient.injuries[Patient.Limbs[args[1]]].erase(Data.recall(args[2]))
+	selected_patient.update_sprites()
 
 func dialogue_add_injury(args : Array = []) -> void:
 	
 	var selected_patient : Patient
 	for patient in game.patients:
-		if patient.patient_data: print(patient.patient_data.reference)
 		if patient.patient_data && patient.patient_data.reference == args[0]:
 			selected_patient = patient
 			break
 	
 	selected_patient.injuries[Patient.Limbs[args[1]]].append(Data.recall(args[2]))
+	selected_patient.update_sprites()
 
 func dialogue_update_display(args : Array = []) -> void:
 	
 	var selected_patient : Patient
 	for patient in game.patients:
-		if patient.patient_data: print(patient.patient_data.reference)
 		if patient.patient_data && patient.patient_data.reference == args[0]:
 			selected_patient = patient
 			break
@@ -277,7 +271,6 @@ func dialogue_wait_treat_injury_fail(args : Array = []) -> void:
 	
 	var selected_patient : Patient
 	for patient in game.patients:
-		if patient.patient_data: print(patient.patient_data.reference)
 		if patient.patient_data && patient.patient_data.reference == args[0]:
 			selected_patient = patient
 			break
@@ -297,7 +290,6 @@ func dialogue_wait_treat_injury_succeed(args : Array = []) -> void:
 	
 	var selected_patient : Patient
 	for patient in game.patients:
-		if patient.patient_data: print(patient.patient_data.reference)
 		if patient.patient_data && patient.patient_data.reference == args[0]:
 			selected_patient = patient
 			break

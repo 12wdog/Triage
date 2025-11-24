@@ -1,25 +1,8 @@
-[gd_resource type="Resource" script_class="DayData" load_steps=8 format=3 uid="uid://bahfr4pirmdy3"]
+[gd_resource type="Resource" script_class="DayData" load_steps=3 format=3 uid="uid://bahfr4pirmdy3"]
 
 [ext_resource type="Script" uid="uid://on4efdmss2fv" path="res://resources/data/day_data.gd" id="1_0bbkq"]
 [ext_resource type="Resource" uid="uid://dyjr0gtfcf2y1" path="res://presaved/patients/tut.tres" id="1_vkhyf"]
-[ext_resource type="Script" uid="uid://b7q1y0t54u6wq" path="res://resources/data/patient_data.gd" id="3_75r80"]
-[ext_resource type="Resource" uid="uid://cflehxgo2shmq" path="res://presaved/injuries/burn_one.tres" id="5_5e1v6"]
-[ext_resource type="Resource" uid="uid://dvo6hqxj5ul7b" path="res://presaved/injuries/heavy_bleed.tres" id="5_sfv43"]
-
-[sub_resource type="Resource" id="Resource_2h4wu"]
-script = ExtResource("3_75r80")
-reference = "0"
-injuries = {
-"LARM": [ExtResource("5_sfv43")]
-}
-
-[sub_resource type="Resource" id="Resource_vkhyf"]
-script = ExtResource("3_75r80")
-reference = "1"
-injuries = {
-"LARM": [ExtResource("5_5e1v6"), ExtResource("5_sfv43")]
-}
 
 [resource]
 script = ExtResource("1_0bbkq")
-data = [[ExtResource("1_vkhyf")], [SubResource("Resource_2h4wu"), SubResource("Resource_vkhyf")]]
+data = [[ExtResource("1_vkhyf")], [[2, 2, 1]]]

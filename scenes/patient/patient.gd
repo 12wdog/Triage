@@ -108,7 +108,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 		return Result.DEAD
 		
 	if force_medicine:
-		print("forced med")
 		call_deferred("emit_signal", "medicine_input", Limbs.find_key(limb), medicine)
 		var success = await self.medicine_continue
 		if success:
@@ -120,7 +119,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 	if is_locked:
 		return Result.UNABLE
 	
-	print(Limbs.find_key(limb))
 
 	if medicine.reference == "amputation" and (limb == Limbs.HEAD or limb == Limbs.TORSO):
 		return Result.UNABLE # cannot amputate head/torso
@@ -132,7 +130,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 	var applied := false
 
 	for injury in current_injuries:
-		print("Checking injury: ", injury)
 
 		if medicine.treatments.has("*"):
 			# universal medicine, always attempt
@@ -149,7 +146,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 				result = Result.CLEAR
 
 			if result == Result.UNABLE:
-				print("UNABLE")
 				return result
 	
 	
@@ -157,11 +153,9 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 	# Only log as attempted if something was actually applied
 	if applied:
 		attempted_cures[limb].append(medicine)
-		print("ABLE")
 		is_cured()
 		return result
 	else:
-		print("Medicine has no effect on this injury")
 		return Result.UNABLE
 
 func lethal(injury : InjuryData) -> Result:
@@ -193,7 +187,6 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 	if best_cure.is_empty():
 		return Result.UNABLE
 	
-	print(best_cure)
 	
 	var rng = RandomNumberGenerator.new()
 	var result : Result
@@ -205,7 +198,6 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 		result = Result.CLEAR
 		call_deferred_thread_group("emit_signal", "cure_attempted")
 	elif able_to_cure == -1 && best_cure[0] > 0:
-		print("force fail")
 		call_deferred_thread_group("emit_signal", "cure_attempted")
 		result = Result.NOCLEAR
 	else: result = Result.NOCLEAR
@@ -219,7 +211,6 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 
 func _get_best_cure(cures : Array, limb : int) -> Array:
 	var valid_cures = _get_valid_cures(cures, limb)
-	print(valid_cures)
 	var output : Array = []
 	var output_percent : float = -1
 	
@@ -236,11 +227,8 @@ func _get_valid_cures(cures: Array, limb: int) -> Array:
 	for _cure in cures:
 		var can_include := true
 		
-		print(_cure)
 		for prereq in _cure:
 			if prereq is String:
-				print("Checking prereq: %s" % prereq)
-				print("Attempted cures for limb: ", attempted_cures[limb])
 				
 				var found := false
 				for attempted in attempted_cures[limb]:
@@ -252,7 +240,6 @@ func _get_valid_cures(cures: Array, limb: int) -> Array:
 					can_include = false
 					break
 		
-		print("Can include? %s" % can_include)
 		if can_include:
 			output.append(_cure)
 	
@@ -331,20 +318,23 @@ func update_sprites():
 	var limb_vis = [head_vis, torso_vis, larm_vis, rarm_vis, lleg_vis, rleg_vis]
 	
 	for i in range(6):
+
 		var limb = limb_vis[i]
-		for n in limb.get_children():
-			limb.remove_child(n);
-			n.queue_free()
+		var old_children = limb.get_children()
+		for n in old_children:
+			n.free()
+		
+
 		
 		var has_amputation = false
 		
-		var body_path = "res://textures/patient/%s/Clothed_%s.png"
-		body_path = body_path % [Limbs.find_key(i), Limbs.find_key(i)]
+		var body_path = "res://textures/patient/%s/clothed.png"
+		body_path = body_path % [Limbs.find_key(i)]
 		if ResourceLoader.exists(body_path):
 			var body_sprite = Sprite2D.new()
 			body_sprite.texture = ResourceLoader.load(body_path)
 			limb.add_child(body_sprite)
-				
+		
 		for attempt_cure in attempted_cures[i]:
 			
 			if attempt_cure.reference == "amputation":
@@ -354,8 +344,8 @@ func update_sprites():
 				
 				has_amputation = true
 			
-			var sprite_path = "res://textures/patient/%s/%s_%s.png"
-			sprite_path = sprite_path % [Limbs.find_key(i), attempt_cure.reference.capitalize(), Limbs.find_key(i)]
+			var sprite_path = "res://textures/patient/%s/%s.png"
+			sprite_path = sprite_path % [Limbs.find_key(i), attempt_cure.reference]
 			if ResourceLoader.exists(sprite_path):
 				var sprite = Sprite2D.new();
 				sprite.texture = ResourceLoader.load(sprite_path)
@@ -363,31 +353,33 @@ func update_sprites():
 			
 			if has_amputation: break
 		
-		if has_amputation: continue
 		
+		if has_amputation: continue
+		print(injuries)
 		for injury in injuries[i]:
-			var sprite_path = "res://textures/patient/%s/%s_%s.png"
-			sprite_path = sprite_path % [Limbs.find_key(i), injury.reference.capitalize(), Limbs.find_key(i)]
+			var sprite_path = "res://textures/patient/%s/%s.png"
+			sprite_path = sprite_path % [Limbs.find_key(i), injury.reference]
 			if ResourceLoader.exists(sprite_path):
 				var sprite = Sprite2D.new();
 				sprite.texture = ResourceLoader.load(sprite_path)
 				limb.add_child(sprite)
 	
 	if ResourceLoader.exists(face):
+		var old_children = face_vis.get_children()
+		for n in old_children:
+			n.free()
 		var face_sprite = Sprite2D.new()
 		face_sprite.texture = ResourceLoader.load(face)
 		face_vis.add_child(face_sprite)
+	
 
 
 func is_cured() -> void:
-	print("Checking if cured")
 	for limb_injuries in injuries:
 		if not limb_injuries.is_empty():
 			return   # still injured, stop
 	
 	if !dialogue.is_empty(): return
-	
-	print("is cured")
 	
 	cured.emit(id)
 

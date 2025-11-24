@@ -163,12 +163,13 @@ var patient_array = [
 		"LARM": [Data.recall("bullet")]
 	}, 
 	"patient", 
-	"res://dialogue/dialogue_text/tutorial.txt")
+	"res://dialogue/dialogue_text/tutorial.txt"),
+	
 ]
 
 var day : DayData = DayData.new([
 	[preload("res://presaved/patients/tut.tres") as DialoguePatientData],
-	[PatientRandomizer.make("0", 1), PatientRandomizer.make("1", 2)]
+	[[2, 2, 1]]
 ])
 
 func _run():
