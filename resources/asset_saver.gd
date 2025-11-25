@@ -45,7 +45,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	""
+	"res://textures/medicine/Bandage.png"
 	),
 	MedicineData.new("antiseptic", "Serum", {
 		"burn_one": [
@@ -89,7 +89,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	""
+	"res://textures/medicine/Antibiotic.png"
 	),
 	MedicineData.new("surgery", "Surgical Tools", {
 		"broken_limb": [
@@ -106,7 +106,7 @@ var medicine_array = [
 	},
 	2,
 	false,
-	""
+	"res://textures/medicine/Surgery.png"
 	),
 	MedicineData.new("tongs", "Tongs", {
 		"bullet": [
@@ -137,7 +137,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	""
+	"res://textures/medicine/Painkillers.png"
 	),
 	MedicineData.new("amputation", "Bone Saw", {
 		"*": [
@@ -146,7 +146,7 @@ var medicine_array = [
 	},
 	2,
 	false,
-	""
+	"res://textures/medicine/Bonesaw.png"
 	),
 	MedicineData.new("splint", "Splint", {
 		"broken_limb": [
