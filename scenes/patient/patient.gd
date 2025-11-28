@@ -105,7 +105,7 @@ func populate() -> void:
 
 func cure(limb : int, medicine : MedicineData) -> Result:
 	if dead:
-		return Result.DEAD
+		return Result.UNABLE
 		
 	if force_medicine:
 		call_deferred("emit_signal", "medicine_input", Limbs.find_key(limb), medicine)
@@ -202,7 +202,8 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 		result = Result.NOCLEAR
 	else: result = Result.NOCLEAR
 	
-	if best_cure[-1] is Array:
+	if not is_dialogue and best_cure[-1] is Array:
+		print("side effect")
 		var side_effect_result = _add_side_effect(best_cure[-1][0], Data.recall(best_cure[-1][1]), limb)
 		if side_effect_result == Result.DEAD:
 			return side_effect_result
@@ -254,6 +255,7 @@ func _add_side_effect(chance : float, side_effect: InjuryData, limb : int) -> Re
 	if side_effect.reference == "death" || side_effect.reference == "shock":
 		if side_effect.reference == "death":
 			dead = true
+			injuries[Limbs.HEAD].append(side_effect)
 			return Result.DEAD
 		
 		if injuries[Limbs.HEAD].contains(side_effect):
@@ -355,7 +357,6 @@ func update_sprites():
 		
 		
 		if has_amputation: continue
-		print(injuries)
 		for injury in injuries[i]:
 			var sprite_path = "res://textures/patient/%s/%s.png"
 			sprite_path = sprite_path % [Limbs.find_key(i), injury.reference]

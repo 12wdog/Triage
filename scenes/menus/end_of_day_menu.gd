@@ -8,6 +8,8 @@ const cure = "PATIENTS CURED: "
 const sent = "PATIENTS SENT AWAY: "
 const killed = "PATIENTS KILLED: "
 
+@onready var end_of_day_label : Label = $PanelContainer/MarginContainer/VBoxContainer/Label
+
 @onready var cured_num  : Label = $PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/CureNum
 @onready var sent_num   : Label = $PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/SentNum
 @onready var killed_num : Label = $PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/KilledNum

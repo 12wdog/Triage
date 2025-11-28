@@ -7,6 +7,7 @@ signal use_medicine()
 signal display(text : String)
 signal has_dialogue(text : String)
 
+
 signal day_finished()
 
 @onready var rng := RandomNumberGenerator.new()
@@ -17,6 +18,12 @@ var backlog : Array[PatientData] = []
 var at_cabinet : bool = false
 
 var medicine : MedicineData
+
+var cure_count := 0
+var dead_count := 0
+var sent_count := 0
+
+var on_dialogue := false
 
 func initialize_landing() -> void:
 	landing.zone_click.connect(go_to)
@@ -62,6 +69,8 @@ func go_to_bed(bed : int) -> void:
 	patients[bed].visible = true
 	at_cabinet = false
 	
+	on_dialogue = patients[bed].is_dialogue
+	
 	if patients[bed].is_dialogue:
 		has_dialogue.emit(patients[bed].dialogue)
 	
@@ -105,6 +114,10 @@ func attempt_heal(limb: int, id: int) -> void:
 	var result : Patient.Result = await patients[id].cure(limb, medicine)
 	print(Patient.Result.find_key(result))
 	patients[id]._update_display(limb)
+	if result == Patient.Result.DEAD:
+		patients[id]._update_display(Patient.Limbs.HEAD)
+		dead_count += 1
+		sent_count -= 1
 	patients[id].update_sprites()
 	if result == Patient.Result.CLEAR || result == Patient.Result.NOCLEAR:
 		use_medicine.emit()
@@ -112,6 +125,7 @@ func attempt_heal(limb: int, id: int) -> void:
 
 func patient_cured(id : int) -> void:
 	patients[id].patient_data = null
+	cure_count += 1
 	if backlog.size() == 0:
 		for patient in patients:
 			if patient.patient_data:
@@ -119,4 +133,26 @@ func patient_cured(id : int) -> void:
 		
 		day_finished.emit()
 	
+func send_away() -> void:
 	
+	var active_patient : Patient = null
+	
+	for patient in patients:
+		if patient.visible:
+			active_patient = patient
+			break
+	
+	if active_patient == null:
+		return
+	
+	active_patient.patient_data = null
+	sent_count += 1
+	
+	if backlog.size() == 0:
+		for patient in patients:
+			if patient.patient_data:
+				return
+		
+		day_finished.emit()
+
+	pass
