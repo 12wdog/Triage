@@ -168,8 +168,11 @@ var patient_array = [
 ]
 
 var day : DayData = DayData.new([
-	#[preload("res://presaved/patients/tut.tres") as DialoguePatientData],
-	[[2, 2, 1]]
+	[preload("res://presaved/patients/tut.tres") as DialoguePatientData],
+	[[2, 2, 1]],
+	[[3, 2, 2]],
+	[[3, 4, 2]],
+	[[5, 5, 4]]
 ])
 
 func _run():
