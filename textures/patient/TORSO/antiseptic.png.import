@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgqyj550fw3i1"
-path="res://.godot/imported/burned.png-d6c7bb5f938b6a03729178ac593e45d4.ctex"
+uid="uid://begaibeicamop"
+path="res://.godot/imported/antiseptic.png-6e662e49f662d00331878284ecf78092.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/patient/RLEG/burned.png"
-dest_files=["res://.godot/imported/burned.png-d6c7bb5f938b6a03729178ac593e45d4.ctex"]
+source_file="res://textures/patient/TORSO/antiseptic.png"
+dest_files=["res://.godot/imported/antiseptic.png-6e662e49f662d00331878284ecf78092.ctex"]
 
 [params]
 

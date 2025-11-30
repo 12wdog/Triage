@@ -318,7 +318,13 @@ func _update_display(limb : int) -> void:
 func update_sprites():
 	
 	var limb_vis = [head_vis, torso_vis, larm_vis, rarm_vis, lleg_vis, rleg_vis]
-	
+	if ResourceLoader.exists(face):
+		var old_children = face_vis.get_children()
+		for n in old_children:
+			n.free()
+		var face_sprite = Sprite2D.new()
+		face_sprite.texture = ResourceLoader.load(face)
+		face_vis.add_child(face_sprite)
 	for i in range(6):
 
 		var limb = limb_vis[i]
@@ -365,13 +371,7 @@ func update_sprites():
 				sprite.texture = ResourceLoader.load(sprite_path)
 				limb.add_child(sprite)
 	
-	if ResourceLoader.exists(face):
-		var old_children = face_vis.get_children()
-		for n in old_children:
-			n.free()
-		var face_sprite = Sprite2D.new()
-		face_sprite.texture = ResourceLoader.load(face)
-		face_vis.add_child(face_sprite)
+	
 	
 
 

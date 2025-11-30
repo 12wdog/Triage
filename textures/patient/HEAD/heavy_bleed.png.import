@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cplb4fldbnskt"
-path="res://.godot/imported/burned.png-0f10b96b6025b717653d8c93d151a8c0.ctex"
+uid="uid://c8k04u61bgndi"
+path="res://.godot/imported/heavy_bleed.png-29d7334464f4c15b0bfc5c700d978a27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/patient/TORSO/burned.png"
-dest_files=["res://.godot/imported/burned.png-0f10b96b6025b717653d8c93d151a8c0.ctex"]
+source_file="res://textures/patient/HEAD/heavy_bleed.png"
+dest_files=["res://.godot/imported/heavy_bleed.png-29d7334464f4c15b0bfc5c700d978a27.ctex"]
 
 [params]
 
