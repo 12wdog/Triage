@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbcml3o2g1fvj"
-path="res://.godot/imported/burn_two.png-76f9cffe59a1aae7b33783a0654ae12d.ctex"
+uid="uid://n7lkxoqmywdq"
+path="res://.godot/imported/burned.png-d01eb195725f08fcbe325c24aad0c1e3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/patient/RARM/burn_two.png"
-dest_files=["res://.godot/imported/burn_two.png-76f9cffe59a1aae7b33783a0654ae12d.ctex"]
+source_file="res://textures/patient/RARM/burned.png"
+dest_files=["res://.godot/imported/burned.png-d01eb195725f08fcbe325c24aad0c1e3.ctex"]
 
 [params]
 

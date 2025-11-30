@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjuravho2m7g8"
-path="res://.godot/imported/stitches.png-ef53a077cf295139ac1e5ef9022aa721.ctex"
+uid="uid://cs31u7f7a2jgh"
+path="res://.godot/imported/burned.png-c075f7f268a637e14f8f4b3a53de8a8f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/patient/RARM/stitches.png"
-dest_files=["res://.godot/imported/stitches.png-ef53a077cf295139ac1e5ef9022aa721.ctex"]
+source_file="res://textures/patient/LARM/burned.png"
+dest_files=["res://.godot/imported/burned.png-c075f7f268a637e14f8f4b3a53de8a8f.ctex"]
 
 [params]
 

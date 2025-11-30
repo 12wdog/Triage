@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="DayData" load_steps=2 format=3 uid="uid://bahfr4pirmdy3"]
+[gd_resource type="Resource" script_class="DayData" load_steps=3 format=3 uid="uid://bahfr4pirmdy3"]
 
 [ext_resource type="Script" uid="uid://on4efdmss2fv" path="res://resources/data/day_data.gd" id="1_0bbkq"]
+[ext_resource type="Resource" uid="uid://dyjr0gtfcf2y1" path="res://presaved/patients/tut.tres" id="1_vkhyf"]
 
 [resource]
 script = ExtResource("1_0bbkq")
-data = [[[2, 2, 1]], [[3, 2, 2]], [[3, 4, 2]], [[5, 5, 4]]]
+data = [[ExtResource("1_vkhyf")], [[2, 2, 1]], [[3, 2, 2]], [[3, 4, 2]], [[5, 5, 4]]]

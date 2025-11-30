@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5gdbolm0q4e"
-path="res://.godot/imported/heavy_bleed.png-e44f4fe8ce2aa5352a60c06ea533764f.ctex"
+uid="uid://dok36cbsgu7jq"
+path="res://.godot/imported/burn.png-a7a353ad3d376b14d31dad03286c7734.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/patient/LLEG/heavy_bleed.png"
-dest_files=["res://.godot/imported/heavy_bleed.png-e44f4fe8ce2aa5352a60c06ea533764f.ctex"]
+source_file="res://textures/patient/HEAD/burn.png"
+dest_files=["res://.godot/imported/burn.png-a7a353ad3d376b14d31dad03286c7734.ctex"]
 
 [params]
 
