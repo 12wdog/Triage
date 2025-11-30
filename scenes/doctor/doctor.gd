@@ -53,8 +53,6 @@ func attempt_add_item_cabinet(button : MedicineCabinetButton) -> void:
 	var can_add = add_item(button.item)
 	if can_add:
 		button.amount -= 1
-	$AudioStreamPlayer.stream = preload("res://sounds/PickUp.wav")
-	$AudioStreamPlayer.play()
 
 func attempt_store_item_cabinet(item : MedicineData) -> bool:
 	
@@ -69,8 +67,6 @@ func attempt_store_item_cabinet(item : MedicineData) -> bool:
 		return false
 	
 	button.amount += 1
-	$AudioStreamPlayer.stream = preload("res://sounds/PlaceDown.wav")
-	$AudioStreamPlayer.play()
 	return true
 
 
@@ -155,6 +151,7 @@ func remove_selected_item(override : bool = false) -> bool:
 		if not ok:
 			push_error("Rebuilding inventory failed while re-adding: %s" % str(it))
 			return false
+
 	return true
 
 func get_items_in_order() -> Array[MedicineData]:
@@ -174,5 +171,3 @@ func add_items_in_order(items : Array[MedicineData]) -> void:
 func display_hide_booklet() -> void:
 	booklet.visible = !booklet.visible
 	clipboard_button.visible = !clipboard_button.visible
-	$AudioStreamPlayer.stream = preload("res://sounds/Clipboard.wav")
-	$AudioStreamPlayer.play()

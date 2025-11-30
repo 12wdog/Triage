@@ -44,19 +44,6 @@ var dialogue_can_cure = false
 
 var able_to_cure : int = 0
 
-var medicine_sounds := {
-	"antibiotic": preload("res://sounds/Antibiotic.wav"),
-	"bandage": preload("res://sounds/Bandage.wav"),
-	"amputation": preload("res://sounds/BoneSaw.wav"),
-	"painkiller": preload("res://sounds/Pills.wav"),
-	"antiseptic": preload("res://sounds/Serum.wav"),
-	"splint": preload("res://sounds/Splint.wav"),
-	"surgery": preload("res://sounds/Scalpel.wav"),
-	"stitches": preload("res://sounds/Surgery.wav"),
-	"tongs": preload("res://sounds/Tongs.wav"),
-	"*": preload("res://sounds/Failure.wav")
-}
-
 enum Limbs {
 	HEAD,
 	TORSO,
@@ -118,8 +105,6 @@ func populate() -> void:
 
 func cure(limb : int, medicine : MedicineData) -> Result:
 	if dead:
-		$AudioStreamPlayer.stream = medicine_sounds["*"]
-		$AudioStreamPlayer.play()
 		return Result.UNABLE
 		
 	if force_medicine:
@@ -129,8 +114,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 			attempted_cures[limb].append(medicine)
 			return Result.CLEAR
 		else:
-			$AudioStreamPlayer.stream = medicine_sounds["*"]
-			$AudioStreamPlayer.play()
 			return Result.UNABLE
 	
 	if is_locked:
@@ -138,8 +121,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 	
 
 	if medicine.reference == "amputation" and (limb == Limbs.HEAD or limb == Limbs.TORSO):
-		$AudioStreamPlayer.stream = medicine_sounds["*"]
-		$AudioStreamPlayer.play()
 		return Result.UNABLE # cannot amputate head/torso
 
 	var result := Result.UNABLE
@@ -158,7 +139,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 		elif medicine.treatments.has(injury.reference):
 			var temp = _try_cure(limb, medicine, injury.reference)
 			applied = true
-			play_medicine_sound(medicine)
 
 			if temp != Result.CLEAR:
 				result = temp
@@ -176,9 +156,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 		is_cured()
 		return result
 	else:
-		print("Medicine has no effect on this injury")
-		$AudioStreamPlayer.stream = medicine_sounds["*"]
-		$AudioStreamPlayer.play()
 		return Result.UNABLE
 
 func lethal(injury : InjuryData) -> Result:
@@ -208,8 +185,6 @@ func area_entered(area : Area2D) -> void:
 func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Result:
 	var best_cure : Array = _get_best_cure(medicine.treatments.get(injury), limb)
 	if best_cure.is_empty():
-		$AudioStreamPlayer.stream = medicine_sounds["*"]
-		$AudioStreamPlayer.play()
 		return Result.UNABLE
 	
 	
@@ -408,16 +383,6 @@ func is_cured() -> void:
 	if !dialogue.is_empty(): return
 	
 	cured.emit(id)
-
-func play_medicine_sound(medicine: MedicineData):
-	var sound = medicine_sounds["*"]
-
-	if medicine_sounds.has(medicine.reference):
-		sound = medicine_sounds[medicine.reference]
-
-	$AudioStreamPlayer.stream = sound
-	$AudioStreamPlayer.play()
-
 
 func _physics_process(_delta):
 	if patient_data:
