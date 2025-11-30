@@ -22,6 +22,18 @@ var dialogue : String = ""
 @onready var lleg = $PatientVisual/LLEG
 @onready var rleg = $PatientVisual/RLEG
 
+@onready var head_vis = $PatientVisual/Sprites/HEAD
+@onready var torso_vis = $PatientVisual/Sprites/TORSO
+@onready var larm_vis = $PatientVisual/Sprites/LARM
+@onready var rarm_vis = $PatientVisual/Sprites/RARM
+@onready var lleg_vis = $PatientVisual/Sprites/LLEG
+@onready var rleg_vis = $PatientVisual/Sprites/RLEG
+@onready var face_vis = $PatientVisual/Sprites/FACE
+
+var face_path = "res://textures/patient/FACES/Face_%s.png"
+
+var face = ""
+
 var dead : bool = false
 var selected_area : Limbs
 var hovered: Area2D
@@ -98,16 +110,19 @@ func populate() -> void:
 	if patient_data is DialoguePatientData:
 			is_dialogue = true
 			dialogue = patient_data.dialogue_path
+	
+	face = face_path % [str(randi_range(1, 5))]
+	
+	update_sprites()
 
 
 func cure(limb : int, medicine : MedicineData) -> Result:
 	if dead:
 		$AudioStreamPlayer.stream = medicine_sounds["*"]
 		$AudioStreamPlayer.play()
-		return Result.DEAD
+		return Result.UNABLE
 		
 	if force_medicine:
-		print("forced med")
 		call_deferred("emit_signal", "medicine_input", Limbs.find_key(limb), medicine)
 		var success = await self.medicine_continue
 		if success:
@@ -121,7 +136,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 	if is_locked:
 		return Result.UNABLE
 	
-	print(Limbs.find_key(limb))
 
 	if medicine.reference == "amputation" and (limb == Limbs.HEAD or limb == Limbs.TORSO):
 		$AudioStreamPlayer.stream = medicine_sounds["*"]
@@ -135,7 +149,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 	var applied := false
 
 	for injury in current_injuries:
-		print("Checking injury: ", injury)
 
 		if medicine.treatments.has("*"):
 			# universal medicine, always attempt
@@ -153,7 +166,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 				result = Result.CLEAR
 
 			if result == Result.UNABLE:
-				print("UNABLE")
 				return result
 	
 	
@@ -161,7 +173,6 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 	# Only log as attempted if something was actually applied
 	if applied:
 		attempted_cures[limb].append(medicine)
-		print("ABLE")
 		is_cured()
 		return result
 	else:
@@ -201,7 +212,6 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 		$AudioStreamPlayer.play()
 		return Result.UNABLE
 	
-	print(best_cure)
 	
 	var rng = RandomNumberGenerator.new()
 	var result : Result
@@ -213,12 +223,12 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 		result = Result.CLEAR
 		call_deferred_thread_group("emit_signal", "cure_attempted")
 	elif able_to_cure == -1 && best_cure[0] > 0:
-		print("force fail")
 		call_deferred_thread_group("emit_signal", "cure_attempted")
 		result = Result.NOCLEAR
 	else: result = Result.NOCLEAR
 	
-	if best_cure[-1] is Array:
+	if not is_dialogue and best_cure[-1] is Array:
+		print("side effect")
 		var side_effect_result = _add_side_effect(best_cure[-1][0], Data.recall(best_cure[-1][1]), limb)
 		if side_effect_result == Result.DEAD:
 			return side_effect_result
@@ -227,7 +237,6 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 
 func _get_best_cure(cures : Array, limb : int) -> Array:
 	var valid_cures = _get_valid_cures(cures, limb)
-	print(valid_cures)
 	var output : Array = []
 	var output_percent : float = -1
 	
@@ -244,11 +253,8 @@ func _get_valid_cures(cures: Array, limb: int) -> Array:
 	for _cure in cures:
 		var can_include := true
 		
-		print(_cure)
 		for prereq in _cure:
 			if prereq is String:
-				print("Checking prereq: %s" % prereq)
-				print("Attempted cures for limb: ", attempted_cures[limb])
 				
 				var found := false
 				for attempted in attempted_cures[limb]:
@@ -260,7 +266,6 @@ func _get_valid_cures(cures: Array, limb: int) -> Array:
 					can_include = false
 					break
 		
-		print("Can include? %s" % can_include)
 		if can_include:
 			output.append(_cure)
 	
@@ -275,6 +280,7 @@ func _add_side_effect(chance : float, side_effect: InjuryData, limb : int) -> Re
 	if side_effect.reference == "death" || side_effect.reference == "shock":
 		if side_effect.reference == "death":
 			dead = true
+			injuries[Limbs.HEAD].append(side_effect)
 			return Result.DEAD
 		
 		if injuries[Limbs.HEAD].contains(side_effect):
@@ -333,16 +339,73 @@ func _update_display(limb : int) -> void:
 		text += " • NONE\n"
 	
 	display.emit(text)
+	
+func update_sprites():
+	
+	var limb_vis = [head_vis, torso_vis, larm_vis, rarm_vis, lleg_vis, rleg_vis]
+	if ResourceLoader.exists(face):
+		var old_children = face_vis.get_children()
+		for n in old_children:
+			n.free()
+		var face_sprite = Sprite2D.new()
+		face_sprite.texture = ResourceLoader.load(face)
+		face_vis.add_child(face_sprite)
+	for i in range(6):
+
+		var limb = limb_vis[i]
+		var old_children = limb.get_children()
+		for n in old_children:
+			n.free()
+		
+
+		
+		var has_amputation = false
+		
+		var body_path = "res://textures/patient/%s/clothed.png"
+		body_path = body_path % [Limbs.find_key(i)]
+		if ResourceLoader.exists(body_path):
+			var body_sprite = Sprite2D.new()
+			body_sprite.texture = ResourceLoader.load(body_path)
+			limb.add_child(body_sprite)
+		
+		for attempt_cure in attempted_cures[i]:
+			
+			if attempt_cure.reference == "amputation":
+				for n in limb.get_children():
+					limb.remove_child(n);
+					n.queue_free()
+				
+				has_amputation = true
+			
+			var sprite_path = "res://textures/patient/%s/%s.png"
+			sprite_path = sprite_path % [Limbs.find_key(i), attempt_cure.reference]
+			if ResourceLoader.exists(sprite_path):
+				var sprite = Sprite2D.new();
+				sprite.texture = ResourceLoader.load(sprite_path)
+				limb.add_child(sprite)
+			
+			if has_amputation: break
+		
+		
+		if has_amputation: continue
+		for injury in injuries[i]:
+			var sprite_path = "res://textures/patient/%s/%s.png"
+			sprite_path = sprite_path % [Limbs.find_key(i), injury.reference]
+			if ResourceLoader.exists(sprite_path):
+				var sprite = Sprite2D.new();
+				sprite.texture = ResourceLoader.load(sprite_path)
+				limb.add_child(sprite)
+	
+	
+	
+
 
 func is_cured() -> void:
-	print("Checking if cured")
 	for limb_injuries in injuries:
 		if not limb_injuries.is_empty():
 			return   # still injured, stop
 	
 	if !dialogue.is_empty(): return
-	
-	print("is cured")
 	
 	cured.emit(id)
 

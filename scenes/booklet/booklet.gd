@@ -4,8 +4,8 @@ class_name Booklet
 
 signal close_menu()
 
-@onready var page_left  : RichTextLabel = $MarginContainer/HBoxContainer/VBoxContainer/Panel/HBoxContainer/MarginContainer/PanelLeft/PaperLeft
-@onready var page_right : RichTextLabel = $MarginContainer/HBoxContainer/VBoxContainer/Panel/HBoxContainer/MarginContainer2/PanelRight/PaperRight
+@onready var page_left  : RichTextLabel = $MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/MarginContainer/PanelLeft/PaperLeft
+@onready var page_right : RichTextLabel = $MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/MarginContainer2/PanelRight/PaperRight
 @onready var button_left  : Button = $MarginContainer/HBoxContainer/VBoxContainer/Panel2/HBoxContainer/ButtonLeft
 @onready var button_right : Button = $MarginContainer/HBoxContainer/VBoxContainer/Panel2/HBoxContainer/ButtonRight
 @onready var clipboard : TextEdit = $MarginContainer/HBoxContainer/Panel/Clipboard

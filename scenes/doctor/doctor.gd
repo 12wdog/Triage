@@ -3,6 +3,7 @@ class_name Doctor
 
 signal return_to_landing()
 signal item_selected()
+signal send_away()
 
 const button_size : float = 100.0
 
@@ -38,6 +39,7 @@ func _ready():
 		i += 1
 	
 	return_button.pressed.connect(func() : return_to_landing.emit())
+	kick_out_button.pressed.connect(func() : send_away.emit())
 	
 	booklet.close_menu.connect(display_hide_booklet)
 	clipboard_button.pressed.connect(display_hide_booklet)

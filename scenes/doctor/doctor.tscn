@@ -82,7 +82,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -208.0
-offset_right = 499.0
+offset_right = 291.0
 offset_bottom = 205.0
 grow_vertical = 0
 icon = ExtResource("3_4xleg")
@@ -101,7 +101,6 @@ offset_bottom = 91.0
 text = "Back to Entrance"
 
 [node name="KickOutButton" type="Button" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
