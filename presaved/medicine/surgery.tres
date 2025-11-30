@@ -13,4 +13,4 @@ treatments = {
 }
 size = 2
 consumable = false
-asset_path = "res://textures/medicine/Surgery.png"
+asset_path = "res://textures/medicine/Scalpel.png"

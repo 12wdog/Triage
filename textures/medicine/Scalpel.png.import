@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg8svy287e0rs"
-path="res://.godot/imported/Surgery.png-0e8382e66dcfe5f0033dd70fadb4d57b.ctex"
+uid="uid://ccj461tgcy1at"
+path="res://.godot/imported/Scalpel.png-68855386db13c95617ef8dc2f046fc36.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/medicine/Surgery.png"
-dest_files=["res://.godot/imported/Surgery.png-0e8382e66dcfe5f0033dd70fadb4d57b.ctex"]
+source_file="res://textures/medicine/Scalpel.png"
+dest_files=["res://.godot/imported/Scalpel.png-68855386db13c95617ef8dc2f046fc36.ctex"]
 
 [params]
 

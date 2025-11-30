@@ -4,7 +4,7 @@ He’s back, pale, but standing. The wound looks clean, but his eyes reflect pai
 {ADDICTNAME}
 “It still hurts. Didn’t you say the painkillers would help?”
 [BUTTON]
-{MESSAGE} (Give 1 medicine?)
+{MESSAGE} (Give 1 painkiller?)
 {BUTTON} (Give medicine | TRYGIVEMEDICINE)
 {BUTTON} (Don’t give medicine | DONTGIVEMEDICINE)
 [END]

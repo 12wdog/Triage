@@ -1,9 +1,11 @@
 [#MAIN]
 {JUMPPOINT} (ADDICTJUMP)
 {NONE}
-He grips the cot so hard, his knuckles are white. “Please, just give me something to take the edge off. I can’t breathe.”
+He limps into the tent, ignoring the cot as if sitting would be a sign of weakness. 
+#David
+“It’s just a sprain. Don’t waste anything on me.”
 [BUTTON]
-{MESSAGE} (He seems to be in a bit of pain, give 1 painkiller?)
+{MESSAGE} (His leg is broken and he seems to be in a bit of pain, give 1 painkiller before fixing the leg?)
 {BUTTON} (Give medicine | TRYGIVEMEDICINE)
 {BUTTON} (Don’t give medicine | DONTGIVEMEDICINE)
 [END]
@@ -16,11 +18,11 @@ He grips the cot so hard, his knuckles are white. “Please, just give me someth
 
 [GIVEMEDICINE]
 {NONE}
-You see his grip slack as you give him the painkiller.
+You start working on his fracture.
+He watches the tent door instead of you. 
 {CALL} (dialogue_remove_medicine | painkiller)
-His body trembles once, then goes still. 
-#John
-“Thank you.”
+#David
+“Tch. You’re thorough. Fine.”
 [END]
 
 [CANTGIVEMEDICINE]
@@ -32,6 +34,8 @@ I can’t give him medicine if I don’t have any.
 
 [DONTGIVEMEDICINE]
 {NONE}
-You tell him to hold on until you can spare the supplies.
-He stares at you, teeth grinding from pain.
+It looks like it really is just a small fracture.
+He nods curtly. 
+#David
+“Good. Save your work for the kids.”
 [END]

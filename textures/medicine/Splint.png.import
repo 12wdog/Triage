@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg8svy287e0rs"
-path="res://.godot/imported/Surgery.png-0e8382e66dcfe5f0033dd70fadb4d57b.ctex"
+uid="uid://cxo6u7ksy3ntl"
+path="res://.godot/imported/Splint.png-ee3705d4b56ec4ddba1ed6162a3b7ed7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/medicine/Surgery.png"
-dest_files=["res://.godot/imported/Surgery.png-0e8382e66dcfe5f0033dd70fadb4d57b.ctex"]
+source_file="res://textures/medicine/Splint.png"
+dest_files=["res://.godot/imported/Splint.png-ee3705d4b56ec4ddba1ed6162a3b7ed7.ctex"]
 
 [params]
 

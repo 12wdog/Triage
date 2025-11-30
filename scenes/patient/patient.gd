@@ -32,6 +32,19 @@ var dialogue_can_cure = false
 
 var able_to_cure : int = 0
 
+var medicine_sounds := {
+	"antibiotic": preload("res://sounds/Antibiotic.wav"),
+	"bandage": preload("res://sounds/Bandage.wav"),
+	"amputation": preload("res://sounds/BoneSaw.wav"),
+	"painkiller": preload("res://sounds/Pills.wav"),
+	"antiseptic": preload("res://sounds/Serum.wav"),
+	"splint": preload("res://sounds/Splint.wav"),
+	"surgery": preload("res://sounds/Surgery.wav"),
+	"stitches": preload("res://sounds/Surgery.wav"),
+	"tongs": preload("res://sounds/Tongs.wav"),
+	"*": preload("res://sounds/Failure.wav")
+}
+
 enum Limbs {
 	HEAD,
 	TORSO,
@@ -126,6 +139,7 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 		elif medicine.treatments.has(injury.reference):
 			var temp = _try_cure(limb, medicine, injury.reference)
 			applied = true
+			play_medicine_sound(medicine)
 
 			if temp != Result.CLEAR:
 				result = temp
@@ -321,6 +335,16 @@ func is_cured() -> void:
 	print("is cured")
 	
 	cured.emit(id)
+
+func play_medicine_sound(medicine: MedicineData):
+	var sound = medicine_sounds["*"]
+
+	if medicine_sounds.has(medicine.reference):
+		sound = medicine_sounds[medicine.reference]
+
+	$AudioStreamPlayer.stream = sound
+	$AudioStreamPlayer.play()
+
 
 func _physics_process(_delta):
 	if patient_data:

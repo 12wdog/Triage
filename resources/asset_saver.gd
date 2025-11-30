@@ -77,7 +77,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	""
+	"res://textures/medicine/Surgery.png"
 	),
 	MedicineData.new("antibiotic", "Antibiotics", {
 		"infection": [
@@ -106,7 +106,7 @@ var medicine_array = [
 	},
 	2,
 	false,
-	"res://textures/medicine/Surgery.png"
+	"res://textures/medicine/Scalpel.png"
 	),
 	MedicineData.new("tongs", "Tongs", {
 		"bullet": [
@@ -115,7 +115,7 @@ var medicine_array = [
 	},
 	2,
 	false,
-	""
+	"res://textures/medicine/Tongs.png"
 	),
 	MedicineData.new("painkiller", "Painkillers", {
 		"light_bleed": [
@@ -155,7 +155,7 @@ var medicine_array = [
 	},
 	2,
 	false,
-	""
+	"res://textures/medicine/Splint.png"
 	)
 ]
 var patient_array = [
@@ -163,7 +163,32 @@ var patient_array = [
 		"LARM": [Data.recall("bullet")]
 	}, 
 	"patient", 
-	"res://dialogue/dialogue_text/tutorial.txt")
+	"res://dialogue/dialogue_text/tutorial.txt"),
+	DialoguePatientData.new("addict", {
+		"RARM": [Data.recall("infection")]
+	}, 
+	"John", 
+	"res://dialogue/dialogue_text/addict1.txt"),
+	DialoguePatientData.new("elderly", {
+		"LARM": [Data.recall("light_bleed")]
+	}, 
+	"Jeffery", 
+	"res://dialogue/dialogue_text/elderly1.txt"),
+	DialoguePatientData.new("opportunist", {
+		"RARM": [Data.recall("burn_two")]
+	}, 
+	"Michael", 
+	"res://dialogue/dialogue_text/opportunist1.txt"),
+	DialoguePatientData.new("stoic", {
+		"TORSO": [Data.recall("broken_limb")]
+	}, 
+	"Ben", 
+	"res://dialogue/dialogue_text/stoic1.txt"),
+	DialoguePatientData.new("veteran", {
+		"LLEG": [Data.recall("broken_limb")]
+	}, 
+	"David", 
+	"res://dialogue/dialogue_text/veteran1.txt")
 ]
 
 var day : DayData = DayData.new([
