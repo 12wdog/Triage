@@ -1,0 +1,30 @@
+[#MAIN]
+{NONE}
+His pupils are dilated; he is shaking. He’s trembling even though the air of the tent is hot and humid. 
+{ADDICTNAME}
+“I’ll do anything, please, I feel so cold. Please don’t let me go cold.”
+[BUTTON]
+{MESSAGE} (Give 2 Painkillers?)
+{BUTTON} (Give medicine | TRYGIVEMEDICINE)
+{BUTTON} (Don’t give medicine | DONTGIVEMEDICINE)
+[END]
+[END]
+
+[TRYGIVEMEDICINE]
+(CALL) (dialogue_has_medicine | painkiller | HASDRUGS}
+{IF} (HASDRUGS | GIVEMEDICINE | CANTGIVEMEDICINE)
+[END]
+
+[GIVEMEDICINE]
+{NONE}
+He clutches your wrist, murmuring some faint prayer as you give him the much-needed relief. His eyes gloss over glassily.
+{CALL} (dialogue_remove_medicine | painkiller)
+{CALL} (dialogue_remove_medicine | painkiller)
+[END]
+
+[DONTGIVEMEDICINE]
+{NONE}
+You take a step back. He collapses forward, teeth chattering. You leave him to have someone else move him. You have other patients to tend to.
+		10% chance of him seizing to death.
+		“Lorem Ipsum” death ending
+[END]

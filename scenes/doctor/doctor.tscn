@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://nfudh04fqg0d"]
 
 [ext_resource type="Script" uid="uid://p8qjhndkjhti" path="res://scenes/doctor/doctor.gd" id="1_ll7ka"]
-[ext_resource type="Texture2D" uid="uid://c2bsyr7ljtugn" path="res://textures/journal/Journalclosed.png" id="3_4xleg"]
+[ext_resource type="Texture2D" uid="uid://cvwbqdpga581a" path="res://textures/notebook/Journalclickable.png" id="3_4xleg"]
 [ext_resource type="Script" uid="uid://dxaqadg0f4qv6" path="res://resources/ui/inventory_button.gd" id="3_ow3c1"]
 [ext_resource type="PackedScene" uid="uid://dm5epu2jyx6vk" path="res://scenes/booklet/booklet.tscn" id="4_44hvh"]
 [ext_resource type="PackedScene" uid="uid://c1x1k5io21d8x" path="res://scenes/patient/patient_ui.tscn" id="4_m8bar"]
@@ -123,3 +123,5 @@ mouse_filter = 2
 [node name="Dialogue" parent="." instance=ExtResource("6_4xleg")]
 visible = false
 layout_mode = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
