@@ -1,0 +1,43 @@
+[#Main]
+{JUMPPOINT} (ADDICTJUMP)
+{NONE}
+He hisses dramatically as he enters, waving his burned hand.
+#Michael
+“Doc, look at this! Burned straight through and it hurts like hell.”
+[BUTTON]
+{MESSAGE} (His burns are pretty minor, Give 1 Serum?)
+{BUTTON} (Give medicine | TRYGIVEMEDICINE)
+{BUTTON} (Don’t give medicine | DONTGIVEMEDICINE)
+[END]
+[END]
+
+[TRYGIVEMEDICINE]
+(CALL) (dialogue_has_medicine | serum | HASDRUGS}
+{IF} (HASDRUGS | GIVEMEDICINE | CANTGIVEMEDICINE)
+[END]
+
+[GIVEMEDICINE]
+{NONE}
+It’s barely pink. You apply a thin layer of salve.
+{CALL} (dialogue_remove_medicine | serum)
+He sighs as if you saved his life. 
+#Michael
+“Knew you’d take care of me.”
+[END]
+
+[CANTGIVEMEDICINE]
+{NONE}
+I can’t give him medicine if I don’t have any.
+{CALL} (dialogue_pause)
+{JUMP} (ADDICTJUMP)
+[END]
+
+[DONTGIVEMEDICINE]
+{NONE}
+You tell him it’s too minor, it’s not worth treatment. 
+He frowns.
+#Michael
+“Really? You can’t spare anything for me?” 
+{NONE}
+He leaves, muttering under his breath.
+[END]

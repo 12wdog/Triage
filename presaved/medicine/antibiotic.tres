@@ -11,3 +11,4 @@ treatments = {
 "necrosis": [[0.0]]
 }
 size = 1
+asset_path = "res://textures/medicine/Antibiotic.png"

@@ -44,6 +44,19 @@ var dialogue_can_cure = false
 
 var able_to_cure : int = 0
 
+var medicine_sounds := {
+	"antibiotic": preload("res://sounds/Antibiotic.wav"),
+	"bandage": preload("res://sounds/Bandage.wav"),
+	"amputation": preload("res://sounds/BoneSaw.wav"),
+	"painkiller": preload("res://sounds/Pills.wav"),
+	"antiseptic": preload("res://sounds/Serum.wav"),
+	"splint": preload("res://sounds/Splint.wav"),
+	"surgery": preload("res://sounds/Scalpel.wav"),
+	"stitches": preload("res://sounds/Surgery.wav"),
+	"tongs": preload("res://sounds/Tongs.wav"),
+	"*": preload("res://sounds/Failure.wav")
+}
+
 enum Limbs {
 	HEAD,
 	TORSO,
@@ -105,7 +118,9 @@ func populate() -> void:
 
 func cure(limb : int, medicine : MedicineData) -> Result:
 	if dead:
-		return Result.DEAD
+		$AudioStreamPlayer.stream = medicine_sounds["*"]
+		$AudioStreamPlayer.play()
+		return Result.UNABLE
 		
 	if force_medicine:
 		call_deferred("emit_signal", "medicine_input", Limbs.find_key(limb), medicine)
@@ -114,6 +129,8 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 			attempted_cures[limb].append(medicine)
 			return Result.CLEAR
 		else:
+			$AudioStreamPlayer.stream = medicine_sounds["*"]
+			$AudioStreamPlayer.play()
 			return Result.UNABLE
 	
 	if is_locked:
@@ -121,6 +138,8 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 	
 
 	if medicine.reference == "amputation" and (limb == Limbs.HEAD or limb == Limbs.TORSO):
+		$AudioStreamPlayer.stream = medicine_sounds["*"]
+		$AudioStreamPlayer.play()
 		return Result.UNABLE # cannot amputate head/torso
 
 	var result := Result.UNABLE
@@ -139,6 +158,7 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 		elif medicine.treatments.has(injury.reference):
 			var temp = _try_cure(limb, medicine, injury.reference)
 			applied = true
+			play_medicine_sound(medicine)
 
 			if temp != Result.CLEAR:
 				result = temp
@@ -156,6 +176,9 @@ func cure(limb : int, medicine : MedicineData) -> Result:
 		is_cured()
 		return result
 	else:
+		print("Medicine has no effect on this injury")
+		$AudioStreamPlayer.stream = medicine_sounds["*"]
+		$AudioStreamPlayer.play()
 		return Result.UNABLE
 
 func lethal(injury : InjuryData) -> Result:
@@ -185,6 +208,8 @@ func area_entered(area : Area2D) -> void:
 func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Result:
 	var best_cure : Array = _get_best_cure(medicine.treatments.get(injury), limb)
 	if best_cure.is_empty():
+		$AudioStreamPlayer.stream = medicine_sounds["*"]
+		$AudioStreamPlayer.play()
 		return Result.UNABLE
 	
 	
@@ -202,7 +227,8 @@ func _try_cure(limb : int, medicine : MedicineData, injury : String = "*") -> Re
 		result = Result.NOCLEAR
 	else: result = Result.NOCLEAR
 	
-	if best_cure[-1] is Array:
+	if not is_dialogue and best_cure[-1] is Array:
+		print("side effect")
 		var side_effect_result = _add_side_effect(best_cure[-1][0], Data.recall(best_cure[-1][1]), limb)
 		if side_effect_result == Result.DEAD:
 			return side_effect_result
@@ -254,6 +280,7 @@ func _add_side_effect(chance : float, side_effect: InjuryData, limb : int) -> Re
 	if side_effect.reference == "death" || side_effect.reference == "shock":
 		if side_effect.reference == "death":
 			dead = true
+			injuries[Limbs.HEAD].append(side_effect)
 			return Result.DEAD
 		
 		if injuries[Limbs.HEAD].contains(side_effect):
@@ -316,7 +343,13 @@ func _update_display(limb : int) -> void:
 func update_sprites():
 	
 	var limb_vis = [head_vis, torso_vis, larm_vis, rarm_vis, lleg_vis, rleg_vis]
-	
+	if ResourceLoader.exists(face):
+		var old_children = face_vis.get_children()
+		for n in old_children:
+			n.free()
+		var face_sprite = Sprite2D.new()
+		face_sprite.texture = ResourceLoader.load(face)
+		face_vis.add_child(face_sprite)
 	for i in range(6):
 
 		var limb = limb_vis[i]
@@ -355,7 +388,6 @@ func update_sprites():
 		
 		
 		if has_amputation: continue
-		print(injuries)
 		for injury in injuries[i]:
 			var sprite_path = "res://textures/patient/%s/%s.png"
 			sprite_path = sprite_path % [Limbs.find_key(i), injury.reference]
@@ -364,13 +396,7 @@ func update_sprites():
 				sprite.texture = ResourceLoader.load(sprite_path)
 				limb.add_child(sprite)
 	
-	if ResourceLoader.exists(face):
-		var old_children = face_vis.get_children()
-		for n in old_children:
-			n.free()
-		var face_sprite = Sprite2D.new()
-		face_sprite.texture = ResourceLoader.load(face)
-		face_vis.add_child(face_sprite)
+	
 	
 
 
@@ -382,6 +408,16 @@ func is_cured() -> void:
 	if !dialogue.is_empty(): return
 	
 	cured.emit(id)
+
+func play_medicine_sound(medicine: MedicineData):
+	var sound = medicine_sounds["*"]
+
+	if medicine_sounds.has(medicine.reference):
+		sound = medicine_sounds[medicine.reference]
+
+	$AudioStreamPlayer.stream = sound
+	$AudioStreamPlayer.play()
+
 
 func _physics_process(_delta):
 	if patient_data:

@@ -8,6 +8,10 @@ signal zone_click(item_name : String)
 @onready var bed2 : Area2D = $Selections/Bed2
 @onready var bed3 : Area2D = $Selections/Bed3
 
+@onready var patient1 : Sprite2D = $Selections/Bed1/Cot/Patient
+@onready var patient2 : Sprite2D = $Selections/Bed2/Cot/Patient
+@onready var patient3 : Sprite2D = $Selections/Bed3/Cot/Patient
+
 func _ready():
 	for item in [cabinet, bed1, bed2, bed3]:
 		item.input_event.connect(func(_viewport, event, _shape_idx): input_event(item, event))

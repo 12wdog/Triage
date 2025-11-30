@@ -15,6 +15,8 @@ var end_of_day_menu : EndOfDay
 var temp_cabinet_storage : Array[int] = []
 var temp_inventory_storage : Array[MedicineData] = []
 
+var end_game_stats : Array[int] = [0,0,0]
+
 func _ready() -> void:
 	menu_setup()
 	
@@ -55,6 +57,8 @@ func game_setup(day : int) -> void:
 		doctor.return_to_landing.connect(landing)
 	if not doctor.item_selected.is_connected(item_selected):
 		doctor.item_selected.connect(item_selected)
+	if not doctor.send_away.is_connected(send_away):
+		doctor.send_away.connect(send_away)
 	doctor.dialogue.manager = self
 	
 	if not game.request_medicine.is_connected(medicine_request):
@@ -65,6 +69,7 @@ func game_setup(day : int) -> void:
 		game.display.connect(doctor.patient_display.write)
 	if not game.has_dialogue.is_connected(show_dialogue):
 		game.has_dialogue.connect(show_dialogue)
+	
 		
 	if not game.day_finished.is_connected(day_over):
 		game.day_finished.connect(day_over)
@@ -92,15 +97,35 @@ func game_setup(day : int) -> void:
 	fill_beds()
 
 func end_of_day_setup() -> void:
+	var day_stats : Array[int] = [game.cure_count, game.sent_count, game.dead_count]
+	
+	for i in range(3):
+		end_game_stats[i] += day_stats[i]
+	
 	cleanup()
 	end_of_day_menu = load("res://scenes/menus/end_of_day_menu.tscn").instantiate()
 	add_child(end_of_day_menu)
-	
+	end_of_day_menu.set_text(day_stats)
+
 	if current_day >= days.data.size():
-		end_of_day_menu.continue_button.disabled = true
+		end_of_day_menu.continue_button.text = "END GAME"
+		end_of_day_menu.continue_signal.connect(end_of_game)
+	else:
+		end_of_day_menu.continue_signal.connect(func() : game_setup(current_day))
 	
-	end_of_day_menu.continue_signal.connect(func() : game_setup(current_day))
 	end_of_day_menu.exit_signal.connect(_on_menu_exit)
+
+func end_of_game() -> void:
+	cleanup()
+	end_of_day_menu = load("res://scenes/menus/end_of_day_menu.tscn").instantiate()
+	add_child(end_of_day_menu)
+	end_of_day_menu.end_of_day_label.text = "Your Final Score:"
+	end_of_day_menu.set_text(end_game_stats)
+	end_of_day_menu.continue_button.visible = false
+	end_of_day_menu.exit_signal.connect(_on_menu_exit)
+
+func send_away() -> void:
+	game.send_away()
 
 func medicine_request() -> void:
 	if doctor.selected_item_id < 0 || doctor.selected_item == null:
@@ -156,9 +181,13 @@ func save_game() -> void:
 func _physics_process(_delta):
 	if in_game:
 		doctor.return_button.visible = !game.landing.visible && !doctor.dialogue.visible
-		#doctor.kick_out_button.visible = doctor.return_button.visible
+		doctor.kick_out_button.visible = doctor.return_button.visible && !game.on_dialogue
 		doctor.patient_display.visible = !game.landing.visible && !game.at_cabinet
 		doctor.cabinet.visible = game.at_cabinet
+
+		game.landing.patient1.visible = game.patients[0].patient_data != null
+		game.landing.patient2.visible = game.patients[1].patient_data != null
+		game.landing.patient3.visible = game.patients[2].patient_data != null
 
 func show_dialogue(text : String) -> void:
 	if doctor.dialogue.dialogue.size() != 0:

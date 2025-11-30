@@ -1,0 +1,47 @@
+[#MAIN]
+{NONE}
+He stands at the cot, breathing carefully. His hands grip his sides, 
+{STOICNAME}
+“bruising’s just spreading. It happens.”.
+[BUTTON]
+{MESSAGE} (What do you do?)
+{BUTTON} (Apply full treatment | TRYGIVEFULLTREATMENT)
+{BUTTON} (Apply partial treatment | TRYGIVEPARTIALTREATMENT)
+{BUTTON} (Send him away | DONTGIVEMEDICINE)
+[END]
+[END]
+
+[TRYGIVESTITCHES]
+(CALL) (dialogue_has_medicine | stitches | HASDRUGS}
+{IF} (HASDRUGS | GIVEMEDICINE | CANTGIVEMEDICINE)
+[END]
+
+[TRYGIVESERUM]
+(CALL) (dialogue_has_medicine | serum | HASDRUGS}
+{IF} (HASDRUGS | GIVEMEDICINE | CANTGIVEMEDICINE)
+[END]
+
+[TRYGIVEFULLTREATMENT]
+{NONE}
+You attach an IV first, then begin the incision.
+{CALL} (dialogue_remove_medicine | stitches)
+{CALL} (dialogue_remove_medicine | serum)
+He trembles but stays silent. 
+{STOICNAME}
+“Fine… do what you have to.”
+[END]
+
+[TRYGIVEPARTIALTREATMENT]
+{NONE}
+His breath catches as you start working away.
+{CALL} (dialogue_remove_medicine | stitches)
+{STOICNAME}
+“You worry too much.”
+[END]
+
+[DONTGIVEMEDICINE]
+{NONE}
+He seems to sober up while you’re gathering supplies and stands. You don’t stop him.
+{STOICNAME}
+“Don’t coddle me.”
+[END]

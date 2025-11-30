@@ -45,7 +45,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	""
+	"res://textures/medicine/Bandage.png"
 	),
 	MedicineData.new("antiseptic", "Serum", {
 		"burn_one": [
@@ -77,7 +77,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	""
+	"res://textures/medicine/Surgery.png"
 	),
 	MedicineData.new("antibiotic", "Antibiotics", {
 		"infection": [
@@ -89,7 +89,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	""
+	"res://textures/medicine/Antibiotic.png"
 	),
 	MedicineData.new("surgery", "Surgical Tools", {
 		"broken_limb": [
@@ -106,7 +106,7 @@ var medicine_array = [
 	},
 	2,
 	false,
-	""
+	"res://textures/medicine/Scalpel.png"
 	),
 	MedicineData.new("tongs", "Tongs", {
 		"bullet": [
@@ -115,7 +115,7 @@ var medicine_array = [
 	},
 	2,
 	false,
-	""
+	"res://textures/medicine/Tongs.png"
 	),
 	MedicineData.new("painkiller", "Painkillers", {
 		"light_bleed": [
@@ -137,7 +137,7 @@ var medicine_array = [
 	},
 	1,
 	true,
-	""
+	"res://textures/medicine/Painkillers.png"
 	),
 	MedicineData.new("amputation", "Bone Saw", {
 		"*": [
@@ -146,7 +146,7 @@ var medicine_array = [
 	},
 	2,
 	false,
-	""
+	"res://textures/medicine/Bonesaw.png"
 	),
 	MedicineData.new("splint", "Splint", {
 		"broken_limb": [
@@ -155,7 +155,7 @@ var medicine_array = [
 	},
 	2,
 	false,
-	""
+	"res://textures/medicine/Splint.png"
 	)
 ]
 var patient_array = [
@@ -164,12 +164,39 @@ var patient_array = [
 	}, 
 	"patient", 
 	"res://dialogue/dialogue_text/tutorial.txt"),
-	
+	DialoguePatientData.new("addict", {
+		"RARM": [Data.recall("infection")]
+	}, 
+	"John", 
+	"res://dialogue/dialogue_text/addict1.txt"),
+	DialoguePatientData.new("elderly", {
+		"LARM": [Data.recall("light_bleed")]
+	}, 
+	"Jeffery", 
+	"res://dialogue/dialogue_text/elderly1.txt"),
+	DialoguePatientData.new("opportunist", {
+		"RARM": [Data.recall("burn_two")]
+	}, 
+	"Michael", 
+	"res://dialogue/dialogue_text/opportunist1.txt"),
+	DialoguePatientData.new("stoic", {
+		"TORSO": [Data.recall("broken_limb")]
+	}, 
+	"Ben", 
+	"res://dialogue/dialogue_text/stoic1.txt"),
+	DialoguePatientData.new("veteran", {
+		"LLEG": [Data.recall("broken_limb")]
+	}, 
+	"David", 
+	"res://dialogue/dialogue_text/veteran1.txt")
 ]
 
 var day : DayData = DayData.new([
-	[preload("res://presaved/patients/tut.tres") as DialoguePatientData],
-	[[2, 2, 1]]
+	#[preload("res://presaved/patients/tut.tres") as DialoguePatientData],
+	[[2, 2, 1]],
+	[[3, 2, 2]],
+	[[3, 4, 2]],
+	[[5, 5, 4]]
 ])
 
 func _run():
