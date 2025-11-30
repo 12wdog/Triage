@@ -14,4 +14,3 @@ treatments = {
 "light_bleed": [[0.8, [0.3, "infection"]]]
 }
 size = 1
-asset_path = "res://textures/medicine/Bandage.png"

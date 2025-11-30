@@ -12,4 +12,3 @@ treatments = {
 "internal_bleed": [[0.45, "surgery", [0.3, "shock"]]]
 }
 size = 1
-asset_path = "res://textures/medicine/Surgery.png"
