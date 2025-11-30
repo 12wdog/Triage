@@ -115,4 +115,21 @@ visible = false
 scale = Vector2(0.53, 0.53)
 texture = ExtResource("2_a6gn1")
 
+[node name="Sprites" type="Node2D" parent="PatientVisual"]
+scale = Vector2(0.525, 0.525)
+
+[node name="HEAD" type="Node2D" parent="PatientVisual/Sprites"]
+
+[node name="TORSO" type="Node2D" parent="PatientVisual/Sprites"]
+
+[node name="LARM" type="Node2D" parent="PatientVisual/Sprites"]
+
+[node name="RARM" type="Node2D" parent="PatientVisual/Sprites"]
+
+[node name="LLEG" type="Node2D" parent="PatientVisual/Sprites"]
+
+[node name="RLEG" type="Node2D" parent="PatientVisual/Sprites"]
+
+[node name="FACE" type="Node2D" parent="PatientVisual/Sprites"]
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
