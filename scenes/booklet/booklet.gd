@@ -19,6 +19,9 @@ func _ready():
 	button_left.pressed.connect(page_dec)
 	button_right.pressed.connect(page_inc)
 	close_button.pressed.connect(close_menu.emit)
+	
+	page_left.text = book_data[0]
+	page_right.text = book_data[1]
 
 func page_dec():
 	if current_page <= 0: return
