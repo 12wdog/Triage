@@ -1,10 +1,10 @@
-@tool
-extends EditorScript
+[gd_resource type="Resource" script_class="Book" load_steps=2 format=3 uid="uid://cvbe16lpbf1sn"]
 
-const export : String = "res://presaved/booklet/book.tres"
+[ext_resource type="Script" uid="uid://dh1wtex7iyvwp" path="res://resources/booklet/book.gd" id="1_yxkdv"]
 
-var book := Book.new([
-"[b][i]Antibiotics[/i][/b]
+[resource]
+script = ExtResource("1_yxkdv")
+pages = Array[String](["[b][i]Antibiotics[/i][/b]
 • [b]LE[/b] for [i]Infection[/i]
 
 [b][i]Bandage[/i][/b]
@@ -24,8 +24,7 @@ var book := Book.new([
 
 [b][i]Serum[/i][/b]
 • [b]HE[/b] for [i]First Degree Burns[/i]
-",
-"[b][i]Splint[/i][/b]
+", "[b][i]Splint[/i][/b]
 • [b]ME[/b] for [i]Broken Bone[/i]
 
 [b][i]Stitches[/i][/b]
@@ -46,8 +45,7 @@ var book := Book.new([
 	• [b]ME[/b] If used again. [b]RISK OF OVERDOSE![/b]
 • [b]ME[/b] for [i]Shock[/i]
 	• [b]HE[/b] If used again. [b]RISK OF OVERDOSE![/b]
-",
-"[b][i]Light Bleeding[/i][/b]
+", "[b][i]Light Bleeding[/i][/b]
 • [b]LE[/b] for [u]Painkiller[/u]
 	• [b]ME[/b] If used again.
 • [b]HE[/b] for [u]Bandage[/u]
@@ -64,8 +62,7 @@ var book := Book.new([
 • [b]LE[/b] for [u]Serum[/u] then [u]Bandage[/u]
 • [b]ME[/b] when used with [u]Antibiotics[/u] then [u]Bandage[/u]
 	• [b]HE[/b] when used with [u]Serum[/u] and [u]Antibiotics[/u] then [u]Bandage[/u]
-",
-"[b][i]Bullet Wound[/i][/b]
+", "[b][i]Bullet Wound[/i][/b]
 • [b]LE[/b] for [u]Bandage[/u]
 	• [b]ME[/b] for [u]Tongs[/u] then [u]Bandage[/u]
 	• [b]HE[/b] for [u]Tongs[/u] and [u]Stitches[/u] then [u]Bandage[/u]
@@ -91,9 +88,4 @@ var book := Book.new([
 [b][i]Necrosis[/i][/b]
 • [b]ME[/b] for [u]Surgery[/u]
 	• [b]HE[/b] for [u]Antibiotics[/u] then [u]Surgery[/u]
-"
-])
-
-func _run() -> void:
-	print(book.pages)
-	ResourceSaver.save(book, export)
+"])
