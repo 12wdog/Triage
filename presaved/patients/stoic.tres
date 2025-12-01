@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DialoguePatientData" load_steps=3 format=3 uid="uid://b5gnjg405q8bo"]
+
+[ext_resource type="Resource" uid="uid://c77v1ink08wf2" path="res://presaved/injuries/broken_limb.tres" id="1_asoqa"]
+[ext_resource type="Script" uid="uid://cp5hql2hijwfo" path="res://resources/data/dialogue_patient_data.gd" id="2_l5rqc"]
+
+[resource]
+script = ExtResource("2_l5rqc")
+patient_name = "Ben"
+dialogue_path = "res://dialogue/dialogue_text/stoic1.txt"
+reference = "stoic"
+injuries = {
+"TORSO": [ExtResource("1_asoqa")]
+}

@@ -283,7 +283,7 @@ func _add_side_effect(chance : float, side_effect: InjuryData, limb : int) -> Re
 			injuries[Limbs.HEAD].append(side_effect)
 			return Result.DEAD
 		
-		if injuries[Limbs.HEAD].contains(side_effect):
+		if injuries[Limbs.HEAD].has(side_effect):
 			var result = lethal(side_effect)
 			return result
 		else:

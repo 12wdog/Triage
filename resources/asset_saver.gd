@@ -192,10 +192,10 @@ var patient_array = [
 ]
 
 var day : DayData = DayData.new([
-	#[preload("res://presaved/patients/tut.tres") as DialoguePatientData],
+	[preload("res://presaved/patients/tut.tres") as DialoguePatientData],
 	[[2, 2, 1]],
-	[[3, 2, 2]],
-	[[3, 4, 2]],
+	[[1, 2, 2], preload("res://presaved/patients/addict.tres") as DialoguePatientData, [1, 2, 2]], 
+	[[2, 3, 2], preload("res://presaved/patients/opportunist.tres") as DialoguePatientData],
 	[[5, 5, 4]]
 ])
 

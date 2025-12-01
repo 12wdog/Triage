@@ -217,6 +217,10 @@ func dialogue_cure_patient(args : Array = []) -> void:
 			return
 		index += 1
 	
+func dialogue_wait(args : Array = []) -> void:
+	doctor.dialogue.visible = false
+	await game.has_dialogue
+	doctor.dialogue.visible = true
 
 func dialogue_wait_find_injury(args : Array = []) -> void:
 	doctor.dialogue.visible = false
@@ -332,3 +336,19 @@ func dialogue_wait_treat_injury_succeed(args : Array = []) -> void:
 	selected_patient.is_locked = temp_is_locked
 	
 	doctor.dialogue.visible = true
+
+func dialogue_has_medicine(args: Array = []) -> void:
+	for i in range(5):
+		if doctor.inventory[i].item and doctor.inventory[i].item.reference == args[0]:
+			doctor.dialogue.variables[args[1]] = Dialogue.Variable.new([args[1], "BOOL", "TRUE"])
+			break
+		else:
+			doctor.dialogue.variables[args[1]] = Dialogue.Variable.new([args[1], "BOOL", "FALSE"])
+	
+
+func dialogue_remove_medicine(args: Array = []) -> void:
+	for i in range(5):
+		if doctor.inventory[i].item and doctor.inventory[i].item.reference == args[0]:
+			doctor.select_item(doctor.inventory[i].item, i)
+			doctor.remove_selected_item()
+			break

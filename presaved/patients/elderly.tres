@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DialoguePatientData" load_steps=3 format=3 uid="uid://cpcalt2p8yvno"]
+
+[ext_resource type="Resource" uid="uid://c5pa43irkm56a" path="res://presaved/injuries/light_bleed.tres" id="1_y8keb"]
+[ext_resource type="Script" uid="uid://cp5hql2hijwfo" path="res://resources/data/dialogue_patient_data.gd" id="2_x7muv"]
+
+[resource]
+script = ExtResource("2_x7muv")
+patient_name = "Jeffery"
+dialogue_path = "res://dialogue/dialogue_text/elderly1.txt"
+reference = "elderly"
+injuries = {
+"LARM": [ExtResource("1_y8keb")]
+}

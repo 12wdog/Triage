@@ -1,16 +1,18 @@
+
+
 [#MAIN]
 {JUMPPOINT} (ADDICTJUMP)
 {NONE}
 He grips the cot so hard, his knuckles are white. “Please, just give me something to take the edge off. I can’t breathe.”
 [BUTTON]
-{MESSAGE} (He seems to be in a bit of pain, give 1 painkiller?)
-{BUTTON} (Give medicine | TRYGIVEMEDICINE)
-{BUTTON} (Don’t give medicine | DONTGIVEMEDICINE)
+	{MESSAGE} (He seems to be in a bit of pain, give 1 painkiller?)
+	{BUTTON} (Give medicine | TRYGIVEMEDICINE)
+	{BUTTON} (Don’t give medicine | DONTGIVEMEDICINE)
 [END]
 [END]
 
 [TRYGIVEMEDICINE]
-(CALL) (dialogue_has_medicine | painkiller | HASDRUGS}
+{CALL} (dialogue_has_medicine | painkiller | HASDRUGS)
 {IF} (HASDRUGS | GIVEMEDICINE | CANTGIVEMEDICINE)
 [END]
 
@@ -21,12 +23,13 @@ You see his grip slack as you give him the painkiller.
 His body trembles once, then goes still. 
 #John
 “Thank you.”
+{CALL} (dialogue_cure_patient | addict)
 [END]
 
 [CANTGIVEMEDICINE]
 {NONE}
 I can’t give him medicine if I don’t have any.
-{CALL} (dialogue_pause)
+{CALL} (dialogue_wait)
 {JUMP} (ADDICTJUMP)
 [END]
 
@@ -34,4 +37,5 @@ I can’t give him medicine if I don’t have any.
 {NONE}
 You tell him to hold on until you can spare the supplies.
 He stares at you, teeth grinding from pain.
+{CALL} (dialogue_cure_patient | addict)
 [END]

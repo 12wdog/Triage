@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DialoguePatientData" load_steps=3 format=3 uid="uid://dhe73g1kf34ch"]
+
+[ext_resource type="Resource" uid="uid://wpbyrx33irgj" path="res://presaved/injuries/burn_two.tres" id="1_t3sgp"]
+[ext_resource type="Script" uid="uid://cp5hql2hijwfo" path="res://resources/data/dialogue_patient_data.gd" id="2_f5mpk"]
+
+[resource]
+script = ExtResource("2_f5mpk")
+patient_name = "Michael"
+dialogue_path = "res://dialogue/dialogue_text/opportunist1.txt"
+reference = "opportunist"
+injuries = {
+"RARM": [ExtResource("1_t3sgp")]
+}
