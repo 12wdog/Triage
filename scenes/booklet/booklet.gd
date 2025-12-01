@@ -35,4 +35,4 @@ func page_inc():
 	if current_page + 1 < book_data.size():
 		page_right.text = book_data[current_page + 1]
 	else:
-		page_right.text = "Test"
+		page_right.text = ""

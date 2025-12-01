@@ -76,9 +76,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 bbcode_enabled = true
-text = "[b][i]Bandage[/i][/b]
-• [b]HE[/b] for [i]Light Bleeding[/i]
-• [b]LE[/b] for [i]Heavy Bleeding[/i]
+text = "[b][i]Antibiotics[/i][/b]
+• [b]LE[/b] for [i]Infection[/i]
+
+[b][i]Bandage[/i][/b]
+• [b]HE[/b] for [i][color=red]Light Bleeding[/color][/i]
+• [b]LE[/b] for [i][color=red]Heavy Bleeding[/color][/i]
 	• [b]HE[/b] when used with [u]Stitches[/u]
 • [b]LE[/b] when used with [u]Serum[/u] for [i]Infection[/i]
 	• [b]ME[/b] when used with [u]Antibiotics[/u]
@@ -88,13 +91,11 @@ text = "[b][i]Bandage[/i][/b]
 	• [b]HE[/b] when used with [u]Tongs[/u] and [u]Stitches[/u]
 • [b]HE[/b] when used with [u]Serum[/u] for [i]Second Degree Burns[/i]
 
-[b][i]Serum[/i][/b]
-• [b]HE[/b] for [i]First Degree Burns[/i]
+[b][i]Bone Saw[/i][/b]
+• [b]GUARANTEED TO CURE ANYTHING, BUT HIGH RISK OF SHOCK OR DEATH[/b] 
 
-[b][i]Stitches[/i][/b]
-• [b]ME[/b] when used with [u]Surgery[/u] for [i]Internal Bleeding[/i]
-• [b]ME[/b] for [i]Bullet Wound[/i]
-	• [b]ME[/b] when used with [u]Tongs[/u]"
+[b][i]Serum[/i][/b]
+• [b]HE[/b] for [i]First Degree Burns[/i]"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -115,25 +116,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
-text = "[b][i]Antibiotics[/i][/b]
-• [b]LE[/b] for [i]Infection[/i]
+text = "[b][i]Splint[/i][/b]
+• [b]ME[/b] for [i]Broken Bone[/i]
 
+[b][i]Stitches[/i][/b]
+• [b]ME[/b] when used with [u]Surgery[/u] for [i]Internal Bleeding[/i]
+• [b]ME[/b] for [i]Bullet Wound[/i]
+	• [b]HE[/b] when used with [u]Tongs[/u]
+	
 [b][i]Surgery[/i][/b]
 • [b]ME[/b] for [i]Broken Bone[/i]
+	• [b]HE[/b] when used with [u]Splint[/u]
 • [b]ME[/b] for [i]Necrosis[/i]
 	• [b]HE[/b] when used with [u]Antibiotics[/u]
 • [b]LE[/b] for [i]Shock[/i]
 	• [b]WARNING![/b] High risk of [b]PATIENT DEATH[/b]
 
-[b][i]Bone Saw[/i][/b]
-• [b]GUARANTEED TO CURE ANYTHING, BUT HIGH RISK OF SHOCK OR DEATH[/b] 
-
 [b][i]Painkiller[/i][/b]
 • [b]LE[/b] for [i]Light Bleeding[/i], [i]Infection[/i], and [i]Bullet Wounds[/i], 
 	• [b]ME[/b] If used again. [b]RISK OF OVERDOSE![/b]
 • [b]ME[/b] for [i]Shock[/i]
-	• [b]HE[/b] If used again. [b]RISK OF OVERDOSE![/b]
-"
+	• [b]HE[/b] If used again. [b]RISK OF OVERDOSE![/b]"
 
 [node name="Panel2" type="Panel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
