@@ -4,7 +4,11 @@ extends EditorScript
 const export : String = "res://presaved/booklet/book.tres"
 
 var book := Book.new([
-"[b][color=indigo][i]Antibiotics[/i][/color][/b]
+"HE:[b] Highly Effective[/b]
+ME:[b] Moderately Effective[/b]
+LE:[b] Low Effective[/b]
+
+[b][color=indigo][i]Antibiotics[/i][/color][/b]
 • [b]LE[/b] for [i]Infection[/i]
 
 [b][color=red][i]Bandage[/i][/color][/b]

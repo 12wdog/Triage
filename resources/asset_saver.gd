@@ -196,7 +196,8 @@ var day : DayData = DayData.new([
 	[[2, 2, 1]],
 	[[1, 2, 2], preload("res://presaved/patients/addict.tres") as DialoguePatientData, [1, 2, 2]], 
 	[[2, 3, 2], preload("res://presaved/patients/opportunist.tres") as DialoguePatientData],
-	[[5, 5, 4]]
+	[[5, 5, 4]],
+	[[1, 5, 5], preload("res://presaved/patients/stoic.tres") as DialoguePatientData, [5,7,4]]
 ])
 
 func _run():

@@ -1,9 +1,9 @@
 [#MAIN]
-{JUMPPOINT} (ADDICTJUMP)
 {NONE}
 He stands tall despite a hand pressed subtly against his ribs. 
 #Ben
 “It’s nothing. Patch me up quick - others need you more.”
+{JUMPPOINT} (ADDICTJUMP)
 [BUTTON]
 {MESSAGE} (His ribs are bruised and bleeding but he says it isn't too bad, give 1 Stitches and 1 Bandage?)
 {BUTTON} (Give medicine | TRYGIVEMEDICINE)
@@ -12,27 +12,20 @@ He stands tall despite a hand pressed subtly against his ribs.
 [END]
 
 [TRYGIVEMEDICINE]
-(CALL) (dialogue_has_medicine | stitches | HASDRUGS}
+{CALL} (dialogue_has_medicine | stitches | HASDRUGS)
 {IF} (HASDRUGS | TRYGIVEBANDAGE | CANTGIVEMEDICINE)
 [END]
 
 [CANTGIVEMEDICINE]
 {NONE}
 I can’t give him medicine if I don’t have any.
-{CALL} (dialogue_pause)
+{CALL} (dialogue_wait)
 {JUMP} (ADDICTJUMP)
 [END]
 
 [TRYGIVEBANDAGE]
-(CALL) (dialogue_has_medicine | bandage | HASDRUGS}
-{IF} (HASDRUGS | GIVEMEDICINE | CANTGIVEBANDAGE)
-[END]
-
-[CANTGIVEBANDAGE]
-{NONE}
-I can’t give him medicine if I don’t have any.
-{CALL} (dialogue_pause)
-{JUMP} (ADDICTJUMP)
+{CALL} (dialogue_has_medicine | bandage | HASDRUGS)
+{IF} (HASDRUGS | GIVEMEDICINE | CANTGIVEMEDICINE)
 [END]
 
 [GIVEMEDICINE]
@@ -45,6 +38,7 @@ He exhales slowly through his nose, the tension leaving his shoulders.
 “If it keeps you happy.” 
 {NONE}
 He leaves with a hand back over his ribs.
+{CALL} (dialogue_cure_patient | stoic)
 [END]
 
 [DONTGIVEMEDICINE]
@@ -53,4 +47,5 @@ You let him go.
 He nods, relieved. 
 #Ben
 “Told you I’m fine.”
+{CALL} (dialogue_cure_patient | stoic)
 [END]

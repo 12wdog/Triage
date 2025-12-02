@@ -1,4 +1,4 @@
-[#Main]
+[#MAIN]
 {JUMPPOINT} (ADDICTJUMP)
 {NONE}
 He hisses dramatically as he enters, waving his burned hand.
@@ -12,7 +12,7 @@ He hisses dramatically as he enters, waving his burned hand.
 [END]
 
 [TRYGIVEMEDICINE]
-(CALL) (dialogue_has_medicine | serum | HASDRUGS}
+{CALL} (dialogue_has_medicine | antiseptic | HASDRUGS)
 {IF} (HASDRUGS | GIVEMEDICINE | CANTGIVEMEDICINE)
 [END]
 
@@ -23,12 +23,13 @@ It’s barely pink. You apply a thin layer of salve.
 He sighs as if you saved his life. 
 #Michael
 “Knew you’d take care of me.”
+{CALL} (dialogue_cure_patient | opportunist)
 [END]
 
 [CANTGIVEMEDICINE]
 {NONE}
 I can’t give him medicine if I don’t have any.
-{CALL} (dialogue_pause)
+{CALL} (dialogue_wait)
 {JUMP} (ADDICTJUMP)
 [END]
 
@@ -40,4 +41,5 @@ He frowns.
 “Really? You can’t spare anything for me?” 
 {NONE}
 He leaves, muttering under his breath.
+{CALL} (dialogue_cure_patient | opportunist)
 [END]

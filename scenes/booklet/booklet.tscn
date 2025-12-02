@@ -1,9 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dm5epu2jyx6vk"]
+[gd_scene load_steps=6 format=3 uid="uid://dm5epu2jyx6vk"]
 
 [ext_resource type="Script" uid="uid://bw3p8sris0gxl" path="res://scenes/booklet/booklet.gd" id="1_kmt52"]
 [ext_resource type="Texture2D" uid="uid://co0go64u8kyqg" path="res://textures/journal/Journal.png" id="2_iha1y"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_262bc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iha1y"]
+bg_color = Color(0.042197768, 0.042197768, 0.042197768, 0.69411767)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_262bc"]
+bg_color = Color(0.043137256, 0.043137256, 0.043137256, 0.69411767)
 
 [node name="Booklet" type="Control"]
 layout_mode = 3
@@ -66,6 +72,7 @@ theme_override_constants/margin_bottom = 10
 [node name="PanelLeft" type="Panel" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_iha1y")
 
 [node name="PaperLeft" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/MarginContainer/PanelLeft"]
 layout_mode = 1
@@ -107,6 +114,7 @@ theme_override_constants/margin_bottom = 10
 [node name="PanelRight" type="Panel" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_262bc")
 
 [node name="PaperRight" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/MarginContainer2/PanelRight"]
 layout_mode = 1

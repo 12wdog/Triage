@@ -171,13 +171,6 @@ func day_over() -> void:
 	end_of_day_setup()
 	pass
 
-func save_game() -> void:
-	var cabinet = game.cabinet.get_medicine_amount()
-	var doc_med = doctor.get_items_in_order()
-	var doc_dialogue_vars = doctor.dialogue.variables
-	
-	SaveGame.save(cabinet, doc_med, doc_dialogue_vars)
-	
 func _physics_process(_delta):
 	if in_game:
 		doctor.return_button.visible = !game.landing.visible && !doctor.dialogue.visible
